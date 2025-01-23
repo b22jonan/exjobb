@@ -1,48 +1,47 @@
 import pandas as pd
 
-# Load the CSV file with proper handling for multiline entries
-file_path = 'CodeStates.csv'  # Adjusted for project root
-data = pd.read_csv(file_path, header=None, names=['ID', 'Code'], quoting=3, skip_blank_lines=True, on_bad_lines='skip')
+# File paths for the provided data
+code_states_path = 'CodeStates.csv'
+main_table_path = 'MainTable.csv'
+early_path = 'early.csv'
+late_path = 'late.csv'
 
-# Split data into entries by looking for rows where 'ID' is not NaN
-entries = []
-current_entry = []
-for _, row in data.iterrows():
-    if pd.notna(row['ID']):
-        if current_entry:
-            entries.append(current_entry)
-        current_entry = [row['ID'], row['Code'] if pd.notna(row['Code']) else ""]
-    else:
-        if current_entry:
-            current_entry[1] += f"\n{row['Code']}" if pd.notna(row['Code']) else ""
+# Load the necessary datasets
+code_states = pd.read_csv(code_states_path)
+main_table = pd.read_csv(main_table_path)
+early_data = pd.read_csv(early_path)
+late_data = pd.read_csv(late_path)
 
-# Add the last entry
-if current_entry:
-    entries.append(current_entry)
+# Merge MainTable with CodeStates to get code snippets
+merged_data = main_table.merge(code_states, on='CodeStateID', how='inner')
 
-# Convert entries into a DataFrame
-formatted_data = pd.DataFrame(entries, columns=['ID', 'Code'])
+# Add labels from early and late datasets
+# Early data contains labels for the first 30 problems
+merged_data = merged_data.merge(
+    early_data[['SubjectID', 'ProblemID', 'Label']],
+    on=['SubjectID', 'ProblemID'],
+    how='left'
+)
 
-# Number of labels and data points per label
-num_labels = 10
-entries_per_label = 500
+# Late data contains labels for the final 20 problems
+merged_data = merged_data.merge(
+    late_data[['SubjectID', 'ProblemID', 'Label']],
+    on=['SubjectID', 'ProblemID'],
+    how='left',
+    suffixes=('_early', '_late')
+)
 
-# Verify the data length matches the expected total entries
-num_entries = len(entries)  # Count the number of processed entries, not rows
-if num_entries != num_labels * entries_per_label:
-    raise ValueError(f"Expected {num_labels * entries_per_label} entries, but found {num_entries} entries in the dataset.")
+# Combine early and late labels into a single column
+merged_data['Label'] = merged_data['Label_early'].combine_first(merged_data['Label_late'])
 
-# Create labels
-labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-for i in range(num_labels):
-    label_name = f"Label {i + 1}"
-    labels.extend([label_name] * entries_per_label)
+# Filter relevant columns for the final dataset
+final_dataset = merged_data[['Code', 'ProblemID', 'Label']]
 
-# Add the labels to the dataset
-formatted_data['Label'] = labels
+# Sort the final dataset by ProblemID
+final_dataset = final_dataset.sort_values(by='ProblemID').reset_index(drop=True)
 
-# Save the reformatted dataset to a new CSV file
-output_path = 'Reformatted_CodeStates.csv'  # Adjusted for project root
-formatted_data.to_csv(output_path, index=False)
+# Save the final dataset
+output_path = 'FinalDataset.csv'
+final_dataset.to_csv(output_path, index=False)
 
-print(f"Reformatted dataset saved to: {output_path}")
+print(f"Final dataset saved to: {output_path}")
