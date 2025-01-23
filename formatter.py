@@ -16,12 +16,12 @@ final_dataset = merged_data[['Code', 'ProblemID']]
 
 # Allow specifying how many problems to include (default: first 5 problems)
 # The maximum number of problems is around 250, but it may vary slightly depending on the dataset.
-num_problems = 5  # Change this value as needed
+num_problems = 20  # Change this value as needed
 unique_problems = final_dataset['ProblemID'].drop_duplicates().sort_values().head(num_problems)
 final_dataset = final_dataset[final_dataset['ProblemID'].isin(unique_problems)]
 
 # Allow specifying max number of entries per problem
-max_entries_per_problem = 100  # Change this value as needed
+max_entries_per_problem = 500  # Change this value as needed
 final_dataset = final_dataset.groupby('ProblemID').apply(lambda x: x.head(max_entries_per_problem)).reset_index(drop=True)
 
 # Sort the final dataset by ProblemID

@@ -32,8 +32,11 @@ def save_snippets(data, folder):
         return
     for i, row in data.iterrows():
         filename = f"{folder}/snippet_{i}.java"
-        with open(filename, "w") as f:
-            f.write(row['Code'])
+        try:
+            with open(filename, "w", encoding="utf-8") as f:  # Use utf-8 encoding
+                f.write(row['Code'])
+        except Exception as e:
+            print(f"Error writing file {filename}: {e}")
     print(f"Saved {len(data)} files to {folder}")
 
 # Save each split into its respective directory
