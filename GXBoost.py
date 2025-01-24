@@ -4,6 +4,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import os
+import time
+
 
 # Step 1: Load Data from CSV Files
 x_data_path = 'MicroDataSets/MicroXData.csv'
@@ -32,9 +34,15 @@ y = data['label']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 print("Training")
+start_time = time.time()
 # Step 5: Train XGBoost Model
 model = xgb.XGBClassifier(eval_metric='logloss')
 model.fit(X_train, y_train)
+end_time = time.time()
+
+# Printing out training time
+elapsed_time = end_time - start_time
+print(f"training time: {elapsed_time:.6f} seconds")
 
 # Step 6: Predict and Evaluate the Model
 y_pred = model.predict(X_test)
