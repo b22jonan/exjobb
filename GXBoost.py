@@ -6,10 +6,9 @@ from sklearn.metrics import accuracy_score
 import os
 import time
 
-
 # Step 1: Load Data from CSV Files
-x_data_path = 'MicroDataSets/MicroXData.csv'
-y_data_path = 'MicroDataSets/MicroYData.csv'
+x_data_path = 'MicroDataSets\MicroXData.csv'
+y_data_path = 'MicroDataSets\MicroYData.csv'
 
 # Read the datasets
 x_data = pd.read_csv(x_data_path, header=None, names=["CodeStateID", "Code"])
