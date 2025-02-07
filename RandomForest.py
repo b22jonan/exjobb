@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
 # Load datasets and add labels
-data1 = pd.read_csv("MicroDataSets\MicroXData.csv", header=None, names=["CodeStateID", "Code"])
-data2 = pd.read_csv("MicroDataSets\MicroYData.csv", header=None, names=["CodeStateID", "Code"])
+data1 = pd.read_csv("MicroDataSets/MicroXData.csv", header=None, names=["CodeStateID", "Code"])
+data2 = pd.read_csv("MicroDataSets/MicroYData.csv", header=None, names=["CodeStateID", "Code"])
 data1["label"], data2["label"] = 1, 0
 
 # Combine datasets
