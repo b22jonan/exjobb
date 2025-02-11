@@ -7,18 +7,21 @@ import uuid  # To generate unique IDs
 # Load API key from .env file
 load_dotenv()
 
-# Initialize the OpenAI client with the API key
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Initialize the OpenAI client with OpenRouter API settings
+client = OpenAI(
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1"
+)
 
 def fetch_prompt(prompt):
-    # Call the ChatGPT API using the client interface
+    # Call the DeepSeek/OpenRouter API using the client interface
     completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="deepseek/deepseek-chat:free", # Use the free model
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=500
+        max_tokens=100
     )
     # Generate a unique ID for this response
     response_id = str(uuid.uuid4())
@@ -34,10 +37,10 @@ prompts = ["Explain recursion.", "Describe Newton's laws."]  # Add more prompts
 responses = main(prompts)
 
 # Ensure the directory exists
-os.makedirs("prompting/ChatGPT", exist_ok=True)
+os.makedirs("prompting/DeepSeek", exist_ok=True)
 
 # Save the responses to a CSV file
-with open("prompting/ChatGPT/responses.csv", "w", newline="", encoding="utf-8") as csvfile:
+with open("prompting/DeepSeek/responses.csv", "w", newline="", encoding="utf-8") as csvfile:
     csvwriter = csv.writer(csvfile)
     # Write the header row
     csvwriter.writerow(["ID", "Prompt", "Response"])
