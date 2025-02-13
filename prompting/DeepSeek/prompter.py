@@ -16,7 +16,7 @@ client = OpenAI(
 def fetch_prompt(prompt):
     # Call the DeepSeek/OpenRouter API using the client interface
     completion = client.chat.completions.create(
-        model="deepseek/deepseek-chat:free", # Use the free model
+        model="deepseek/deepseek-chat:free",  # Use the free model
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
@@ -28,24 +28,30 @@ def fetch_prompt(prompt):
     # Return the ID, prompt, and response content
     return response_id, prompt, completion.choices[0].message.content
 
-def main(prompts):
-    results = [fetch_prompt(prompt) for prompt in prompts]
-    return results
+def load_prompts_from_file(filename):
+    """Reads prompts from a text file, one per line."""
+    with open(filename, "r", encoding="utf-8") as file:
+        prompts = [line.strip() for line in file if line.strip()]
+    return prompts
 
-prompts = ["Explain recursion.", "Describe Newton's laws."]  # Add more prompts
+def main():
+    prompts = load_prompts_from_file("prompting\prompts.txt")
+    responses = [fetch_prompt(prompt) for prompt in prompts]
+    
+    # Ensure the directory exists
+    os.makedirs("prompting/DeepSeek", exist_ok=True)
+    
+    # Save the responses to a CSV file
+    with open("prompting/DeepSeek/responses.csv", "w", newline="", encoding="utf-8") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        # Write the header row
+        csvwriter.writerow(["ID", "Prompt", "Response"])
+        # Write each ID, prompt, and response
+        for response_id, prompt, response in responses:
+            csvwriter.writerow([response_id, prompt, response])
 
-responses = main(prompts)
+    print("Responses saved to responses.csv")
 
-# Ensure the directory exists
-os.makedirs("prompting/DeepSeek", exist_ok=True)
+if __name__ == "__main__":
+    main()
 
-# Save the responses to a CSV file
-with open("prompting/DeepSeek/responses.csv", "w", newline="", encoding="utf-8") as csvfile:
-    csvwriter = csv.writer(csvfile)
-    # Write the header row
-    csvwriter.writerow(["ID", "Prompt", "Response"])
-    # Write each ID, prompt, and response
-    for response_id, prompt, response in responses:
-        csvwriter.writerow([response_id, prompt, response])
-
-print("Responses saved to responses.csv")
