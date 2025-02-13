@@ -21,7 +21,7 @@ def fetch_prompt(prompt):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=100
+        max_tokens=500
     )
     # Generate a unique ID for this response
     response_id = str(uuid.uuid4())

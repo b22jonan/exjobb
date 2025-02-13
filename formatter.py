@@ -14,8 +14,8 @@ merged_data = main_table.merge(code_states, on='CodeStateID', how='inner')
 # Filter relevant columns for the final dataset
 final_dataset = merged_data[['Code', 'ProblemID']]
 
-# Allow specifying how many problems to include (default: first 5 problems)
-# The maximum number of problems is around 250, but it may vary slightly depending on the dataset.
+# Allow specifying how many problems to include
+# The maximum number of problems is around 50
 num_problems = 2  # Change this value as needed
 unique_problems = final_dataset['ProblemID'].drop_duplicates().sort_values().head(num_problems)
 final_dataset = final_dataset[final_dataset['ProblemID'].isin(unique_problems)]
