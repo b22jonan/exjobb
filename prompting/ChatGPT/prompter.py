@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import os
 import csv
-import uuid  # To generate unique IDs
+import uuid
+import time
 
 # Load API key from .env file
 load_dotenv()
@@ -11,7 +12,8 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def fetch_prompt(prompt):
-    # Call the ChatGPT API using the client interface
+    """Fetch response from OpenAI API for a given prompt and measure response time."""
+    start_time = time.time()
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -20,29 +22,56 @@ def fetch_prompt(prompt):
         ],
         max_tokens=500
     )
-    # Generate a unique ID for this response
+    end_time = time.time()
+    response_time = end_time - start_time
+    print(f"Processed prompt in {response_time:.2f} seconds")
     response_id = str(uuid.uuid4())
-    # Return the ID, prompt, and response content
-    return response_id, prompt, completion.choices[0].message.content
+    return response_id, prompt, completion.choices[0].message.content, response_time
 
-def main(prompts):
-    results = [fetch_prompt(prompt) for prompt in prompts]
-    return results
+def read_prompts_from_file(file_path):
+    """Read prompts from a file where each query is separated by '?' and return a list of prompts."""
+    with open(file_path, "r", encoding="utf-8") as file:
+        content = file.read()
+    
+    # Split content by '?' and filter out empty prompts
+    prompts = [prompt.strip() for prompt in content.split('?') if prompt.strip()]
+    return prompts
 
-prompts = ["Explain recursion.", "Describe Newton's laws."]  # Add more prompts
+def main(input_file, output_file, limit=5):
+    """Main function to process prompts and save responses, with a limit on the number of prompts processed."""
+    prompts = read_prompts_from_file(input_file)
+    
+    # Apply limit
+    prompts = prompts[:limit]
+    print(f"Processing {len(prompts)} prompts...")
+    
+    response_times = []
+    responses = []
+    
+    for prompt in prompts:
+        response_id, prompt, response, response_time = fetch_prompt(prompt)
+        responses.append((response_id, prompt, response))
+        response_times.append(response_time)
+        
+        if len(response_times) > 1:
+            avg_time = sum(response_times) / len(response_times)
+            remaining_prompts = len(prompts) - len(response_times)
+            estimated_time_remaining = avg_time * remaining_prompts
+            print(f"Estimated time remaining: {estimated_time_remaining:.2f} seconds")
+    
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    
+    # Save responses to a CSV file
+    with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(["ID", "Prompt", "Response"])
+        for response_id, prompt, response in responses:
+            csvwriter.writerow([response_id, prompt, response])
+    
+    print(f"Responses saved to {output_file}")
 
-responses = main(prompts)
-
-# Ensure the directory exists
-os.makedirs("prompting/ChatGPT", exist_ok=True)
-
-# Save the responses to a CSV file
-with open("prompting/ChatGPT/responses.csv", "w", newline="", encoding="utf-8") as csvfile:
-    csvwriter = csv.writer(csvfile)
-    # Write the header row
-    csvwriter.writerow(["ID", "Prompt", "Response"])
-    # Write each ID, prompt, and response
-    for response_id, prompt, response in responses:
-        csvwriter.writerow([response_id, prompt, response])
-
-print("Responses saved to responses.csv")
+# Example usage
+input_file = "Prompts.txt"  # Input file containing queries separated by '?'
+output_file = "prompting/ChatGPT/responses.csv"
+main(input_file, output_file, limit=5)
