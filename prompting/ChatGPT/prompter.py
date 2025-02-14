@@ -11,7 +11,7 @@ load_dotenv()
 # Initialize the OpenAI client with the API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_penalty=1.0, presence_penalty=0.0):
+def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_penalty=0.0, presence_penalty=0.0):
     """Fetch response from OpenAI API for a given prompt with configurable parameters."""
     start_time = time.time()
     completion = client.chat.completions.create(

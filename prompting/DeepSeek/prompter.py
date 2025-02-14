@@ -13,7 +13,7 @@ client = OpenAI(
     api_key=os.getenv("OPENROUTER_API_KEY"),
     base_url="https://openrouter.ai/api/v1"
 )
-def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_penalty=1.0, presence_penalty=0.0):
+def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_penalty=0.0, presence_penalty=0.0):
     """Fetch response from OpenAI API for a given prompt with configurable parameters."""
     start_time = time.time()
     completion = client.chat.completions.create(
