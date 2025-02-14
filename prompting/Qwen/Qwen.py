@@ -20,10 +20,8 @@ def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_p
     start_time = time.time()
     completion = client.chat.completions.create(
         model="qwen/qvq-72b-preview",  # Change model to GPT-4
-        messages=[
-            {"role": "system", "content": "You are an AI assistant knowledgeable in various topics."},
-            {"role": "user", "content": prompt}
-        ],
+        messages=[{"role": "system", "content": "You are an AI assistant knowledgeable in various topics."},
+                  {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
         temperature=temperature,
         top_p=top_p,
@@ -34,7 +32,9 @@ def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_p
     response_time = end_time - start_time
     print(f"Processed prompt in {response_time:.2f} seconds")
     response_id = str(uuid.uuid4())
-    return response_id, prompt, completion.choices[0].message['content'], response_time
+    
+    # Fix: Access content correctly
+    return response_id, prompt, completion.choices[0].message.content, response_time
 
 def read_prompts_from_file(file_path):
     """Read prompts from a file where each query is separated by '?' and return a list of prompts."""
@@ -80,6 +80,6 @@ def main(input_file, output_file, limit, repeats, start_point=0):
     print(f"Total prompts processed: {len(prompts) * repeats} with a time of {sum(response_times):.2f} seconds")
     
 # Example usage
-input_file = "Prompts.txt"  # Input file containing queries separated by '?'
+input_file = "prompting\Qwen\Qwen_Queries.txt"  # Input file containing queries separated by '?'
 output_file = "prompting/ChatGPT/responses.csv"
-main(input_file, output_file, limit=1, repeats=10, start_point=0)
+main(input_file, output_file, limit=3, repeats=1, start_point=0)
