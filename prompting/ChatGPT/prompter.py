@@ -63,7 +63,7 @@ def main(input_file, output_file, limit, repeats):
                 avg_time = sum(response_times) / len(response_times)
                 remaining_prompts = (len(prompts) * repeats) - len(response_times)
                 estimated_time_remaining = avg_time * remaining_prompts
-                print(f"Estimated time remaining: {estimated_time_remaining:.2f} seconds")
+                print(f"Estimated time remaining: {estimated_time_remaining:.2f} seconds ({remaining_prompts} prompts remaining).")
     
     # Ensure the directory exists
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
@@ -81,4 +81,4 @@ def main(input_file, output_file, limit, repeats):
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
 output_file = "prompting/ChatGPT/responses.csv"
-main(input_file, output_file, limit=1, repeats=10)
+main(input_file, output_file, limit=300, repeats=10)
