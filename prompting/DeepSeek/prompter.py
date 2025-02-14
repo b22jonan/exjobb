@@ -43,22 +43,23 @@ def read_prompts_from_file(file_path):
     prompts = [prompt.strip() for prompt in content.split('?') if prompt.strip()]
     return prompts
 
-def main(input_file, output_file, limit, repeats):
+def main(input_file, output_file, limit, repeats, start_point=0):
     """Main function to process prompts and save responses, with a limit on the number of prompts processed."""
     prompts = read_prompts_from_file(input_file)
     
-    # Apply limit
-    prompts = prompts[:limit]
-    print(f"Processing {len(prompts)} prompts with {repeats} repeats each...")
+    # Apply limit and starting point
+    prompts = prompts[start_point:start_point + limit]
+    print(f"Processing {len(prompts)} prompts with {repeats} repeats each, starting from index {start_point}...")
     
     response_times = []
     
     # Open the CSV file for writing responses one by one
-    with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
+    with open(output_file, "a", newline="", encoding="utf-8") as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(["ID", "Prompt", "Response"])  # Write header row
+        if os.stat(output_file).st_size == 0:
+            csvwriter.writerow(["ID", "Prompt", "Response"])  # Write header row if file is empty
 
-        for prompt in prompts:
+        for index, prompt in enumerate(prompts, start=start_point):
             for i in range(repeats):
                 response_id, repeated_prompt, response, response_time = fetch_prompt(prompt)
                 
@@ -75,7 +76,7 @@ def main(input_file, output_file, limit, repeats):
     
     print(f"Responses saved to {output_file}")
     print(f"Total prompts processed: {len(prompts) * repeats} with a time of {sum(response_times):.2f} seconds")
-
+    
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
 output_file = "prompting/DeepSeek/responses.csv"
