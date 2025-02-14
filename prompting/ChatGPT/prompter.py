@@ -51,29 +51,26 @@ def main(input_file, output_file, limit, repeats):
     print(f"Processing {len(prompts)} prompts with {repeats} repeats each...")
     
     response_times = []
-    responses = []
     
-    for prompt in prompts:
-        for i in range(repeats):
-            response_id, repeated_prompt, response, response_time = fetch_prompt(prompt)
-            responses.append((response_id, repeated_prompt, response))
-            response_times.append(response_time)
-            
-            if len(response_times) > 1:
-                avg_time = sum(response_times) / len(response_times)
-                remaining_prompts = (len(prompts) * repeats) - len(response_times)
-                estimated_time_remaining = avg_time * remaining_prompts
-                print(f"Estimated time remaining: {estimated_time_remaining:.2f} seconds ({remaining_prompts} prompts remaining).")
-    
-    # Ensure the directory exists
-    os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    
-    # Save responses to a CSV file
+    # Open the CSV file for writing responses one by one
     with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(["ID", "Prompt", "Response"])
-        for response_id, prompt, response in responses:
-            csvwriter.writerow([response_id, prompt, response])
+        csvwriter.writerow(["ID", "Prompt", "Response"])  # Write header row
+
+        for prompt in prompts:
+            for i in range(repeats):
+                response_id, repeated_prompt, response, response_time = fetch_prompt(prompt)
+                
+                # Immediately save response to CSV after receiving it
+                csvwriter.writerow([response_id, repeated_prompt, response])
+                
+                response_times.append(response_time)
+
+                if len(response_times) > 1:
+                    avg_time = sum(response_times) / len(response_times)
+                    remaining_prompts = (len(prompts) * repeats) - len(response_times)
+                    estimated_time_remaining = avg_time * remaining_prompts
+                    print(f"Estimated time remaining: {estimated_time_remaining:.2f} seconds ({remaining_prompts} prompts remaining).")
     
     print(f"Responses saved to {output_file}")
     print(f"Total prompts processed: {len(prompts) * repeats} with a time of {sum(response_times):.2f} seconds")
@@ -81,4 +78,4 @@ def main(input_file, output_file, limit, repeats):
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
 output_file = "prompting/ChatGPT/responses.csv"
-main(input_file, output_file, limit=300, repeats=10)
+main(input_file, output_file, limit=1, repeats=10)
