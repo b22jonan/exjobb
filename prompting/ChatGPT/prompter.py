@@ -11,22 +11,27 @@ load_dotenv()
 # Initialize the OpenAI client with the API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def fetch_prompt(prompt):
-    """Fetch response from OpenAI API for a given prompt and measure response time."""
+def fetch_prompt(prompt, temperature=1, top_p=1.0, max_tokens=500, frequency_penalty=1.0, presence_penalty=0.0):
+    """Fetch response from OpenAI API for a given prompt with configurable parameters."""
     start_time = time.time()
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are ChatGPT, an intelligent and engaging AI assistant. You provide accurate, articulate, and context-aware responses while maintaining a friendly and professional tone."},
             {"role": "user", "content": prompt}
         ],
-        max_tokens=500
+        max_tokens=max_tokens,
+        temperature=temperature,
+        top_p=top_p,
+        frequency_penalty=frequency_penalty,
+        presence_penalty=presence_penalty
     )
     end_time = time.time()
     response_time = end_time - start_time
     print(f"Processed prompt in {response_time:.2f} seconds")
     response_id = str(uuid.uuid4())
     return response_id, prompt, completion.choices[0].message.content, response_time
+
 
 def read_prompts_from_file(file_path):
     """Read prompts from a file where each query is separated by '?' and return a list of prompts."""
@@ -76,4 +81,4 @@ def main(input_file, output_file, limit, repeats):
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
 output_file = "prompting/ChatGPT/responses.csv"
-main(input_file, output_file, limit=300, repeats=10)
+main(input_file, output_file, limit=1, repeats=10)
