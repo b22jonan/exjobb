@@ -76,4 +76,4 @@ def main(input_file, output_file, limit, repeats):
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
 output_file = "prompting/ChatGPT/responses.csv"
-main(input_file, output_file, limit=10, repeats=2)
+main(input_file, output_file, limit=300, repeats=10)
