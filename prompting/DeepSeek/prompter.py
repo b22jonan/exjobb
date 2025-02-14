@@ -19,7 +19,7 @@ def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_p
     completion = client.chat.completions.create(
         model="deepseek/deepseek-chat:free",
         messages=[
-            {"role": "system", "content": "You are ChatGPT, an intelligent and engaging AI assistant. You provide accurate, articulate, and context-aware responses while maintaining a friendly and professional tone."},
+            {"role": "system", "content": "You are DeepSeek, an intelligent and engaging AI assistant. You provide accurate, articulate, and context-aware responses while maintaining a friendly and professional tone."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=max_tokens,
@@ -77,9 +77,9 @@ def main(input_file, output_file, limit, repeats):
             csvwriter.writerow([response_id, prompt, response])
     
     print(f"Responses saved to {output_file}")
-    print(f"Total prompts processed: {len(prompts) * repeats} with a time of {sum(response_times):.2f} seconds")
+    print(f"Total prompts processed: {len(prompts) * repeats} with a time of {sum(response_times):.2f} seconds, on average {sum(response_times) / len(response_times):.2f} seconds per prompt.")
     
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
-output_file = "prompting/ChatGPT/responses.csv"
-main(input_file, output_file, limit=300, repeats=10)
+output_file = "prompting/DeepSeek/responses.csv"
+main(input_file, output_file, limit=1, repeats=10)
