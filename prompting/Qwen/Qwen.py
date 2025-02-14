@@ -16,8 +16,8 @@ client = openai.Client(
 )
 
 # Input and output file names
-input_file = 'Qwen_Files\Qwen_Queries.txt'
-output_file = 'Qwen_Files\Qwen_Responses.csv'
+input_file = 'prompting/prompts.txt'
+output_file = 'prompting\Qwen\Qwen_Responses.csv'
 
 # Number of times to ask each query (hardcoded as 3)
 num_repeats = 3
