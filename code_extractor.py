@@ -7,24 +7,23 @@ def extract_code(text):
     
     if code_blocks:
         extracted = '\n'.join(code_blocks).strip()
-        # Remove potential language specifier (e.g., "java") at the start
-        extracted = re.sub(r'^[a-zA-Z0-9+]+\n', '', extracted, count=1).strip()
-        return extracted
-    
-    # If no triple backticks, attempt to identify code heuristically
-    lines = text.split('\n')
-    code_lines = []
-    in_code_block = False
-    
-    for line in lines:
-        # Detect potential start of code (heuristics)
-        if re.match(r'^[a-zA-Z0-9_\s]+\(.*\)\s*\{?', line):  # Looks like function/class definition
-            in_code_block = True
+    else:
+        # If no triple backticks, attempt to identify code heuristically
+        lines = text.split('\n')
+        code_lines = []
+        in_code_block = False
         
-        if in_code_block:
-            code_lines.append(line)
+        for line in lines:
+            # Detect potential start of code (heuristics)
+            if re.match(r'^[a-zA-Z0-9_\s]+\(.*\)\s*\{?', line):  # Looks like function/class definition
+                in_code_block = True
+            
+            if in_code_block:
+                code_lines.append(line)
+        
+        extracted = '\n'.join(code_lines).strip() if code_lines else text
     
-    return '\n'.join(code_lines).strip() if code_lines else text  # Return extracted code or original text
+    return extracted
 
 def process_csv(file_path, output_file):
     df = pd.read_csv(file_path)
@@ -36,7 +35,18 @@ def process_csv(file_path, output_file):
     
     df['Extracted_Code'] = df['Response'].apply(extract_code)
     
-    # Keep ID, Prompt, and Extracted_Code columns
+    # Debugging: Print first few rows to check what is happening
+    print("Before removing language specifier:")
+    print(df[['ID', 'Extracted_Code']].head(10))
+    
+    # Remove language specifier (e.g., "java") if it appears at the start of extracted code
+    df['Extracted_Code'] = df['Extracted_Code'].str.replace(r'^[a-zA-Z0-9+]+\s*\n', '', regex=True).str.strip()
+    
+    # Debugging: Print first few rows after processing
+    print("After removing language specifier:")
+    print(df[['ID', 'Extracted_Code']].head(10))
+    
+    # Keep ID and Extracted_Code columns
     columns_to_keep = [col for col in ['ID', 'Extracted_Code'] if col in df.columns]
     df[columns_to_keep].to_csv(output_file, index=False)
     print(f"Processed file saved to {output_file}")
