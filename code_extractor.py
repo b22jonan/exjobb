@@ -47,9 +47,9 @@ def process_csv(file_path, output_file):
     print(df[['ID', 'Extracted_Code']].head(10))
     
     # Keep ID and Extracted_Code columns
-    columns_to_keep = [col for col in ['ID', 'Extracted_Code'] if col in df.columns]
+    columns_to_keep = [col for col in ['ID', 'Prompt', 'Extracted_Code'] if col in df.columns]
     df[columns_to_keep].to_csv(output_file, index=False)
     print(f"Processed file saved to {output_file}")
 
 # Process both files
-process_csv('prompting/ChatGPT/responses.csv', 'prompting/ChatGPT/processed_responses.csv')
+process_csv('prompting/ChatGPT4o/responses.csv', 'prompting/ChatGPT4o/processed_responses.csv')
