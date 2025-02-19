@@ -22,7 +22,7 @@ data1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["CodeSt
 data1["label"] = 1  # Label for dataset A
 
 # Load second dataset (LLM generated) and use only Extracted_Code
-data2 = pd.read_csv("prompting/ChatGPT/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+data2 = pd.read_csv("prompting/Qwen/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
 data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
 data2["label"] = 0  # Label for dataset B
 
@@ -64,7 +64,7 @@ recall_mean, recall_std = np.mean(recall_list), np.std(recall_list)
 f1_mean, f1_std = np.mean(f1_list), np.std(f1_list)
 
 # Save evaluation metrics
-with open("ML_models/results/LightGBM_ChatGPT35/results.txt", "w") as f:
+with open("ML_models/results/LightGBM_Qwen/results.txt", "w") as f:
     f.write(f"Accuracy: {accuracy_mean:.4f} (±{accuracy_std:.4f})\n")
     f.write(f"Precision: {precision_mean:.4f} (±{precision_std:.4f})\n")
     f.write(f"Recall: {recall_mean:.4f} (±{recall_std:.4f})\n")
@@ -84,17 +84,17 @@ misclassified_cases["Predicted Label"] = final_model.predict(X_test)[misclassifi
 misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]
 misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]
 
-misclassified_A.to_csv("ML_models/results/LightGBM_ChatGPT35/Student.csv", index=False)
-misclassified_B.to_csv("ML_models/results/LightGBM_ChatGPT35/LLM.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
+misclassified_A.to_csv("ML_models/results/LightGBM_Qwen/Student.csv", index=False)
+misclassified_B.to_csv("ML_models/results/LightGBM_Qwen/LLM.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
 
 # Visualize the LightGBM tree
 lgb.plot_tree(final_model, tree_index=0, figsize=(20, 10), show_info=['split_gain', 'internal_value', 'leaf_count'])
 plt.title("LightGBM Decision Tree")
-plt.savefig("ML_models/results/LightGBM_ChatGPT35/tree_visualization.png")
+plt.savefig("ML_models/results/LightGBM_Qwen/tree_visualization.png")
 plt.show()
 
 # Plot feature importance
 lgb.plot_importance(final_model, max_num_features=20, figsize=(10, 6))
 plt.title("Feature Importance in LightGBM")
-plt.savefig("ML_models/results/LightGBM_ChatGPT35/feature_importance.png")
+plt.savefig("ML_models/results/LightGBM_Qwen/feature_importance.png")
 plt.show()
