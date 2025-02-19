@@ -4,13 +4,13 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-# Load first dataset (MicroXData)
-data1 = pd.read_csv("CSV files/MicroXData.csv", header=None, names=["CodeStateID", "Code"])
+# Load first dataset (student dataset)
+data1 = pd.read_csv("CSV_files/CodeStates.csv", header=None, names=["CodeStateID", "Code"])
 data1["label"] = 1  # Label for dataset A
 
-# Load second dataset (MicroYData) and use only Extracted_Code
-data2 = pd.read_csv("CSV files/MicroYData.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
-data2 = data2[["ID", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
+# Load second dataset (llm generated) and use only Extracted_Code
+data2 = pd.read_csv("prompting/ChatGPT/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
 data2["label"] = 0  # Label for dataset B
 
 # Combine datasets
@@ -38,7 +38,7 @@ recall = recall_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred)
 
 # Save evaluation metrics
-with open("ML models/results/model_metrics.txt", "w") as f:
+with open("ML_models/results/RandomForest_ChatGPT35/results.txt", "w") as f:
     f.write(f"Accuracy: {accuracy:.4f}\n")
     f.write(f"Precision: {precision:.4f}\n")
     f.write(f"Recall: {recall:.4f}\n")
@@ -58,5 +58,5 @@ misclassified_cases["Predicted Label"] = y_pred[y_pred != y_test.values]  # Stor
 misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]  # From dataset A
 misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]  # From dataset B
 
-misclassified_A.to_csv("ML models/results/misclassified_A.csv", index=False)
-misclassified_B.to_csv("ML models/results/misclassified_B.csv", index=False)
+misclassified_A.to_csv("ML_models/results/RandomForest_ChatGPT35/Student.csv", index=False)
+misclassified_B.to_csv("ML_models/results/RandomForest_ChatGPT35/LLM.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
