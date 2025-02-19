@@ -19,7 +19,7 @@ def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_p
     """Fetch response from AI/ML API Gateway for a given prompt with configurable parameters."""
     start_time = time.time()
     completion = client.chat.completions.create(
-        model="qwen/qvq-72b-preview",  # Change model to GPT-4
+        model="Qwen/Qwen2.5-Coder-32B-Instruct",  # Change model to GPT-4
         messages=[{"role": "system", "content": "You are an AI assistant knowledgeable in various topics."},
                   {"role": "user", "content": prompt}],
         max_tokens=max_tokens,
@@ -86,4 +86,4 @@ def main(input_file, output_file, limit, repeats, start_index=0):
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
 output_file = "prompting\Qwen\Qwen_Responses.csv"
-main(input_file, output_file, limit=1, repeats=10, start_index=6)
+main(input_file, output_file, limit=300, repeats=10, start_index=0)
