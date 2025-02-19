@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from openai import OpenAI
+import openai
 import os
 import csv
 import uuid
@@ -7,22 +7,22 @@ import time
 
 # Load API key from .env file
 load_dotenv()
+my_key = os.getenv("Deepseek_key")  # Keep this as your AI/ML API Gateway key
 
-# Initialize the OpenAI client with the API key
-client = OpenAI(
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-    base_url="https://openrouter.ai/api/v1"
+# Initialize AI/ML API Gateway client
+client = openai.Client(
+    api_key=my_key,
+    base_url='https://api.aimlapi.com/v1',  # Ensure this is the correct endpoint for the AI/ML API Gateway
 )
+
 def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_penalty=0.0, presence_penalty=0.0):
-    """Fetch response from OpenAI API for a given prompt with configurable parameters."""
+    """Fetch response from AI/ML API Gateway for a given prompt with configurable parameters."""
     start_time = time.time()
     completion = client.chat.completions.create(
-        model="deepseek/deepseek-chat:free",
-        messages=[
-            {"role": "system", "content": "You are DeepSeek, an intelligent and engaging AI assistant. You provide accurate, articulate, and context-aware responses while maintaining a friendly and professional tone."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=max_tokens,
+        model="deepseek-ai/deepseek-llm-67b-chat",
+        messages=[{"role": "system", "content": "You are an AI assistant knowledgeable in various topics."},
+                  {"role": "user", "content": prompt}],
+        
         temperature=temperature,
         top_p=top_p,
         frequency_penalty=frequency_penalty,
@@ -32,6 +32,8 @@ def fetch_prompt(prompt, temperature=0.7, top_p=1.0, max_tokens=500, frequency_p
     response_time = end_time - start_time
     print(f"Processed prompt in {response_time:.2f} seconds")
     response_id = str(uuid.uuid4())
+    
+    # Fix: Access content correctly
     return response_id, prompt, completion.choices[0].message.content, response_time
 
 def read_prompts_from_file(file_path):
@@ -77,11 +79,12 @@ def main(input_file, output_file, limit, repeats, start_index=0):
                     remaining_prompts = ((len(prompts) - (prompt_index - start_prompt_index)) * repeats) - (repeat_index + 1)
                     estimated_time_remaining = avg_time * remaining_prompts
                     print(f"Estimated time remaining: {estimated_time_remaining:.2f} seconds ({remaining_prompts} prompts remaining).")
-    
+                time.sleep(10)
+
     print(f"Responses saved to {output_file}")
     print(f"Total prompts processed: {((len(prompts) - start_prompt_index) * repeats) - start_repeat_index} with a time of {sum(response_times):.2f} seconds")
     
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
-output_file = "prompting/DeepSeek/responses.csv"
-main(input_file, output_file, limit=300, repeats=10)
+output_file = "prompting//DeepSeek//responses.csv"
+main(input_file, output_file, limit=300, repeats=10, start_index=2947)
