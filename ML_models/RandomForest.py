@@ -23,7 +23,7 @@ data1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["CodeSt
 data1["label"] = 1  # Label for dataset A
 
 # Load second dataset (llm generated) and use only Extracted_Code
-data2 = pd.read_csv("prompting/ChatGPT/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+data2 = pd.read_csv("prompting/Qwen/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
 data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
 data2["label"] = 0  # Label for dataset B
 
@@ -71,7 +71,7 @@ recall_mean, recall_std = np.mean(recall_list), np.std(recall_list)
 f1_mean, f1_std = np.mean(f1_list), np.std(f1_list)
 
 # Save evaluation metrics
-with open("ML_models/results/RandomForest_ChatGPT35/results.txt", "w") as f:
+with open("ML_models/results/RandomForest_Qwen/results.txt", "w") as f:
     f.write(f"Accuracy: {accuracy_mean:.4f} (±{accuracy_std:.4f})\n")
     f.write(f"Precision: {precision_mean:.4f} (±{precision_std:.4f})\n")
     f.write(f"Recall: {recall_mean:.4f} (±{recall_std:.4f})\n")
@@ -98,7 +98,7 @@ if final_model and hasattr(final_model, "estimators_") and len(final_model.estim
         max_depth=7  # Limit tree depth for better visualization
     )
     graph = graphviz.Source(dot_data)
-    graph.render("ML_models/results/RandomForest_ChatGPT35/tree_visualization")
+    graph.render("ML_models/results/RandomForest_Qwen/tree_visualization")
 else:
     print("Warning: No trees found in the final trained model.")
 
@@ -113,7 +113,7 @@ plt.xticks(range(20), np.array(feature_names)[indices][:20], rotation=90)
 plt.xlabel("Feature (Character n-grams)")
 plt.ylabel("Importance Score")
 plt.tight_layout()
-plt.savefig("ML_models/results/RandomForest_ChatGPT35/feature_importance.png")
+plt.savefig("ML_models/results/RandomForest_Qwen/feature_importance.png")
 plt.show()
 
 # Print tree depth and number of leaves for first three trees
