@@ -5,13 +5,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import os
 import time
+import numpy as np
 
 # File paths
-x_data_path = 'MicroDataSets/MicroXData.csv'
-y_data_path = 'MicroDataSets/MicroYData.csv'
-failed_x_path = 'ML_models/results/XGBoost_ChatGPT4o/Student.csv'
-failed_y_path = 'ML_models/results/XGBoost_ChatGPT4o/LLM.csv'
-metrics_path = 'ML_models/results/XGBoost_ChatGPT4o/metrics.txt'
+x_data_path = 'CSV_files/CodeStates.csv'
+y_data_path = 'prompting\Qwen\processed_Qwen_Responses.csv'
+failed_x_path = 'ML_models/results/XGBoost_Qwen/Student.csv'
+failed_y_path = 'ML_models/results/XGBoost_Qwen/LLM.csv'
+metrics_path = 'ML_models/results/XGBoost_Qwen/metrics.txt'
 
 # Load datasets
 x_data = pd.read_csv(x_data_path, header=None, names=["CodeStateID", "Code"])
@@ -33,47 +34,84 @@ vectorizer = TfidfVectorizer(max_features=1000)
 X = vectorizer.fit_transform(data['Code']).toarray()
 y = data['label']
 
-# Split into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Initialize lists to store metrics and failed samples
+accuracies = []
+precisions = []
+recalls = []
+f1_scores = []
+failed_x_all = pd.DataFrame()
+failed_y_all = pd.DataFrame()
 
-print("Training...")
-start_time = time.time()
+# Number of iterations for training
+iterations = 3
 
-# Train XGBoost model
-model = xgb.XGBClassifier(eval_metric='logloss')
-model.fit(X_train, y_train)
+# Start training loop
+for i in range(iterations):
+    print(f"Training iteration {i + 1}...")
+    random_state = np.random.randint(0, 10000)  # Randomly generate random_state for each iteration
+    
+    # Split the data with a new random_state each time
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
 
-end_time = time.time()
-print(f"Training time: {end_time - start_time:.6f} seconds")
+    model = xgb.XGBClassifier(eval_metric='logloss', random_state=random_state, max_depth=5)
+    
+    # Train XGBoost model
+    start_time = time.time()
+    model.fit(X_train, y_train)
+    end_time = time.time()
+    print(f"Training time for iteration {i + 1}: {end_time - start_time:.6f} seconds")
 
-# Make predictions
-y_pred = model.predict(X_test)
+    # Make predictions
+    y_pred = model.predict(X_test)
 
-# Compute metrics
-accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
+    # Compute metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+
+    # Store metrics
+    accuracies.append(accuracy)
+    precisions.append(precision)
+    recalls.append(recall)
+    f1_scores.append(f1)
+
+    # Identify misclassified entries
+    misclassified = data.iloc[y_test.index][y_test != y_pred]
+
+    # Separate misclassified entries for X and Y datasets
+    failed_x = misclassified[misclassified['label'] == 0].drop(columns=['label'])
+    failed_y = misclassified[misclassified['label'] == 1].drop(columns=['label'])
+
+    # Merge back the extra field for dataset Y
+    failed_y = failed_y.merge(y_extra_field, on="CodeStateID", how="left")
+
+    # Append the misclassified data to the cumulative list
+    failed_x_all = pd.concat([failed_x_all, failed_x], ignore_index=True)
+    failed_y_all = pd.concat([failed_y_all, failed_y], ignore_index=True)
+
+# Calculate mean and standard deviation for each metric
+accuracy_mean = np.mean(accuracies)
+accuracy_std = np.std(accuracies)
+
+precision_mean = np.mean(precisions)
+precision_std = np.std(precisions)
+
+recall_mean = np.mean(recalls)
+recall_std = np.std(recalls)
+
+f1_mean = np.mean(f1_scores)
+f1_std = np.std(f1_scores)
 
 # Save metrics to a text file
 with open(metrics_path, 'w') as f:
-    f.write(f'Accuracy: {accuracy:.4f}\n')
-    f.write(f'Precision: {precision:.4f}\n')
-    f.write(f'Recall: {recall:.4f}\n')
-    f.write(f'F1-score: {f1:.4f}\n')
-
-# Identify misclassified entries
-misclassified = data.iloc[y_test.index][y_test != y_pred]
-
-# Separate misclassified entries for X and Y datasets
-failed_x = misclassified[misclassified['label'] == 0].drop(columns=['label'])
-failed_y = misclassified[misclassified['label'] == 1].drop(columns=['label'])
-
-# Merge back the extra field for dataset Y
-failed_y = failed_y.merge(y_extra_field, on="CodeStateID", how="left")
+    f.write(f'Accuracy: {accuracy_mean:.4f} ± {accuracy_std:.4f}\n')
+    f.write(f'Precision: {precision_mean:.4f} ± {precision_std:.4f}\n')
+    f.write(f'Recall: {recall_mean:.4f} ± {recall_std:.4f}\n')
+    f.write(f'F1-score: {f1_mean:.4f} ± {f1_std:.4f}\n')
 
 # Save misclassified entries to CSV
-failed_x.to_csv(failed_x_path, index=False)
-failed_y.to_csv(failed_y_path, index=False)
+failed_x_all.to_csv(failed_x_path, index=False)
+failed_y_all.to_csv(failed_y_path, index=False)
 
 print(f'Results saved: {metrics_path}, {failed_x_path}, {failed_y_path}')
