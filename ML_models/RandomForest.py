@@ -95,7 +95,7 @@ if final_model and hasattr(final_model, "estimators_") and len(final_model.estim
         filled=True,
         rounded=True,
         special_characters=True,
-        max_depth=4  # Limit tree depth for better visualization
+        max_depth=7  # Limit tree depth for better visualization
     )
     graph = graphviz.Source(dot_data)
     graph.render("ML_models/results/RandomForest_ChatGPT35/tree_visualization")
