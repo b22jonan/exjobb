@@ -24,7 +24,7 @@ data1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["CodeSt
 data1["label"] = 1  # Label for dataset A
 
 # Load second dataset (LLM generated) and use only Extracted_Code
-data2 = pd.read_csv("prompting/ChatGPT/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+data2 = pd.read_csv("prompting/Qwen/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
 data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
 data2["label"] = 0  # Label for dataset B
 
@@ -71,7 +71,7 @@ recall_mean, recall_std = np.mean(recall_list), np.std(recall_list)
 f1_mean, f1_std = np.mean(f1_list), np.std(f1_list)
 
 # Save evaluation metrics
-with open("ML_models/results/AdaBoost_ChatGPT35/results.txt", "w") as f:
+with open("ML_models/results/AdaBoost_Qwen/results.txt", "w") as f:
     f.write(f"Accuracy: {accuracy_mean:.4f} (±{accuracy_std:.4f})\n")
     f.write(f"Precision: {precision_mean:.4f} (±{precision_std:.4f})\n")
     f.write(f"Recall: {recall_mean:.4f} (±{recall_std:.4f})\n")
@@ -91,8 +91,8 @@ misclassified_cases["Predicted Label"] = final_model.predict(X_test)[misclassifi
 misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]  # From dataset A
 misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]  # From dataset B
 
-misclassified_A.to_csv("ML_models/results/AdaBoost_ChatGPT35/Student.csv", index=False)
-misclassified_B.to_csv("ML_models/results/AdaBoost_ChatGPT35/LLM.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
+misclassified_A.to_csv("ML_models/results/AdaBoost_Qwen/Student.csv", index=False)
+misclassified_B.to_csv("ML_models/results/AdaBoost_Qwen/LLM.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
 
 # Visualize an individual decision tree
 if hasattr(final_model, "estimators_") and len(final_model.estimators_) > 0:
@@ -106,6 +106,6 @@ if hasattr(final_model, "estimators_") and len(final_model.estimators_) > 0:
         special_characters=True 
     )
     graph = graphviz.Source(dot_data)
-    graph.render("ML_models/results/AdaBoost_ChatGPT35/tree_visualization")
+    graph.render("ML_models/results/AdaBoost_Qwen/tree_visualization")
 else:
     print("Warning: No trees found in the final trained model.")
