@@ -52,4 +52,4 @@ def process_csv(file_path, output_file):
     print(f"Processed file saved to {output_file}")
 
 # Process both files
-process_csv('prompting/ChatGPT4o/responses.csv', 'prompting/ChatGPT4o/processed_responses.csv')
+process_csv("prompting/DeepSeek/Complete_DeepSeek_Responses.csv", "prompting/DeepSeek/processed_DeepSeek_Responces.csv")
