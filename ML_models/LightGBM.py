@@ -2,28 +2,61 @@ import pandas as pd
 import lightgbm as lgb
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-def load_csv(file, label):
-    df = pd.read_csv(file, encoding="utf-8")
-    df["label"] = label  # Assign label (0 for dataset1, 1 for dataset2)
-    return df[["CodeStateID", "Code", "label"]]  # Only return necessary columns
+# Load first dataset (student dataset)
+data1 = pd.read_csv("CSV_files/CodeStates.csv", header=None, names=["CodeStateID", "Code"])
+data1["label"] = 1  # Label for dataset A
 
-# Load datasets and assign labels (0 for dataset1, 1 for dataset2)
-df = pd.concat([
-    load_csv("MicroDataSets\MicroXData.csv", 0),  # Assign 0 as label to dataset1
-    load_csv("MicroDataSets\MicroYData.csv", 1)   # Assign 1 as label to dataset2
-], ignore_index=True)
+# Load second dataset (LLM generated) and use only Extracted_Code
+data2 = pd.read_csv("prompting/ChatGPT/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
+data2["label"] = 0  # Label for dataset B
+
+# Combine datasets
+data = pd.concat([data1, data2], ignore_index=True)
 
 # Convert the 'Code' column (text data) into TF-IDF features
-X = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 6)).fit_transform(df["Code"])
-y = df["label"]  # Labels are assigned based on dataset origin (0 or 1)
+vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 6))
+X = vectorizer.fit_transform(data["Code"])
+y = data["label"]
 
 # Train-test split (80% train, 20% test)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(
+    X, y, data.index, test_size=0.2, random_state=42
+)
 
 # Train a LightGBM model
-model = lgb.LGBMClassifier(learning_rate=0.05, num_leaves=31).fit(X_train, y_train)
+model = lgb.LGBMClassifier(learning_rate=0.05, num_leaves=31)
+model.fit(X_train, y_train)
 
 # Evaluate the model
-print(f"Test Accuracy: {accuracy_score(y_test, model.predict(X_test)):.4f}")
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+# Save evaluation metrics
+with open("ML_models/results/LightGBM_ChatGPT35/results.txt", "w") as f:
+    f.write(f"Accuracy: {accuracy:.4f}\n")
+    f.write(f"Precision: {precision:.4f}\n")
+    f.write(f"Recall: {recall:.4f}\n")
+    f.write(f"F1 Score: {f1:.4f}\n")
+
+print(f"Accuracy: {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall: {recall:.4f}")
+print(f"F1 Score: {f1:.4f}")
+
+# Identify misclassified cases
+misclassified_indices = indices_test[y_pred != y_test.values]
+misclassified_cases = data.loc[misclassified_indices]
+misclassified_cases["Predicted Label"] = y_pred[y_pred != y_test.values]  # Store predicted labels
+
+# Save misclassified cases separately
+misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]  # From dataset A
+misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]  # From dataset B
+
+misclassified_A.to_csv("ML_models/results/LightGBM_ChatGPT35/Student.csv", index=False)
+misclassified_B.to_csv("ML_models/results/LightGBM_ChatGPT35/LLM.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
