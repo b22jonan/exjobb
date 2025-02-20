@@ -83,5 +83,5 @@ def main(input_file, output_file, limit, repeats, start_index=0):
     
 # Example usage
 input_file = "Prompts.txt"  # Input file containing queries separated by '?'
-output_file = "prompting/ChatGPT/responses.csv"
+output_file = "prompting/ChatGPT35/responses.csv"
 main(input_file, output_file, limit=300, repeats=10)
