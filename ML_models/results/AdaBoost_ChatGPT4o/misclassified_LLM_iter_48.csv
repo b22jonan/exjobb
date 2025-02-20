@@ -1,1 +1,467 @@
 ID,Prompt,Code,label,Predicted Label
+8c96d2a0-89f6-4a0d-83aa-64db4ed32183,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Given an int array, return the sum of the numbers in the array, except ignore sections of numbers starting with a 6 and extending to the next 7 (every 6 will be followed by at least one 7). Return 0 for no numbers.
+public int sum67(int[] nums)
+{
+    
+}","public int sum67(int[] nums) {
+    int totalSum = 0;
+    boolean inSection = false;
+    
+    for (int num : nums) {
+        if (num == 6) {
+            inSection = true;
+        }
+        
+        if (!inSection) {
+            totalSum += num;
+        }
+        
+        if (inSection && num == 7) {
+            inSection = false;
+        }
+    }
+    
+    return totalSum;
+}",0,1
+e81c172d-e9bf-4f4e-a1f2-a1c8e66884fc,"You are tasked with writing a Java function that determines if three integers are evenly spaced. The function should return true if the three values are evenly spaced, meaning the difference between the smallest and middle value is the same as the difference between the middle and largest value. Otherwise, it should return false.
+
+Requirements:
+The function signature is:
+public boolean evenlySpaced(int a, int b, int c)
+
+The function should handle any three integers as input.
+
+The logic should correctly identify the smallest, middle, and largest values among the three inputs.
+
+The function should return true if the values are evenly spaced, and false otherwise.
+
+Example Inputs and Outputs:
+evenlySpaced(2, 4, 6) should return true because the values are evenly spaced (2, 4, 6).
+
+evenlySpaced(4, 6, 2) should return true because the values are evenly spaced (2, 4, 6) regardless of input order.
+
+evenlySpaced(4, 6, 3) should return false because the values are not evenly spaced (3, 4, 6).
+
+Steps to Implement:
+Determine the smallest, middle, and largest values among the three inputs.
+
+Calculate the difference between the smallest and middle values.
+
+Calculate the difference between the middle and largest values.
+
+Compare the two differences. If they are equal, return true; otherwise, return false.
+
+Write the Java function evenlySpaced that implements the above logic.","public boolean evenlySpaced(int a, int b, int c) {
+    // Identify the smallest, middle, and largest values
+    int smallest, middle, largest;
+
+    if (a <= b && a <= c) {
+        smallest = a;
+        if (b <= c) {
+            middle = b;
+            largest = c;
+        } else {
+            middle = c;
+            largest = b;
+        }
+    } else if (b <= a && b <= c) {
+        smallest = b;
+        if (a <= c) {
+            middle = a;
+            largest = c;
+        } else {
+            middle = c;
+            largest = a;
+        }
+    } else {
+        smallest = c;
+        if (a <= b) {
+            middle = a;
+            largest = b;
+        } else {
+            middle = b;
+            largest = a;
+        }
+    }
+
+    // Calculate the differences
+    int diff1 = middle - smallest;
+    int diff2 = largest - middle;
+
+    // Return true if the differences are equal, otherwise false
+    return diff1 == diff2;
+}",0,1
+b5810cc4-56e3-4899-b781-79e70e9e12fd,"Write a Java function that implements the following logic: Given three integers a, b, and c, where one is the small value (small), one is the medium value (medium), and one is the large value (large). If these three values are evenly spaced (i.e., the difference between the small and medium values is equal to the difference between the medium and large values), return true.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}","public boolean evenlySpaced(int a, int b, int c) {
+    // First, determine the order of a, b, and c
+    int small, medium, large;
+    
+    if (a <= b && a <= c) {
+        small = a;
+        if (b <= c) {
+            medium = b;
+            large = c;
+        } else {
+            medium = c;
+            large = b;
+        }
+    } else if (b <= a && b <= c) {
+        small = b;
+        if (a <= c) {
+            medium = a;
+            large = c;
+        } else {
+            medium = c;
+            large = a;
+        }
+    } else {
+        small = c;
+        if (a <= b) {
+            medium = a;
+            large = b;
+        } else {
+            medium = b;
+            large = a;
+        }
+    }
+    
+    // Check if the differences are equal
+    return (medium - small) == (large - medium);
+}",0,1
+64566148-1a30-473e-a626-4b1397ad4ddf,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+8e7ad53e-4570-4029-8fa2-3a902587dd07,"In an array, a ""clump"" refers to a sequence of two or more adjacent and identical elements. Return the number of clumps in the given array.
+
+public int countClumps(int[] nums)
+{
+    
+}","public int countClumps(int[] nums) {
+    int count = 0;
+    boolean inClump = false;
+
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == nums[i + 1]) {
+            if (!inClump) {
+                count++;
+                inClump = true;
+            }
+        } else {
+            inClump = false;
+        }
+    }
+
+    return count;
+}",0,1
+ae65558c-bd09-42e6-a3c2-c375fb97430b,"Solve this coding assignment ""
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
+    int lastY = -1;
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'y') {
+            lastY = i;
+        }
+    }
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x' && i > lastY) {
+            return false;
+        }
+    }
+    return true;
+}",0,1
+eaaefc43-8b27-4ea5-a165-6dd0e95e58be,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+d22766c7-33b2-4363-b0bb-a84a740c4c09,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    if (isBirthday) {
+        speed -= 5;
+    }
+    if (speed <= 60) {
+        return 0;
+    } else if (speed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+6d4f9a93-dc1f-42b1-8dbb-04e5bdd70a20,"Solve this coding assignment ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean twoTwo(int[] nums) {
+    if (nums.length == 0) return true;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 2) {
+            if ((i > 0 && nums[i - 1] == 2) || (i < nums.length - 1 && nums[i + 1] == 2)) {
+                continue;
+            } else {
+                return false;
+            }
+        }
+    }
+    return true;
+}",0,1
+cc07488e-3b19-4c06-ac38-7c42cc038a0f,"Write a Java function to implement the following logic:
+Given a string, return a string composed of its first two characters. If the string length is less than 2, replace the missing characters with '@'.
+
+public String atFirst(String str)
+{
+    
+}","public String atFirst(String str) {
+    if (str == null || str.isEmpty()) {
+        return ""@@"";
+    } else if (str.length() == 1) {
+        return str + ""@"";
+    } else {
+        return str.substring(0, 2);
+    }
+}",0,1
+c6004cb8-d18b-4be4-962d-480ebd08b77a,"Solve this ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int blackjack(int a, int b) {
+    if (a > 21) a = 0;
+    if (b > 21) b = 0;
+    return Math.max(a, b);
+}",0,1
+718eaea3-e07a-47eb-acfe-1b12b57c11bd,"Solve this ""
+Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String atFirst(String str) {
+    if (str.length() >= 2) {
+        return str.substring(0, 2);
+    }
+    if (str.length() == 1) {
+        return str + ""@"";
+    }
+    return ""@@"";
+}",0,1
+ID,Prompt,Extracted_Code,0,1
+cf8a7b71-6d99-482e-aa2d-d54a2bf5638f,"Solve this ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+79367f66-2885-4c3a-b56b-b5896ef547ad,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+531ded1d-5a6d-4b42-8638-df3c1813415b,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+82f4f5c9-715d-4caa-8ec5-da2a1b5cadef,"Solve this ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+487c7322-7e52-423e-b271-110efa4bfdf3,"Solve this ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.substring(i, i + 2).equals(""co"") && str.charAt(i + 3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+e9e17085-557f-4923-8863-3cede96e9d17,"Solve this coding assignment ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.substring(i, i + 2).equals(""co"") && str.charAt(i + 3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+d0b54547-f4b8-4f58-8876-7322366f1abb,"Solve this coding assignment ""
+Given two strings, return true if either of the strings appears at the very end of the other string, ignoring upper/lower case differences (in other words, the computation should not be ""case sensitive""). Note: str.toLowerCase() returns the lowercase version of a string.
+public boolean endOther(String a, String b)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean endOther(String a, String b) {
+    a = a.toLowerCase();
+    b = b.toLowerCase();
+    if (a.endsWith(b) || b.endsWith(a)) {
+        return true;
+    }
+    return false;
+}",0,1
+c5d77f86-0da0-4043-88be-887b4caa5a4e,"Solve this ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) return 20;
+    if (a == b || b == c || a == c) return 10;
+    return 0;
+}",0,1
+e1700425-5dca-4669-869a-d4e44c0e7ab6,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1

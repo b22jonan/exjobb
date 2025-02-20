@@ -32,7 +32,7 @@ for i, state in enumerate(random_states):
     data1["label"] = 1  # Label for dataset A
 
     # Load second dataset (LLM generated) and use only Extracted_Code
-    data2 = pd.read_csv("prompting/ChatGPT4o/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+    data2 = pd.read_csv("prompting/Qwen/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
     data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
     data2["label"] = 0  # Label for dataset B
 
@@ -84,12 +84,12 @@ for i, state in enumerate(random_states):
     else:
         print(f"Iteration {i+1}: {len(misclassified_B)} misclassified LLM cases saved.")
         misclassified_B = misclassified_B[["ID", "Prompt", "Code", "label", "Predicted Label"]]
-        misclassified_B.to_csv(f"ML_models/results/AdaBoost_ChatGPT4o/misclassified_LLM_iter_{i+1}.csv", index=False)
+        misclassified_B.to_csv(f"ML_models/results/AdaBoost_Qwen/misclassified_LLM_iter_{i+1}.csv", index=False)
 
-    misclassified_A.to_csv(f"ML_models/results/AdaBoost_ChatGPT4o/misclassified_Student_iter_{i+1}.csv", index=False)
+    misclassified_A.to_csv(f"ML_models/results/AdaBoost_Qwen/misclassified_Student_iter_{i+1}.csv", index=False)
 
 # Save all iteration results
-results_df.to_csv("ML_models/results/AdaBoost_ChatGPT4o/all_iterations.csv", index=False)
+results_df.to_csv("ML_models/results/AdaBoost_Qwen/all_iterations.csv", index=False)
 
 # Compute mean and standard deviation
 accuracy_mean, accuracy_std = results_df["Accuracy"].mean(), results_df["Accuracy"].std()
@@ -98,7 +98,7 @@ recall_mean, recall_std = results_df["Recall"].mean(), results_df["Recall"].std(
 f1_mean, f1_std = results_df["F1 Score"].mean(), results_df["F1 Score"].std()
 
 # Save evaluation metrics
-with open("ML_models/results/AdaBoost_ChatGPT4o/results.txt", "w") as f:
+with open("ML_models/results/AdaBoost_Qwen/results.txt", "w") as f:
     f.write(f"Accuracy: {accuracy_mean:.4f} (±{accuracy_std:.4f})\n")
     f.write(f"Precision: {precision_mean:.4f} (±{precision_std:.4f})\n")
     f.write(f"Recall: {recall_mean:.4f} (±{recall_std:.4f})\n")
@@ -121,6 +121,6 @@ if hasattr(final_model, "estimators_") and len(final_model.estimators_) > 0:
         special_characters=True 
     )
     graph = graphviz.Source(dot_data)
-    graph.render("ML_models/results/AdaBoost_ChatGPT4o/tree_visualization")
+    graph.render("ML_models/results/AdaBoost_Qwen/tree_visualization")
 else:
     print("Warning: No trees found in the final trained model.")

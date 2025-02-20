@@ -1,1 +1,957 @@
 ID,Prompt,Code,label,Predicted Label
+ff80daa8-013e-44e9-b90f-fc42eb39cd70,"Write a Java function that implements the following logic: Given a string and an integer n, return a string composed of the last n characters of the given string, repeated n times. You can assume that n is between 0 and the length of the string (inclusive).
+
+public String repeatEnd(String str, int n)
+{
+    
+}","public String repeatEnd(String str, int n) {
+    int len = str.length();
+    String result = """";
+
+    for (int i = 0; i < n; i++) {
+        result += str.substring(len - n);
+    }
+
+    return result;
+}",0,1
+5a4bcc80-c969-48ee-9fa5-094df89fad2b,"Solve this coding assignment ""
+Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int sum3(int[] nums)
+{
+    return nums[0] + nums[1] + nums[2];
+}",0,1
+a82c4d8b-e2e2-4d66-8fb7-6201c1d6f452,"Solve this ""
+Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String atFirst(String str)
+{
+    if(str.length() >= 2)
+        return str.substring(0, 2);
+    else
+        return str + ""@"".repeat(2 - str.length());
+}",0,1
+222c6d3a-b2cf-4633-a45f-984619be4d5d,"Solve this ""
+Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.
+public int[] frontPiece(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] frontPiece(int[] nums)
+{
+    return Arrays.copyOf(nums, Math.min(nums.length, 2));
+}",0,1
+7e1ea47c-87c1-4810-99c3-49435ef7fe60,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str) {
+    return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+73bfc43a-42bc-4edb-8128-b345876609de,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+9bfc36e1-942e-4048-b72b-b218cfcf6c84,"Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}","public int sum3(int[] nums) {
+    return nums[0] + nums[1] + nums[2];
+}",0,1
+844726dd-64d4-40e5-83ed-cf1b034605a4,"For each multiple of 10 in a given array, change all subsequent values to that multiple of 10 until another multiple of 10 is encountered. For example, {2, 10, 3, 4, 20, 5} becomes {2, 10, 10, 10, 20, 20}.
+
+public int[] tenRun(int[] nums)
+{
+    
+}","public int[] tenRun(int[] nums) {
+    int multipleOfTen = 0;
+    boolean foundMultipleOfTen = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            multipleOfTen = nums[i];
+            foundMultipleOfTen = true;
+        }
+
+        if (foundMultipleOfTen) {
+            if (nums[i] % 10 != 0) {
+                nums[i] = multipleOfTen;
+            } else {
+                multipleOfTen = nums[i];
+            }
+        }
+    }
+
+    return nums;
+}",0,1
+ff547755-d50b-4692-9d68-df3a04baee4c,"Write a function in Java that returns true if the given string str contains an occurrence of the substring ""xyz"" where ""xyz"" is not directly preceded by a period ("".""). For example, ""xxyz"" counts, while ""x.xyz"" does not.
+public boolean xyzThere(String str)
+{
+    
+}","public boolean xyzThere(String str) {
+    int len = str.length();
+    for (int i = 0; i < len - 2; i++) {
+        if (str.charAt(i) != '.' && str.substring(i, i + 3).equals(""xyz"")) {
+            return true;
+        }
+    }
+    if (len >= 4 && str.substring(len - 4).equals(""xyz."")) {
+        return true;
+    }
+    return false;
+}",0,1
+3008739a-f664-40d2-9d5a-422da442a05c,"Solve this ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+ID,Prompt,Extracted_Code,0,1
+76fb2e17-4a89-4f9b-99d0-73aa79c00f20,"""Write a Java function named blackjack that takes two integer parameters, a and b, both greater than 0. The function should implement the following logic:
+
+Determine which of the two values is closest to 21 without exceeding it.
+
+If both values exceed 21, the function should return 0.
+
+If one value exceeds 21 and the other does not, return the value that does not exceed 21.
+
+If neither value exceeds 21, return the value that is closest to 21.
+
+The function signature is as follows:
+
+java
+Copy
+public int blackjack(int a, int b) {
+    // Your code here
+}
+Please provide the complete implementation of the blackjack function, ensuring that it correctly handles all edge cases and follows the logic described above.""","public int blackjack(int a, int b) {
+    if (a > 21 && b > 21) {
+        return 0;
+    } else if (a > 21) {
+        return b;
+    } else if (b > 21) {
+        return a;
+    } else {
+        int diffA = 21 - a;
+        int diffB = 21 - b;
+        
+        if (diffA >= diffB) {
+            return b;
+        } else {
+            return a;
+        }
+    }
+}",0,1
+c3ae170c-73e0-4dfb-9b21-5c38a500680d,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str) {
+  return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+a3264b5b-6119-4442-98ae-9b00239c2590,"Solve this ""
+We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.
+public int makeChocolate(int small, int big, int goal)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int makeChocolate(int small, int big, int goal) {
+    if (goal >= 5 * big) {
+        goal -= 5 * big;
+    } else {
+        goal %= 5;
+    }
+
+    if (goal <= small) {
+        return goal;
+    }
+
+    return -1;
+}",0,1
+2d923491-0bf8-4c1e-92b4-c1c15876916c,"Solve this ""
+Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.
+public int[] frontPiece(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] frontPiece(int[] nums)
+{
+    return Arrays.copyOfRange(nums, 0, Math.min(nums.length, 2));
+}",0,1
+7c312d9c-cdf4-476f-813c-72bb2480499c,"Solve this ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+1512a64c-aba7-4213-9ef3-e8b82a7546ce,"For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}","public int[] tenRun(int[] nums) {
+    int multiple = 0;
+    boolean foundMultipleOfTen = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            multiple = nums[i];
+            foundMultipleOfTen = true;
+        } else if (foundMultipleOfTen) {
+            nums[i] = multiple;
+        }
+    }
+
+    return nums;
+}",0,1
+f8a8ff40-da70-480c-8bc6-8ea1d7be10e4,"In an array, a ""clump"" refers to a sequence of two or more adjacent and identical elements. Return the number of clumps in the given array.
+
+public int countClumps(int[] nums)
+{
+    
+}","public int countClumps(int[] nums) {
+    if (nums == null || nums.length == 0) {
+        return 0;
+    }
+
+    int count = 0;
+    boolean isClump = false;
+
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == nums[i + 1]) {
+            if (!isClump) {
+                isClump = true;
+                count++;
+            }
+        } else {
+            isClump = false;
+        }
+    }
+
+    return count;
+}",0,1
+3381f5a6-27d7-4263-99c3-3ed301ab6e4a,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if(you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+51a1c01b-6e01-4582-b85c-0e3494c83273,"You are given a coding problem to solve. The task is to determine if a string is """"xy-balanced."""" A string is considered xy-balanced if, for every 'x' character in the string, there exists at least one 'y' character that appears later in the string. For example:
+
+The string """"xxy"""" is balanced because both 'x' characters have a 'y' after them.
+
+The string """"xyx"""" is not balanced because the last 'x' does not have a 'y' after it.
+
+The string """"yxy"""" is balanced because all 'x' characters have at least one 'y' after them.
+
+The string """"yx"""" is balanced because the single 'x' has a 'y' after it.
+
+The string """"xxx"""" is not balanced because there are no 'y' characters to balance the 'x's.
+
+Write a Java method xyBalance that takes a string str as input and returns true if the string is xy-balanced, and false otherwise. The method should handle edge cases, such as an empty string or a string with no 'x' or 'y' characters.
+
+Method Signature:
+
+java
+Copy
+public boolean xyBalance(String str) {
+    // Your code here
+}
+Examples:
+
+xyBalance(""""xxy"""") should return true.
+
+xyBalance(""""xyx"""") should return false.
+
+xyBalance(""""yxy"""") should return true.
+
+xyBalance(""""yx"""") should return true.
+
+xyBalance(""""xxx"""") should return false.
+
+xyBalance("""""""") should return true (an empty string is considered balanced).
+
+xyBalance(""""abc"""") should return true (no 'x' characters means it's balanced).
+
+Approach:
+
+Iterate through the string to find the positions of 'x' and 'y' characters.
+
+Ensure that every 'x' has at least one 'y' that appears after it.
+
+If no 'x' characters exist, the string is automatically balanced.
+
+If 'x' characters exist but no 'y' characters appear after them, the string is not balanced.
+
+Constraints:
+
+The string can be of any length, including empty.
+
+The string can contain any characters, not just 'x' and 'y'.
+
+Write the Java method to solve this problem.","public boolean xyBalance(String str) {
+    int lastXPosition = -1;
+    int lastYPosition = -1;
+
+    for (int i = 0; i < str.length(); i++) {
+        char currentChar = str.charAt(i);
+        if (currentChar == 'x') {
+            lastXPosition = i;
+        } else if (currentChar == 'y') {
+            lastYPosition = i;
+        }
+    }
+
+    return lastYPosition >= lastXPosition;
+}",0,1
+e78eac59-14ea-41d4-a511-519edcfb93af,"Solve this ""
+Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.
+public int[] frontPiece(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] frontPiece(int[] nums)
+{
+    return Arrays.copyOf(nums, Math.min(nums.length, 2));
+}",0,1
+c753db66-2801-4d69-8242-3b2f9911abb4,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    if(isBirthday) {
+        speed -= 5;
+    }
+    
+    if(speed <= 60) {
+        return 0;
+    } else if(speed >= 61 && speed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+f8a2ccfb-4835-4e33-ad0e-9904fc49cdc1,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+f9109d2e-e5a4-4704-8c9a-c59461a74d2b,"Solve this ""
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] zeroMax(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 0) {
+            nums[i] = findLargestOdd(nums, i);
+        }
+    }
+    return nums;
+}
+
+public int findLargestOdd(int[] nums, int start) {
+    int maxOdd = 0;
+    for (int i = start + 1; i < nums.length; i++) {
+        if (nums[i] % 2 != 0 && nums[i] > maxOdd) {
+            maxOdd = nums[i];
+        }
+    }
+    return maxOdd;
+}",0,1
+cf175ede-5c96-402a-8b7a-343ea88b1f4e,"You are tasked with completing a Java method that calculates the sum of all elements in an array containing exactly three integers. The method signature is provided below:
+
+java
+Copy
+public int sum3(int[] nums)
+{
+    // Your code here
+}
+Instructions:
+
+The method sum3 takes an array of integers (nums) as input. The array will always contain exactly three integers.
+
+Your task is to write the code inside the method that calculates the sum of all three elements in the array.
+
+Return the sum as an integer.
+
+Example:
+
+If the input array is [1, 2, 3], the method should return 6 because 1 + 2 + 3 = 6.
+
+If the input array is [5, 11, 2], the method should return 18 because 5 + 11 + 2 = 18.
+
+Constraints:
+
+The array nums will always have exactly three elements.
+
+Each element in the array will be an integer.
+
+Expected Output:
+
+The method should return the sum of the three integers in the array.
+
+Your Task:
+
+Write the code inside the sum3 method to achieve the desired functionality.","public int sum3(int[] nums) {
+    return nums[0] + nums[1] + nums[2];
+}",0,1
+7bd8b534-544b-4f4c-8373-90807b252f8b,"You are an expert Java programmer. Your task is to write a function in Java that implements the following logic:
+
+The function should return a modified version of the given integer array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array.
+
+If there is no odd value to the right of the zero, leave the zero as a zero.
+
+You may use a second helper function if needed, such as to find the largest odd value to the right of a specified position.
+
+The function signature is:
+
+java
+Copy
+public int[] zeroMax(int[] nums) {
+    // Your implementation here
+}
+Steps to follow:
+
+Iterate through the input array nums.
+
+For each zero encountered, find the largest odd value to the right of its position.
+
+Replace the zero with the largest odd value found. If no odd value exists to the right, leave the zero unchanged.
+
+Return the modified array.
+
+Hint: You can create a helper function to find the largest odd value to the right of a given index. For example:
+
+java
+Copy
+private int findLargestOddToRight(int[] nums, int startIndex) {
+    // Helper function implementation
+}
+Example Input and Output:
+
+Input: [0, 5, 0, 3]
+Output: [5, 5, 3, 3]
+Explanation: The first zero is replaced by 5 (the largest odd to its right), and the second zero is replaced by 3.
+
+Input: [0, 4, 0, 2]
+Output: [0, 4, 2, 2]
+Explanation: The first zero remains 0 because there is no odd value to its right, and the second zero is replaced by 2.
+
+Input: [0, 1, 0]
+Output: [1, 1, 0]
+Explanation: The first zero is replaced by 1, and the second zero remains 0 because there is no odd value to its right.
+
+Constraints:
+
+The input array nums can have a length of 0 to 100.
+
+The values in the array are integers between 0 and 100.
+
+Write the complete Java function zeroMax and any helper functions if needed. Ensure the code is efficient and handles edge cases appropriately.","public int[] zeroMax(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 0) {
+            int largestOdd = findLargestOddToRight(nums, i);
+            if (largestOdd != 0) {
+                nums[i] = largestOdd;
+            }
+        }
+    }
+    return nums;
+}
+
+private int findLargestOddToRight(int[] nums, int startIndex) {
+    int largestOdd = 0;
+    for (int i = startIndex + 1; i < nums.length; i++) {
+        if (nums[i] % 2 != 0 && nums[i] > largestOdd) {
+            largestOdd = nums[i];
+        }
+    }
+    return largestOdd;
+}",0,1
+6c5184f2-dd41-48ef-a33a-0d8bc3a90599,"Solve this ""
+Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, ""HelloHe"" yields ""lloHe"". Note that the 2-character substring at the beginning may overlap with the one at the end, so ""Hi"" yields """". If the two characters at the start and end of the string do not match each other, return the original string unchanged.
+public String without2(String str) 
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String without2(String str) {
+    if (str.length() < 2) return str;
+    if (str.substring(0, 2).equals(str.substring(str.length()-2))) {
+        return str.substring(2);
+    } else {
+        return str;
+    }
+}",0,1
+4e247399-a655-4a9a-a7dd-0dd0e7164034,"as a cs1 student you are trying to solve this assignment, how would you solve it
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}","public int[] tenRun(int[] nums) {
+    boolean inMultipleOf10Sequence = false;
+    int multipleOf10 = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            inMultipleOf10Sequence = true;
+            multipleOf10 = nums[i];
+        } else if (inMultipleOf10Sequence) {
+            nums[i] = multipleOf10;
+        }
+    }
+
+    return nums;
+}",0,1
+8072638b-df45-49f3-b354-0db5b0c2a0f2,"Given a string str, find all three-letter combinations that start with ""z"" and end with ""p"". Return a string where the middle letter of all such three-letter sequences is removed. For example, the string ""zipXzap"" should return ""zpXzp"".
+
+public String zipZap(String str)
+{
+    
+}","public String zipZap(String str) {
+    return str.replaceAll(""z(.)p"", ""zp"");
+}",0,1
+b3c63b69-bf33-49cf-81cd-d3ba0a591a8c,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}","public int[] zeroMax(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 0) {
+            int largestOdd = findLargestOddValue(nums, i);
+            if (largestOdd != 0) {
+                nums[i] = largestOdd;
+            }
+        }
+    }
+    return nums;
+}
+
+private int findLargestOddValue(int[] nums, int startIndex) {
+    int largestOdd = 0;
+    for (int i = startIndex + 1; i < nums.length; i++) {
+        if (nums[i] > largestOdd && nums[i] % 2 != 0) {
+            largestOdd = nums[i];
+        }
+    }
+    return largestOdd;
+}",0,1
+c9c42d7c-1d53-4ddc-8981-d0d95b7b0895,"Solve this coding assignment ""
+Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int sum3(int[] nums)
+{
+    return nums[0] + nums[1] + nums[2];
+}",0,1
+4bece34f-d69a-44de-9f7e-b34383efdb89,"Solve this ""
+Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.
+public int redTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int redTicket(int a, int b, int c)
+{
+    if (a == b && b == c)
+        return a == 2 ? 10 : 5;
+    else if (b != a && c != a)
+        return 1;
+    else
+        return 0;
+}",0,1
+a244f45a-5572-4cfd-ab00-b68dc776b35c,"You are tasked with implementing a Java method called sum67 that takes an integer array nums as input and returns the sum of the numbers in the array. However, you must ignore sections of numbers that start with a 6 and extend to the next 7 (every 6 will be followed by at least one 7). If the array is empty, return 0.
+
+Requirements:
+
+Iterate through the array and sum all the numbers.
+
+When you encounter a 6, ignore all subsequent numbers until you encounter a 7 (including the 6 and 7 themselves).
+
+After encountering a 7, resume summing the numbers.
+
+If the array is empty, return 0.
+
+Example Inputs and Outputs:
+
+sum67([1, 2, 2]) should return 5.
+
+sum67([1, 2, 2, 6, 99, 99, 7]) should return 5.
+
+sum67([1, 1, 6, 7, 2]) should return 4.
+
+sum67([]) should return 0.
+
+Your Task:
+Write the Java method sum67 that fulfills the requirements above. Ensure your code handles edge cases, such as an empty array or multiple 6-7 sections.
+
+Method Signature:
+
+java
+Copy
+public int sum67(int[] nums) {
+    // Your code here
+}","public int sum67(int[] nums) {
+    int sum = 0;
+    boolean ignoreSection = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 6) {
+            ignoreSection = true;
+        } else if (nums[i] == 7 && ignoreSection) {
+            ignoreSection = false;
+        } else if (!ignoreSection) {
+            sum += nums[i];
+        }
+    }
+
+    return sum;
+}",0,1
+f8a85da8-39f3-4a41-9c5e-c19539d7b921,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+4ac15b53-f43b-4562-8a35-e50f442d573d,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean evenlySpaced(int a, int b, int c) {
+    if (a < b && b < c) {
+        return (b - a) == (c - b);
+    } else if (a < c && c < b) {
+        return (c - a) == (b - c);
+    } else if (b < a && a < c) {
+        return (a - b) == (c - a);
+    } else if (b < c && c < a) {
+        return (c - b) == (a - c);
+    } else if (c < a && a < b) {
+        return (a - c) == (b - a);
+    } else {
+        return (b - c) == (a - b);
+    }
+}",0,1
+0abff302-f880-4d8d-9cc2-4df753465fe8,"Solve this coding assignment ""
+Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, ""HelloHe"" yields ""lloHe"". Note that the 2-character substring at the beginning may overlap with the one at the end, so ""Hi"" yields """". If the two characters at the start and end of the string do not match each other, return the original string unchanged.
+public String without2(String str) 
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String without2(String str) {
+  if (str.length() < 2) {
+    return str;
+  }
+  if (str.substring(0, 2).equals(str.substring(str.length()-2))) {
+    return str.substring(2);
+  }
+  return str;
+}",0,1
+2647469a-1b17-4951-95fa-6157b42f641d,"Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}","public String zipZap(String str) {
+    return str.replaceAll(""z\\w{1}p"", ""zp"");
+}",0,1
+99979f56-4847-40df-b433-b6cc179378b5,"Solve this ""
+Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, ""HelloHe"" yields ""lloHe"". Note that the 2-character substring at the beginning may overlap with the one at the end, so ""Hi"" yields """". If the two characters at the start and end of the string do not match each other, return the original string unchanged.
+public String without2(String str) 
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String without2(String str) {
+  if (str.length() < 2) return str;
+  if (str.substring(0, 2).equals(str.substring(str.length() - 2))) return str.substring(2);
+  return str;
+}",0,1
+3d3a2906-12ec-459e-8f2a-0cb989b9831a,"Solve this coding assignment ""
+Write a function in Java that returns true if the given string str contains an occurrence of the substring ""xyz"" where ""xyz"" is not directly preceded by a period ("".""). For example, ""xxyz"" counts, while ""x.xyz"" does not.
+public boolean xyzThere(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyzThere(String str) {
+    int len = str.length();
+    for (int i = 0; i < len - 2; i++) {
+        if (str.charAt(i) != '.' && str.substring(i, i + 3).equals(""xyz"")) {
+            return true;
+        }
+    }
+    if (len >= 3 && str.substring(len - 3).equals(""xyz"")) {
+        return true;
+    }
+    return false;
+}",0,1
+72839056-ee7e-44d9-8553-4657385003b2,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+39640f6d-e9c3-4004-93b9-d31c4dccf278,"Given two strings, return true if either of the strings appears at the very end of the other string, ignoring upper/lower case differences (in other words, the computation should not be ""case sensitive""). Note: str.toLowerCase() returns the lowercase version of a string.
+public boolean endOther(String a, String b)
+{
+    
+}","public boolean endOther(String a, String b) {
+    String strA = a.toLowerCase();
+    String strB = b.toLowerCase();
+    
+    return strA.endsWith(strB) || strB.endsWith(strA);
+}",0,1
+4e2ecec2-4e87-41e8-bc4c-16a11ae17b25,"Solve this coding assignment ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] tenRun(int[] nums) {
+    int target = -1;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            target = nums[i];
+        } else if (target != -1) {
+            nums[i] = target;
+        }
+    }
+    return nums;
+}",0,1
+16a9b6ab-e89e-4182-91d0-dad0b4ed0492,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+0c00ecdb-f711-4554-9641-8e574fe03f47,"Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.
+public int centeredAverage(int[] nums)
+{
+    
+}","public int centeredAverage(int[] nums) {
+    int min = nums[0];
+    int max = nums[0];
+    int sum = nums[0];
+
+    for (int i = 1; i < nums.length; i++) {
+        sum += nums[i];
+        if (nums[i] < min) {
+            min = nums[i];
+        }
+        if (nums[i] > max) {
+            max = nums[i];
+        }
+    }
+
+    sum -= (min + max);
+    int totalElements = nums.length - 2;
+    return sum / totalElements;
+}",0,1
+b107d428-2ae8-4f9f-a7a9-9006f43a45ce,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str) {
+    return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+c3b33c79-ae6d-47d3-aedd-d54dee2bfdad,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}","public int[] zeroMax(int[] nums) {
+    for (int i = nums.length - 1; i >= 0; i--) {
+        if (nums[i] == 0) {
+            int maxOdd = findLargestOdd(nums, i);
+            nums[i] = maxOdd;
+        }
+    }
+    return nums;
+}
+
+private int findLargestOdd(int[] nums, int start) {
+    int maxOdd = 0;
+    for (int i = start + 1; i < nums.length; i++) {
+        if (nums[i] % 2 != 0 && nums[i] > maxOdd) {
+            maxOdd = nums[i];
+        }
+    }
+    return maxOdd;
+}",0,1
+8d2dbba3-1b4f-4d70-adce-c9f4178ee0ef,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}","public int[] zeroMax(int[] nums) {
+    for (int i = nums.length - 1; i >= 0; i--) {
+        if (nums[i] == 0) {
+            int largestOdd = findLargestOdd(nums, i);
+            if (largestOdd != 0) {
+                nums[i] = largestOdd;
+            }
+        }
+    }
+    return nums;
+}
+
+private int findLargestOdd(int[] nums, int startPos) {
+    int largestOdd = 0;
+    for (int i = startPos + 1; i < nums.length; i++) {
+        if (nums[i] % 2 != 0 && nums[i] > largestOdd) {
+            largestOdd = nums[i];
+        }
+    }
+    return largestOdd;
+}",0,1
+4e3c8cda-8227-455e-b52a-4c931b1d8613,"Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}","public String zipZap(String str) {
+    return str.replaceAll(""z\\w{1}p"", ""zp"");
+}",0,1
+43913997-4a5d-4b45-bb04-10337b23193b,"Solve this coding assignment ""
+Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int sum3(int[] nums)
+{
+    return nums[0] + nums[1] + nums[2];
+}",0,1
+53a4a570-6a29-4b2c-b52f-57128136bbae,"Solve this ""
+Write a function in Java that implements the following logic: Given a string and an int n, return a string made of n repetitions of the last n characters of the string. You may assume that n is between 0 and the length of the string, inclusive.
+public String repeatEnd(String str, int n)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String repeatEnd(String str, int n) {
+    return str.substring(str.length() - n).repeat(n);
+}",0,1
+df9aa47b-0547-4d97-805c-dd494e373eb3,"Solve this ""
+Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.
+public int[] frontPiece(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] frontPiece(int[] nums)
+{
+  return Arrays.copyOf(nums, Math.min(nums.length, 2));
+}",0,1
+f2b1080d-6cc7-421c-8ba6-5e0eccbf1916,"as a cs1 student you are trying to solve this assignment, how would you solve it
+The number 6 is a truly great number. Given two int values, a and b, return true if either one is 6. Or if their sum or difference is 6. Note: the function Math.abs(num) computes the absolute value of a number.
+public boolean love6(int a, int b)
+{
+    
+}","public boolean love6(int a, int b) {
+    if (a == 6 || b == 6 || a + b == 6 || Math.abs(a - b) == 6) {
+        return true;
+    }
+    return false;
+}",0,1
+15807199-3447-4bb5-9ec4-863147bcfd84,"Solve this ""
+Write a function in Java that returns true if the given string str contains an occurrence of the substring ""xyz"" where ""xyz"" is not directly preceded by a period ("".""). For example, ""xxyz"" counts, while ""x.xyz"" does not.
+public boolean xyzThere(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean xyzThere(String str) {
+    if (str.contains(""xyz"") && !str.contains("".xyz"")) {
+        return true;
+    }
+    return false;
+}",0,1

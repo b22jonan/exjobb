@@ -1,1198 +1,273 @@
 CodeStateID,Code,label,ID,Prompt,Predicted Label
-eb2c759546fc1c28c1f396e7f8a797c34349a587,"public String without2(String str) 
+c7972a0c52578814fdc1e75cdf7b2b9b87eaaa39,"public boolean evenlySpaced(int a, int b, int c)
 {
-    String s = str.substring(0, 2);
-    String st = str.substring(str.length()-2, str.length());
-    if(s.equals(st))
+    if ( a > b && b > c || c > b && b > a)
     {
-        return str.substring(2);
+        return ( a - b == b - c);
     }
-    else if(str.length()<1)
+    else if ( b > a && a > c || c > a && a > b)
     {
-        return str;
-    }
-    else   
-    {
-        return str;
-    }
-}
-",1,,,1
-ff4d3fccfe514870f69c27a376b8457b4bff138d,"public String repeatEnd(String str, int n)
-{
-    StringBuilder stringbuild = new StringBuilder(n*n);
-    String last = str.substring(str.length() - n);
-    for(int i = 0; i < n; i++)
-    {
-     	stringbuild.append(last);   
-    }
-    return stringbuild.toString();
-}
-",1,,,1
-c1787c3579abadd7e03345d1ff93d595d3346793,"public String without2(String str) 
-{
-    if (name.substrnig(0, 2) == name.substring(name.length() -2, name.length()))
-    {
-        return ""name.substring(0, 2)"";
-    }
-    else if (number.substring(0, 2) == number.substring (name.length() -2, name.length()))
-    {
-        return ""Hi"";
+        return ( b - a == a - c);
     }
     else
     {
-        return ""name.substring(0)"";
-    }
-}
-
-",1,,,0
-61dbf1086b96a64505aaa5c4a84ab8265f7a2f42,"public int dateFashion(int you, int date)
-{
-    int score = 0;
-    if (you >= 8 || date >= 8)
-    {
-        score = 2;
-        if (you <= 2 || date <= 2)
-    	{
-        	score = 0;
-    	}
-    }
-    else if (you <= 2 && date <= 2)
-    	{
-        	score = 0;
-    	}
-    else
-    {
-     score =1;   
-    }
-    return score;
-}
-",1,,,0
-f5de478e40b7f066a55956915d8f27db4a8f69be,"public boolean bobThere(String str)
-{
-    
-    int end = (str.length - 2));
-	for(int i = 0; i < end; i++)
-	{
-		if(str.charAt(i) == 'b'
-           && str.charAt(i+2) == 'b')
-			return true;
-	}
-    {
-	return false;
+        return ( a - c == c - b);
     }
     
 }
 ",1,,,0
-39a53ab50a5db7ad657492ff50b402f472f0981b,"public boolean xyzThere(String str)
-{
-    int front = str.indexOf("".xyz"");
-    
-    
-    if(front >= 0) 
-    {
-     if (xyzThere(str.substring(0, index)) || xyzThere(str.substring(index + 4)))
-     {
-         return true;
-    }
-        else
-            return false;
-    
-    
+ecd2767c2649044a0da26903ef340674e89f1009,"public int[] fix45(int[] nums) {
+  int[] result = nums;
+  for(int i = 0; i < result.length; i++) {
+      if(result[i] == 4 && i != result.length) {
+          int index = findIndexOfValidFive(result);
+           
+          if(index != -1) {
+              int temp = result[i + 1];
+              result[i + 1] = result[index];
+              result[index] = temp;
+          }
+      }
+  }  
    
-   
-        
+  return result;
 }
-",1,,,1
-71225452235ede23d4925caa97ed7ea06c085736,"public boolean sameEnds(int[] nums, int n)
-{
-    int length = nums.length;
-    int[] newArray = new int[n];
-    int[] newArray2 = new int[n];
-    int counter = 0;
-    for (int i = 0; i < n; i++)
-    {
-        newArray[i] = nums[i];
-    }
-    for (int i = length - n; i < length; i++)
-    {
-        newArray2[i] = nums[i];     
-    }
-    for (int i = 0; i < n; i++)
-    {
-        if (newArray[i] == newArray2[i])
-        {
-            counter = counter + 1;
+ 
+public int findIndexOfValidFive(int[] nums) {
+    for(int i = 0; i < nums.length; i++) {
+        if((i == 0 && nums[i] == 5) || (nums[i] == 5 && nums[i - 1] != 4)) {
+            return i;
         }
     }
-    if (counter == n)
-    {
-        return true;
-    }
-    else 
-    {
-        return false;
-    }
-}
-",1,,,1
-7813406894aa7374ce4f18a049aa7e4483a6febe,"public boolean twoTwo(int[] nums)
+     
+    return -1;",1,,,0
+0808dca8b4a525f8b42f6b75f66b3b1d93c3c6cc,"public int sum13(int[] nums)
 {
-    boolean twoTwo = false;
-    for (int i = 0; i < nums.length-1; i++)
-    {
-        if (nums[i] == 2 && nums[i+1] == 2)
-        {
-            twoTwo = true;
-        }
-        else if (nums[i] == 2 && nums[i+1] != 2)
-        {
-            twoTwo = false;
-        }
-        else 
-        {
-            twoTwo = true;
-        }
-    }
-    return twoTwo;
-}
-",1,,,1
-cc77cf7675005a0bdbc9fe76c75879f1ad156087,"public int redTicket(int a, int b, int c)
-{
-    if (a == 2 & b == 2 & c == 2) 
-        return 10;
-    else if (a == b && b == c)
-        return 5;
-    else if (b == c)
-        return 1;
-    return 0;
-    
-}
-",1,,,0
-2adbb39337217f673d1ee6e9632faef8d959ee31,"public int dateFashion(int you, int date)
-{
-    if(you <= 2 || date <= 2)
-    {
-		return 0;
-    }
-	if(you >= 8 || date >= 8)
-    {
-		return 2;
-    }
-    else
-    {
-        return 1;
-    }
-}
-",1,,,0
-ebc73db4484982b1a7bb158f34c1cbd4b6c9550b,"public int[] frontPiece(int[] nums)
-{
-    int[] num = new int[2];
-    for (int i = 1 i <=num.length; i++)
-    {
-        if (nums[i] >= 0)
-        {
-    	num[i] = nums[i];
-        }
-    }
-    return num;
-}
-",1,,,1
-bd6a0818d02de2faff72753b137582927a9653f1,"public int countClumps(int[] nums)
-{
-    boolean b = false;
-    int a = 0;
-    for (int i = 0; i < nums.length - 1; i++)
-    {
-        if (nums[i] == nums[i + 1] && !b)
-        {
-            a++;
-             b = true;
-        }
-        else if (nums[i] != nums[i + 1])
-        {
-            b = false;
-        }
-    }
-    return a;
-}
-",1,,,1
-0f137545f7dfbea3afe9694dbbc19a3b29c8aac6,"public int redTicket(int a, int b, int c)
-{
-    if ((a = 2) && (a = b = c))
-        {
-            return 10;
-        }
-    else if (a = b = c)
-    {
-        return 5;
-    }
-    else if (a != b && a != c)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-",1,,,0
-b1cd225c96f83cf234170ea444a1959fbfd4bcde,"public int luckySum(int a, int b, int c)
-{
-    if (a == 13)
-        return 0;
-    if (b == 13)
-        return a;
-    if (c == 13)
-        return (a + b);
-    return (a + b + c);
-}
-",1,,,0
-0d972f4624410222e470cccde75bc5576aa2b6e7,"public int[] shiftLeft(int[] nums)
-{
-    int temp = 0;
-    for (int i = 0; i < nums.length; i++)
-    {
-        if (i == nums.length - 1)
-        {
-            nums[i] = temp;
-        }
-        else
-        {
-            nums[i] = nums[i+1];
-        }
-    }
-    return nums;
-}",1,,,0
-e957beec4da5778c6505b96d867a8afcfe117492,"public boolean canBalance(int[] nums)
-{
-    boolean x = false;
-    int sum1 = 0;
-    int sum2 = 0;
-    int y = 0;
-    for (int i = 0; i < nums.length; i++)
-    {
-		for (int j = 0; j < nums.length; j++)
-        {
-            y = i;
-            sum1 += nums[y];
-            sum2 += nums[j];
-            y++;
-        }
-        sum2 -= sum1;
-        if (sum1 == sum2)
-        {
-			x = true;
-            break;
-        }
-    }
-    return x;
-}
-",1,,,0
-8635bc10a4ebba33bd0ea176f3fd6662228c3f94,"public boolean sameEnds(int[] nums, int n)
-{
-    boolean same = false;
-    int[] n1 = new int[n];
-    int[] n2 = new int[n];
-    for (int i = 0; i < n; i++)
-    {
-        n1[i] = nums[i];
-        n2[i] = nums[nums.length - n + i];
-    }
-    
-    if (n1 == n2)
-    {
-        same = true;
-    }
-    return same;
-}
-",1,,,0
-24d41846e68c470e0e67946c03929db137164bf2,"public int caughtSpeeding(int speed, boolean isBirthday)
-{
-    int ticket = 0;
-    if (isBirthday)
-    {
-        if (66 <= speed && speed <= 85)
-        {
-            ticket = 1;
-        }
-        else if (85 < speed)
-        {
-            ticket = 2;
-        }
-        
-    }
-    else 
-    {
-        if (61 <= speed && speed <= 80)
-        {
-            ticket = 1;
-        }
-        else if (80 < speed)
-        {
-            ticket = 2;
-        }
-    }
-    return ticket;
-}
-",1,,,0
-59023cde67fa3a52102577f5ea77d395dae29af8,"public boolean endOther(String a, String b)
-{
-    int i = a.length();
-    int j = b.length();
-    if ( j <= i)
-    {
-        return a.substring(i - j).equalsIgnoreCase(b); 
-    }
-    else if ( j >= i)
-    {
-        return b.substring(j-i).equalsIgnoreCase(a);
-    }
-    else
-    {
-       return false;
-    }   
-}
-",1,,,0
-8320e574f1b2963b87989be8f9ea952fbd5ed290,"public int sortaSum(int a, int b)
-{
-    int sum;
-    if (sum >= 10 && sum <= 20)
-    {
-     	return 20;   
-    }
-    else
-    {
-     	return sum;   
-    }
-}
-",1,,,1
-c1007c7614a3895a1adbd3701bad32c1a67ae1e7,"public boolean isEverywhere(int[] nums, int val)
-{
-    int counts = 0;
-    for(int i = 0; i < nums.length; i++)
-    {
-		if(nums[i] == val)
-        {
-        counts++;
-        }
-    }
-    
-    if(counts => 2)
-    {
-    return true;
-    }
-    else
-    {
-    return false;
-    }
-}
-",1,,,0
-b792f65710603537369d8658da16396d60eece84,"public String atFirst(String str)
-{
-    int len = str.length();
-    
-    if (len >= 2)
-    {
-        return str.substring(0,2);
-    }
-}
-",1,,,0
-61507d1731f1978056a90c5d7cd0758944df033c,"public boolean bobThere(String str)
-{
-    for (int i = 0; i < str.length(); i++)
-        if (str.charAt(i) == ""b"" && str.charAt(i + 2) == ""b"")
-            return true;
-    return false;
-}
-",1,,,1
-d832642cded155ba61945ed277e663a0de8cb32c,"public String alarmClock(int day, boolean vacation)
-{
-    if(day == 0 || day == 6 && vacation)
-    {
-     	return ""off"";   
-    }
-    else if(day >= 1 && day <= 5)
-    {
-     	return ""7:00"";   
-    }
-    else
-    {
-        return ""10:00"";
-    }
-}
-",1,,,0
-16a70efa85ac7b742d2424754c7b926f788f9c90,"public int centeredAverage(int[] nums)
-{
-    int l = nums.length;
-    int high = nums[0];
-    int low = nums[0];
     int sum = 0;
-    for (int i = 0; i < l; i++)
+    for (int i = 0; i < nums.length; i++)
     {
-        if (nums[i] > high)
+        if (nums[i] != 13 && nums[i - 1] != 13)
         {
-            high = nums[i];
+            sum += nums[i];
         }
-        else if (nums[i]<low)
-        {
-            low = nums[i];
-        }
-        sum += nums[i];
     }
-    return sum-high-low;
+    return sum;
 }
 ",1,,,0
-64c9c798d11f3975a652bf61b6f831c5781ce335,"public int[] fizzArray(int n)
+54f16f3c5196c9d23444381409e354f9fae465c0,"public int sum3(int[] nums)
 {
-    int[] a = new int[n];
-    
-    for (int i = 0; i < n; i++)
-    {
-     	a[i] = i;   
-    }
-    return a;
+    return nums[0] + nums[1] + nums[2];
 }
-",1,,,1
-892a5a3886a37110226513fe655b564b73fba9bb,"public int roundSum(int a, int b, int c)
+",1,,,0
+a9e28b208ebd799c89289ae125794d7301b373d2,"public boolean isEverywhere(int[] nums, int val)
+{
+    for (int i = 1; i < nums.length() - 1; i++)
+    {
+        if (nums[i - 1] != val && nums[i + 1] != val)
+            return false;
+    }
+    return true;
+}
+",1,,,0
+14ced47f38f6da0c3afcc08c0bcb9ed96b5c73fe,"public String getSandwich(String str)
+{
+    if (str.indexOf(""bread"") > 0) // if there are two peices of bread
+    {
+         System.out.print(str.indexOf(""bread""));
+        return ""no"";
+    }
+    else
+    {
+        return """";
+    }
+}
+",1,,,0
+805cd69cde567a8b05acfc59036fef8080b8d8bf,"public int countEvens(int[] nums)
+{
+    for (int i = 0; i < nums.length; i++)
+        if (nums[i] % 2 == 0)
+            return nums[i];
+    	if (nums[i] == 0)
+            return nums[i];
+    return 0;
+}
+",1,,,0
+0596e9fad0e491fa66802102678ad39fda317949,"public int roundSum(int a, int b, int c)
 {
     return round10(a) + round10(b) + round10(c);
+    
 }
 
 public int round10(int num)
 {
-    int nm = num % 10;
-    if (nm <= 5)
+    int round = num % 10;
+    if (round >= 5)
+        return num + (10 - round);
+    else 
+        return num + (round - 10);
+    
+}
+",1,,,0
+c1fdbe3e9fca73de72f1831d00c35304cb29463e,"public int[] fizzArray(int n)
+{
+    int[] result = new int[n];
+    for (int i = 0; i < n; i++)
     {
-        return num - 10 - nm;
+        result[i] = i;
+    }
+    return result;
+}
+",1,,,0
+e22ce5e6a4c5b1b12e61c7366855f779f8ae64f3,"public String atFirst(String str)
+{
+    if (str.length() >= 2)
+    {
+        return (str.substring(0, 2));
+    }
+    else if (str.length() == 1)
+    {
+        return str + ""@"";
     }
     else
     {
-        return num + nm;
+        return ""@@"";
     }
 }
 ",1,,,0
-494e23a57d0a4d372f89ff2fdc9ea455758a5876,"public int blackjack(int a, int b)
+23603f323aca762522c6fa0ba976444d4e9ddb74,"public int makeChocolate(int small, int big, int goal)
 {
-    int ans;
-    if (a >= b && a < 22) {
-        ans = a;
+    int smalls = goal % big;
+    if (smalls == 0)
+    {
+        return -1;
     }
-    else if (b > a && b < 22) {
-        ans = b;
-    }
-    else if (b > a && a < 22) {
-        ans = a;
-    }
-    else if (a > b && b < 22) {
-        ans = b;
-    }
-    else {
-        ans = 0;
-    }
-    return ans;
-}
-",1,,,1
-73e1384f77c699743bcb1c6f466a7412c597107f,"public int[] fizzArray(int n) {
-    int[] arr = new int[n];
-    
-    for(int i = 0; i < n; i++)
-        arr[i] = i;
-              
-    return arr;
+    return smalls;
 }
 ",1,,,0
-c58a6f11c880383a53ec094793207c24f1c0787f,"public boolean endOther(String a, String b)
+0b982a9a20853fc1fbc5d069b0a41cc50c2c1b33,"public boolean squirrelPlay(int temp, boolean isSummer)
 {
-    String c = a.toLowerCase();
-    String d = b.toLowerCase();
-    
-    int clength = c.length();
-    int dlength = d.length();
-    
-    String asd = c.substring(clength - dlength);
-    String dsa = d.substring(dlength - clength);
-    
-    if (asd.equals(d))
+    if (isSummer)
     {
-        return true;
+        return (temp <= 100 && temp >= 60);
     }
-    else if (dsa.equals(c))
+    return (temp >= 60 && temp <= 90);
+}
+",1,,,0
+faa6cc44696d72e0fa85cc561584a1de159a4aa5,"public int dateFashion(int you, int date)
+{
+    if (you <= 2 || date <= 2)
+        return 0;
+    if (you >= 8 || date >= 8)
+        return 2;
+    return 1;
+}
+",1,,,0
+b03f6ee58d1c2efbc298c1b090d888a47d5425a9,"public boolean evenlySpaced(int a, int b, int c)
+{
+    if (b-a <= 1 && c-a >= 2 && c-b >= 2 
+        || b-a >= 2 && c-a <= 1 && c-b >=2
+        || b-a >=2 && c-a >= 2 && c-b <= 1)
+        return true;
+    return false;
+}
+",1,,,0
+bb95327d0292272d65dd996e6aa6f61c87319399,"public boolean endOther(String a, String b)
+{
+    if a.length() == ""a"" + ""b""
+        return b.substring(0,1).toLowerCase();
+}
+",1,,,0
+ac56ebb37416cf67034dc6f6ce26c8c432a5568d,"public String without2(String str) 
+{
+    if (str.length() >= 2)
     {
-        return true;
-    }
+    	if (str.substring(0, 2) == (str - (str.length() - 2)))
+            {
+                return (str.substring(2));
+            }
+        else
+            {
+                return str;
+            }
+    }        
     else
     {
-        return false;
+        return str;
     }
 }
 ",1,,,0
-889ab6fe7a97ae3be5542deb9612451844d260e5,"public int countEvens(int[] nums)
-{	
-   int total = 0;
-  	for(int i = 0; i < nums.length; i++)
-  {
-      int remain = nums[i] % 2
- 		if(remain == 0)
- 			{
- 				total = total + 1;
- 			}
-  }
-   return total;
+f720cc450f616d826f746ce4609c79ab1860b68a,"public int[] fizzArray(int n)
+{
+    int[] result = new int[n];
+        for (int i = 0; i<n.length;i++)
+        {
+            result[i-1] = i;
+        }
+    return result;
 }
 ",1,,,0
-2d1d1fb5d01448f6fb807ae2e7396795eba1c3fd,"public int greenTicket(int a, int b, int c)
+a4a204a7f131a2bd02585a880d46d98f1098fd2d,"public boolean squirrelPlay(int temp, boolean isSummer)
 {
-    if (a == b == c)
+    if (isSummer){
+        return (temp >= 60 && temp <= 100);
+    }
+    return (temp >= 60 && temp <= 90);
+}
+",1,,,0
+6b9f55c88028fdb9f9e0adbb7f59b28fb9564c5a,"public boolean isEverywhere(int[] nums, int val)
+{
+    for (int i = 0; i < nums.length - 1; i++)
+    {
+        if (nums[i] != val)
+        {
+            if (i < nums.length - 1)
+            {
+                if (nums[i + 1] != val)
+                {
+                    return false;
+                }
+            }
+        }
+        
+    }
+    return true;
+}
+",1,,,0
+e380683c57feefa7fb3a525ba8c8887539b740dc,"public int greenTicket(int a, int b, int c)
+{
+ 	if (a==b && b==c)
     {
         return 20;
     }
-    else if ((a == b && a != c) || (a == c && a != b) || (b == c && a != b))
+    
+     if (a==b && a==c)
     {
         return 10;
     }
-    else
-    {
-        return 0
-    }
-}
-",1,,,0
-cf7ba49a2d67806c9c25f4d379daa3f371c136d2,"public int[] fix45(int[] nums)
-{
-    int j = 0;
-	for(int i = 0; i < nums.length - 1; i++)
-	{
-		if(nums[i] == 4 && nums[i+1] != 5)
-		{
-			for(; !(nums[j] == 5 && (j == 0 || j > 0 && nums[j-1] != 4)); j++);
-			nums[j] = nums[i+1];
-			nums[i+1] = 5;
-		}
-	}
-	return nums;
-}
-",1,,,0
-9ef46e0a676ec2a4ff9a8f751e5f6bb7acfe7cc3,"public boolean bobThere(String str)
-{
-    for (int ii = 0; ii < str.length(); ii++)
-    { 
-    	int b1 = str.indexOf('b', ii);
-    	char b2 = str.charAt(b1+2);
-        if ('b' ==b2)
-            return true;
-    }
-    return false;
-}
-",1,,,0
-25206cc761310be2545444f71a648589f7d585ec,"public int[] withoutTen(int[] nums)
-{
-    int backEnd = 0;
-    for (int i = 0; i < nums.length; i++)
-    {
-     	if (nums[i] == 10)
-        {
-            for (int j = i; j < nums.length - 1; j++)
-            {
-             	nums[i] = nums[i + 1]; 
-            }
-            nums[nums.length - backEnd - 1] = 0;
-            backEnd += 1;
-        }
-    }
     
-    return nums;
-}
-",1,,,1
-ecc91027483a8b199845eaf128d2f3efd91fb801,"public int noTeenSum(int a, int b, int c)
-{
-return fixTeen(a) + fixTeen(b) + fixTeen(c);
-}
-
-public int fixTeen(int n)
-{
-    if (n == 16) {
-        n = n;
-    }
-    else if (n == 15) {
-        n = n;
-    }
-    else if (n > 12 && n < 20) {
-        n = 0;
-    }
-return n;}
-",1,,,1
-2cd8f56bbb8a4c02a0307f098b736aa366a6be74,"public boolean has77(int[] nums)
-{
-    if (nums.length == 0 || nums.length == 1)
-        return false;
-    if (nums.length == 2)
-        if (nums[0] == 7 && nums[1] == 7)
-            return true;
-    	else
-            return false;
-    for (int i = 0; i < nums.length-1; i++)
-    {
-        if (nums[i] == 7)
-        {
-            if (nums[i + 1] == 7 || nums[i + 2] == 7)
-            {
-                return true;
-            }
-            //i = i + 1;
-            else
-            {
-                return false;
-            }
-        }
-    }
-    return false;
-}
-",1,,,0
-dc1fed20fe7b3e3ad594971d540748785b229c87,"public int loneSum(int a, int b, int c)
-{
-    if(a != b && b != c && a != c)
-    {
-        return (a+b+c);
-    }
-    else if(a==b && b==c && a==c)
+    if (a!=b && b!=c)
     {
         return 0;
     }
-    else if((a==b) || (a==c))
-    {
-        if(a==b)
-        {
-            return c;
-        }
-        else if(a==c)
-        {
-            return b;
-        }
-    }
-    else if((b==a) || (b==c))
-    {
-        if(b==a)
-        {
-            return c;
-        }
-        else if(b==c)
-        {
-            return a;
-        } 
-    }
-    else if((c==a) || (c==b))
-    {
-        if(c==a)
-        {
-            return b;
-        }
-        else if(c==b)
-        {
-            return a;
-        }
-    }
-    return 0;
-}
-",1,,,1
-2f28435928f6eb805385bad7c11f9284adb64b1c,"public boolean xyzThere(String str)
-{	
-    int i = 0;
-    int count = 0;
-    char a = '.';
-    char x = 'x';
-    char y = 'y';
-    char z = 'z';
-   // !a.equals(str.charAt(i)) && 
-    if (str.length() == 3)
-    {
-     	if (str .equals (""xyz""))
-            count = 1;
-    }
-    if (str.length()>5)
-    {
-    for (i = 0; i<=str.length()-3; i++)
-    { 	if (!(a == (str.charAt(i))) && x == str.charAt(i+1) && y == (str.charAt(i+2)) && z == (str.charAt(i+3)))
-            {
-                count = count + 1;               
-            }
-     
-    }
     
-    }
-    return count >= 1;
+    
+ 	return 10;
 }
 ",1,,,0
-803025d953c85ace97086b957161d902af3ce970,"public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)
+532a012b0ec202d27262b383dc13089aef7e1e3b,"public int dateFashion(int you, int date)
 {
-    boolean morning = isMorning;
-    boolean mom = isMom;
-    boolean sleep = isAsleep;
-    boolean answer = true;
-    if (sleep == true)
-    {
-        answer = false;
-    }
-    if (morning == true && mom == false)
-    {
-        answer = false;
-    }
-    return (answer);
-}
-",1,,,1
-e1f0894c6ec45d94c24aa3fd1814d45337384002,"public int[] tenRun(int[] nums)
-{
-    int i;
-    int[] arr = new int[nums.length];
-    for (i = 0; i < nums.length -1; i++)
-    {
-        if (nums[i] % 10 == 0 && nums[i+1] % 10 != 0)
-        {
-            arr[i] = nums[i];
-            arr[i+1] = nums[i];
-        }
-        else if (i >= 1  && (arr[i-1] % 10 ==0))
-            arr[i] = nums[i];
-        else
-        {
-            arr[i] = nums[i];
-        }
-    }
-    return arr;
-}
-",1,,,1
-b51d480f3d01b22b18e64f86c8d0a0013457a2f6,"public boolean squirrelPlay(int temp, boolean isSummer)
-{
-    boolean squirrel;
-    if (!isSummer)
-    {
-        if (temp >= 60 && temp <= 90)
-        {
-         	   squirrel = true;
-        }
-        else
-        {
-         squirrel = false;   
-        }
-    }
-    else
-    {
-        if (temp >= 60 && temp <= 100)
-        {
-         	   squirrel = true;
-        }
-        else
-        {
-         squirrel = false;   
-        }
-    }
-    return squirrel;
+   if ((you >= 2 && date >= 2) && (you >= 8 || date >= 8))
+       return 2;
+   if ((you >= 2 && date >= 2) && !(you >= 8 || date >= 8))
+       return 1;
+   return 0;
 }
 ",1,,,0
-eb3954d897ab04a8ee9649988f3d26e98aae722f,"public String[] fizzBuzz(int start, int end)
-{
-    String[] result = new String[end - start];
-    
-    for (int i = 0; i < end - 1; i++)
-    {
-        if ((i + 1) % 15 == 0 && i > 0)
-        {
-            result[i] = ""FizzBuzz"";
-        }
-        else if ((i + 1) % 3 == 0 && i > 0)
-        {
-            result[i] = ""Fizz"";
-        }
-        else if ((i + 1) % 5 == 0 && i > 0)
-        {
-            result[i] = ""Buzz"";
-        }
-        else {
-            result[i] = String.valueOf(i + start);
-        }
-    }
-    
-    return result;
-}
-",1,,,1
-818db5647f1a7ab57c6045b5c20b2e8f837875e5,"public String[] fizzBuzz(int start, int end)
-{
-    String[] x = new String[end - start];
-    for (int i = 0; i < x.length; i++)
-    {
-        if (i % 3 == 0)
-        {
-            x[i] = ""Fizz"";
-        }
-        else if (i % 5 == 0)
-        {
-            x[i] = ""Buzz"";
-        }
-        else 
-        {
-            x[i] = i + """";
-        }
-    }
-    return x;
-}
-",1,,,0
-0483b1e79e3f05acdb38f49fb36b807ed2e6bb07,"public int[] withoutTen(int[] nums)
-{
-    int[] done = new int[nums.length];
-    int count = 0;
-    for (int i = 0; i < nums.length; i++)
-    {
-        if (nums[i] == 10)
-        {
-            count++;
-        }
-        else
-        {
-            done[i - count] = nums[i];
-        }
-    }
-    return done;
-}
-",1,,,1
-11285264b3baf07c8ff3000362055856653bccff,"public int[] withoutTen(int[] nums)
-{
-    int[] array = new int[nums.length];
-    
-    for (int i = 0; i < array.length; i++)
-    {
-        array[i] = 0;
-    }
-    
-    for (int i = 0; i < nums.length; i++)
-    {
-        if (nums[i] != 10)
-        {
-            array[i] = nums[i];
-        }
-        else
-        {
-            // find the next # that isn't 10
-            for (int j = i + 1; j < nums.length; j++)
-            {
-                if (nums[j] != 10)
-                {
-                 	array[i] = nums[j];
-                    i = j; 
-                    break;
-                }      
-            }
-        }
-    }
-    
-    return array;
-    
-}
-",1,,,0
-cdf9b79ece779a33fe7d4463879f48e02eb47099,"public int[] fix45(int[] nums)
-{
-  for (int i = 0; i < nums.length; i++) 
-  {
-    if (nums[i] == 4) 
-    {
-      for (int ii = 0; ii < nums.length; ii++) 
-      {
-        if (nums[ii] == 5) 
-        {
-          if (ii > 0 && nums[ii - 1] != 4) 
-          {
-            int f45 = nums[i+1];
-            nums[i+1] = 5;
-            nums[ii] = f45;
-          } 
-          else if (ii == 0) 
-          {
-            int f45 = nums[i+1];
-            nums[i+1] = 5;
-            nums[ii] = f45;
-          }
-                     
-        }
-      }
-    }
-  }
-  return nums;
-}
-",1,,,1
-97df39519ca1ef6b02ae307ac2c9f6c6f42d2e77,"public int sortaSum(int a, int b)
-{
-    if (a + b >= 10 && a + b <= 19)
-    {
-        return 20;
-    }
-    else
-    {
-        return (a + b);
-    }
-}
-",1,,,1
-8cd422fbedff009031bdbebbc784e494cffc26ee,"public String plusOut(String str, String word)
-{
-    String nw = """";
-    int lw = word.length();
-    int ls = str.length();
-    int lim = ls - lw;
-    int i = 0;
-    int n;
-    while (i <= lim)
-    {
-        int lwi = i + lw;
-        n = lwi;
-        String o = str.substring(i, lwi);
-        if (word.equals(o))
-        {
-            nw = nw + word;
-            i = i + lw;
-        }
-        else
-        {
-            nw = nw + ""+"";
-        }
-        i = i + 1;
-    }
-    return nw;
-}",1,,,0
-e8db510a0718cda09575a2005ed0b222de5b114b,"public int sum3(int[] nums)
-{
-    return sum3[0] + sum3[1] + sum3[2];
-}
-",1,,,0
-f8b6674912a20c420141ffdbc743ae162fdfbf2e,"public boolean xyBalance(String str)
-{
-    int index1=0;
-    int index2=0;
-    for(int i=str.length();i>0;i--)
-    {
-        if (str.substring(i-2, i-1).equals(""x""))
-            {
-                 index1= i;
-             }
-    }
-    for(int i=str.length();i>0;i--)
-    {
-        if (str.substring(i-2, i-1).equals(""y""))
-        {
-            index2= i;
-        }                                           
-    }
-    return index1>index2;
+6b538f7d9eac6f8c54cd2c59a699ca73280e0930,"public class FizzArray {
 
-}
-",1,,,0
-c0c2b7b2832ea2fe6d06ed40d64bbe5b689b71ef,"public int[] fizzArray(int n)
-{
-      int[] arr = new int[n];
-    
-    for(int i = 0; i < n; i++)
-        arr[i] = i;
-              
-    return arr;
-}
-",1,,,1
-27986e92f636a98dd570597a3cc6cc2f8c45faad,"public int blackjack(int a, int b)
-{
-    if (int a>21 && int b>21);
-    {
-        return 0;
-    }
-    else if (int a > 21);
-    {
-        return 'b';
-    }
-    else if (int b > 21);
-    {
-        return 'a';
-    }
-    else if ((21-a)>(21-b));
-    {
-        return 'a';
-    }
-    else
-    {
-        return 'b';
-    }
-}
-",1,,,1
-d13a33582df37d05d65fd78cbbf872a038ff4dd0,"public int blackjack(int a, int b)
-{
-    int aDistance = 21;
-    int bDistance = 21;
-    if (a > 21 && b > 21)
-        return 0;
-    if (a < 21)
-        aDistance = 21 - a;
-    if (b < 21)
-        bDistance = 21 - b;
-    if (aDistance > bDistance)
-        return b;
-    else
-        return a;
-       
-        
-    
-}
-",1,,,1
-6aa840b0844825a366d48903832ab8f498f5e716,"public String without2(String str) 
-{
-    int a = str.length();
-    int d = a - 2;
-    String b = str.substring(0, 2);
-    String c = str.substring(d, a);
-    if (str.length() == 2) {
-        return """";
-    }
-    if (b == c) {
-        return str.substring(2);
-    }
-    return str;
-}
-",1,,,0
-07bfb6fcfa70e37188bff5b83b62a677ed999984,"public int countClumps(int[] nums)
-{
-    int numClumps = 0;
-    boolean sameClump = true;
-    int lastVal = -1
-    for (int i = 0; i < nums.length; i++)
-    {
-        if (nums[i] == lastVal && !sameClump)
-        {
-            numClumps++;
-            sameClump = true;
-        }
-        else if (nums[i] != lastVal)
-        {
-            sameClump = false;
-        }
-        lastVal = nums[i];
-    }   
-    return numClumps;
-}
-",1,,,0
-f1d28a8e668bbc4c0a242bdfe36bd4dcd11a685c,"public int noTeenSum(int a, int b, int c)
-{
-	if (a >= 13  && a <= 19 && a != 15 || a!=16)
-    {
-    	a = 0;
-    }
-    if (b >= 13  && b <= 19 && b != 15 || b!=16)
-    {
-    	b = 0;
-    }
-    if (c >= 13  &&  c <= 19 && c != 15 || c!=16)
-    {
-    	c = 0;
-    }
-    int sum = a + b + c;
-    return sum;
-}
+//fizzArray is a method which takes input n and prepares fizzArray
 
-public int fixTeen(int n)
-{
-    n = 3;
-    return n;
-}
-",1,,,0
-6c2dcb5a4d8080d05cfcab9822e769e25f85827a,"public String[] fizzBuzz(int start, int end)
-{
-    String[] arr = new String[end - start];
-    
-    for(int i = start; i < end; i++) {
-        if(i % 15 == 0) {
-            arr[i - start] = ""FizzBuzz"";
-        } else if(i % 3 == 0) {
-            arr[i - start] = ""Fizz"";
-        } else if(i % 5 == 0) {
-            arr[i - start] = ""Buzz"";
-        } else {
-            arr[i - start] = String.valueOf(i);
-        }
-    }
-                                                      
-    return arr;
-}
-",1,,,0
-296fb9f1d1faaba936d06da987c48e17515807f3,"public String[] fizzBuzz(int start, int end)
-{
-    String[] array = new String[end - start];
-    for (int i = start; i < end; i++)
-    {
-        if (i % 15 == 0)
-            array[i - start] = ""FizzBuzz"";
-        else if (i % 3 == 0)
-            array[i - start] = ""Fizz"";
-        else if (i % 5 == 0)
-            array[i - start] = ""Bizz"";
-        else 
-            array[i - start] = String.valueOf(i);
-    }
-    return array;
-}
-",1,,,0
-c70bfc05e1f3411d7ea3d8af697d79ad910a67a4,"public boolean twoTwo(int[] nums)
-{
-    boolean two = true;
-    
-    for (int i = 1; i < nums.length - 1; i++)
-    {
-        if (nums[i] == 2)
-        {
-            if (nums[i+1] != 2 && nums[i-1] != 2)
-            {
-                two = false;
-                i = i + 1;
-            }
-        }
-    }
-    
-    if (nums.length > 2)
-    {
-        if (nums[nums.length - 1] == 2 && nums[nums.length - 2] != 				2)
-        {
-            two = false;
-        }
-    }
-    
-    return two;
-}
-",1,,,1
-90bf61a83b46312b93ddbe1050e268ff8373078e,"public int loneSum(int a, int b, int c)
-{
-    if(a == b)
-	{
-    	if(a == c)
-    		return 0;
-        else
-    		return c;
-  	}
-  	if(a == c)
-    	return b; 
-  	if(b == c)
-    	return a;
-    else
-        return (a + b + c);
-}
-",1,,,0
-e0d4c69d7595be4d7524172434e2cc21e57661e9,"public int sum13(int[] nums)
-{
-    int sum = 0;
-    for (int i = 0; i < nums.length; i++)
-    {
-        if (nums[i] == 13)
-        {
-            i = i + 1;
-            continue;
-        }
-        sum += nums[i];
-    }
-    return sum;
-        
-}
-",1,,,0
-fa9e4820c0fa577054532a41fb1276ebedced300,"public int[] fizzArray(int n)
-{
-    //fizzArray is a method which takes input n and prepares fizzArray
-
+public static int[] fizzArray(int n) {
 
 //initializing integer array with size n
 
@@ -1207,23 +282,92 @@ result[i] = i;
 return result;
 
 }
-
-public static void main(String[] args) {
-
-int n=5;
-
-int[] fizArr=fizzArray(n);
-
-System.out.println(""Fizz array of size:::""+n);
-
-for (int i = 0; i < fizArr.length; i++) {
-
-System.out.print(fizArr[i]+""\t"");
-
+",1,,,0
+e05151e763b22c6322f72dd9558578b0970a10d6,"public boolean canBalance(int[] nums)
+{
+    double sum = 0;
+    for (int n : nums) {
+        sum += n;
+    }
+    
+    double target = sum / 2;
+    sum = 0;
+    
+    for (int i : nums) {
+        sum += i;
+        if (sum == target) {
+            return true;
+        }
+    }
+    return false;
+}
+",1,,,0
+a4d1bc3038b54203282e8ed1263b2a8b7e9b2aba,"public int roundSum(int a, int b, int c)
+{
+   return round10(a) + round10(b) + round10(c);
 }
 
-
-
+public int round10(int num)
+{
+    //local var
+    int num2 = num % 10;
+    int num3 = 10 - num2;
+    
+    //method
+    if (num2 >= 5)
+    {
+        return num + num3;
+    }
+    else
+    {
+        return num - num2;
+    }
 }
+",1,,,0
+c4cd9fb76f3a67d4e774521d2a07bd1fe7cd0b11,"public int sum3(int[] nums)
+{
+    return nums[0] + nums[1] + nums[2];
 }
-",1,,,1
+",1,,,0
+cf50e456db1821c67d784b4596db0e3038f70941,"public boolean isEverywhere(int[] nums, int val)
+{
+//    for (int i = 0; i < nums.length; i++)
+//    {
+  //   	if (nums[i] != val || nums[i++] != val)
+    //    {
+      //      return false;
+        //}
+    //}
+    //return true;
+boolean result = true;
+for (int i = 0; i <=nums.length-2;i++)
+{
+	if ( nums[i] != val && nums[i+1] != val)
+	result = false;
+}
+return result;
+}
+",1,,,0
+d58abb87ff70ff67a76bba0f3d1f0c3ba071d518,"public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    if (isBirthday == false)
+    {
+    if (speed < 60)
+        {
+            return 0;
+        }
+    if (speed >= 61 && speed <= 80)
+        {
+            return 1;
+        }
+    if (speed >= 81)
+        {
+            return 2;
+        }
+    }
+    if (isBirthday == true)
+    {
+        return 0;
+    return 0;
+    }
+}",1,,,0

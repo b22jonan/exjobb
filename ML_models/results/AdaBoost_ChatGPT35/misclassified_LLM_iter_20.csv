@@ -1,1 +1,905 @@
 ID,Prompt,Code,label,Predicted Label
+c3ae170c-73e0-4dfb-9b21-5c38a500680d,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str) {
+  return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+3029e35c-3922-4712-8d7c-87a6cccd9c11,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}","public int[] fix45(int[] nums) {
+    int i = 0;
+    int j = 0;
+
+    while (j < nums.length && nums[j] != 5) {
+        j++;
+    }
+
+    while (i < nums.length) {
+        if (nums[i] == 4) {
+            if (nums[i + 1] != 5) {
+                int temp = nums[i + 1];
+                nums[i + 1] = 5;
+                for (int k = j; k < nums.length; k++) {
+                    if (nums[k] == 5 && (k == 0 || nums[k - 1] != 4)) {
+                        nums[k] = temp;
+                        break;
+                    }
+                }
+            }
+        }
+        i++;
+    }
+
+    return nums;
+}",0,1
+f9109d2e-e5a4-4704-8c9a-c59461a74d2b,"Solve this ""
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] zeroMax(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 0) {
+            nums[i] = findLargestOdd(nums, i);
+        }
+    }
+    return nums;
+}
+
+public int findLargestOdd(int[] nums, int start) {
+    int maxOdd = 0;
+    for (int i = start + 1; i < nums.length; i++) {
+        if (nums[i] % 2 != 0 && nums[i] > maxOdd) {
+            maxOdd = nums[i];
+        }
+    }
+    return maxOdd;
+}",0,1
+4bebe9f6-13fe-4744-bc8b-f2ad33ab3227,"Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, ""HelloHe"" yields ""lloHe"". Note that the 2-character substring at the beginning may overlap with the one at the end, so ""Hi"" yields """". If the two characters at the start and end of the string do not match each other, return the original string unchanged.
+public String without2(String str) 
+{
+    
+}","public String without2(String str) {
+    int len = str.length();
+    
+    if (len < 2) {
+        return str;
+    }
+    
+    String firstTwo = str.substring(0, 2);
+    String lastTwo = str.substring(len - 2);
+    
+    if (firstTwo.equals(lastTwo)) {
+        return str.substring(2);
+    } else {
+        return str;
+    }
+}",0,1
+43ca8332-7165-43a2-b481-44ba5d243693,"Solve this coding assignment ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] fix45(int[] nums) {
+    int i = 0;
+    for (int j = 0; j < nums.length - 1; j++) {
+        if (nums[j] == 4 && nums[j + 1] != 5) {
+            while (nums[i] != 5 || (i > 0 && nums[i - 1] == 4)) {
+                i++;
+            }
+            nums[i] = nums[j + 1];
+            nums[j + 1] = 5;
+        }
+    }
+    return nums;
+}",0,1
+2647469a-1b17-4951-95fa-6157b42f641d,"Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}","public String zipZap(String str) {
+    return str.replaceAll(""z\\w{1}p"", ""zp"");
+}",0,1
+638d0963-6dad-4e9b-8ad0-779b1ac70aaf,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str)
+{
+  return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+95f2b475-968a-4472-8948-180b731691bd,"You are tasked with implementing a Java method called fizzBuzz that generates a series of numbers starting from start (inclusive) and ending at end (exclusive). For each number in this series, you need to apply the following rules:
+
+If the number is a multiple of 3, replace it with the string """"Fizz"""".
+
+If the number is a multiple of 5, replace it with the string """"Buzz"""".
+
+If the number is a multiple of both 3 and 5, replace it with the string """"FizzBuzz"""".
+
+For all other numbers, convert them to their string representation using String.valueOf().
+
+The method should return a String[] array containing the results of applying these rules to each number in the series.
+
+Method Signature:
+
+java
+Copy
+public String[] fizzBuzz(int start, int end)
+Example:
+
+If start = 1 and end = 6, the series is [1, 2, 3, 4, 5].
+
+The output should be [""""1"""", """"2"""", """"Fizz"""", """"4"""", """"Buzz""""].
+
+Constraints:
+
+Assume start and end are valid integers where start < end.
+
+The length of the output array should be equal to end - start.
+
+Task:
+Write the complete implementation of the fizzBuzz method in Java, ensuring it adheres to the rules and constraints provided. Include comments in your code to explain the logic where necessary.","public class FizzBuzzGenerator {
+    public String[] fizzBuzz(int start, int end) {
+        int size = end - start;
+        String[] result = new String[size];
+
+        for (int i = 0; i < size; i++) {
+            int currentNum = start + i;
+
+            if (currentNum % 3 == 0 && currentNum % 5 == 0) {
+                result[i] = ""FizzBuzz"";
+            } else if (currentNum % 3 == 0) {
+                result[i] = ""Fizz"";
+            } else if (currentNum % 5 == 0) {
+                result[i] = ""Buzz"";
+            } else {
+                result[i] = String.valueOf(currentNum);
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        FizzBuzzGenerator fizzBuzzGenerator = new FizzBuzzGenerator();
+        int start = 1;
+        int end = 6;
+        String[] output = fizzBuzzGenerator.fizzBuzz(start, end);
+
+        System.out.print(""["");
+        for (int i = 0; i < output.length; i++) {
+            System.out.print(""\"""" + output[i] + ""\"""");
+            if (i < output.length - 1) {
+                System.out.print("", "");
+            }
+        }
+        System.out.println(""]"");
+    }
+}",0,1
+ae21f76b-ed06-4f75-8944-e9a33383b601,"""Write a Java function named repeatEnd that takes two parameters: a String named str and an int named n. The function should return a new string composed of n repetitions of the last n characters of the input string str. You can assume that n is always between 0 and the length of the string, inclusive.
+
+For example:
+
+If str = ""Hello"" and n = 2, the function should return ""lolo"" because the last 2 characters are ""lo"", and it is repeated twice.
+
+If str = ""Hello"" and n = 3, the function should return ""llollollo"" because the last 3 characters are ""llo"", and it is repeated three times.
+
+If n = 0, the function should return an empty string.
+
+Complete the following function skeleton:
+
+java
+Copy
+public String repeatEnd(String str, int n) {
+    // Your code here
+}
+Ensure the function handles edge cases, such as when n is 0 or equal to the length of the string.""","public String repeatEnd(String str, int n) {
+    if(n == 0) {
+        return """";
+    } else {
+        int len = str.length();
+        String endSubstring = str.substring(len - n);
+        StringBuilder result = new StringBuilder();
+        
+        for(int i = 0; i < n; i++) {
+            result.append(endSubstring);
+        }
+        
+        return result.toString();
+    }
+}",0,1
+416ae69d-670f-430f-8122-90eeef4e49e3,"We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean balanced = true;
+    int lastIndexX = -1;
+
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x') {
+            lastIndexX = i;
+        } else if (str.charAt(i) == 'y' && i > lastIndexX) {
+            balanced = true;
+        }
+    }
+
+    return balanced;
+}",0,1
+c69e24ca-4f4f-4821-b244-b107a3450260,"Write a function in Java that implements the following logic: Given a string and an int n, return a string made of n repetitions of the last n characters of the string. You may assume that n is between 0 and the length of the string, inclusive.
+public String repeatEnd(String str, int n)
+{
+    
+}","public String repeatEnd(String str, int n) {
+    int strLength = str.length();
+    
+    if (n >= 0 && n <= strLength) {
+        String lastNChars = str.substring(strLength - n);
+        StringBuilder repeatedString = new StringBuilder();
+        
+        for (int i = 0; i < n; i++) {
+            repeatedString.append(lastNChars);
+        }
+        
+        return repeatedString.toString();
+    } else {
+        return ""Invalid input. Please provide a value of n between 0 and the length of the string."";
+    }
+}",0,1
+58808914-3c4b-488a-a1df-5db4c4ce6d8d,"Solve this coding assignment ""
+For this problem, we'll round an int value up to the next multiple of 10 if its rightmost digit is 5 or more, so 15 rounds up to 20. Alternately, round down to the previous multiple of 10 if its rightmost digit is less than 5, so 12 rounds down to 10. Given 3 ints, a, b, and c, return the sum of their rounded values. To avoid code repetition, write a separate helper public int round10(int num) and call it 3 times. Write the helper entirely below and at the same indent level as roundSum().
+public int roundSum(int a, int b, int c)
+{
+    
+}
+
+public int round10(int num)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int roundSum(int a, int b, int c)
+{
+    return round10(a) + round10(b) + round10(c);
+}
+
+public int round10(int num)
+{
+    if(num % 10 >= 5)
+    {
+        return num + (10 - num % 10);
+    }
+    return num - (num % 10);
+}",0,1
+991155bb-5a05-443a-9fba-5998ea2c1733,"We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean yFound = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char currentChar = str.charAt(i);
+
+        if (currentChar == 'y') {
+            yFound = true;
+        } else if (currentChar == 'x' && !yFound) {
+            return false;
+        }
+    }
+
+    return true;
+}",0,1
+aa69cd4b-6054-42fb-9d4e-33f324b05391,"You are tasked with implementing a Java method called endOther that takes two strings, a and b, as input. The method should return true if either of the strings appears at the very end of the other string, ignoring case differences. For example, ""Hiabc"" and ""abc"" should return true, as should ""AbC"" and ""HiaBc"". The computation should not be case-sensitive, and you can use str.toLowerCase() to handle case differences.
+
+Write the complete implementation of the endOther method. Ensure that your solution is efficient and handles edge cases, such as empty strings or strings of different lengths.
+
+Example Input/Output:
+
+endOther(""Hiabc"", ""abc"") → true
+
+endOther(""AbC"", ""HiaBc"") → true
+
+endOther(""abc"", ""abXabc"") → true
+
+endOther(""abc"", ""abXabcd"") → false
+
+Constraints:
+
+The method should be case-insensitive.
+
+The method should handle empty strings.
+
+The method should not use any external libraries or complex data structures.
+
+Your Task:
+
+Complete the following method:
+
+java
+Copy
+public boolean endOther(String a, String b) {
+    // Your implementation here
+}","public boolean endOther(String a, String b) {
+    a = a.toLowerCase();
+    b = b.toLowerCase();
+
+    int aLength = a.length();
+    int bLength = b.length();
+
+    if (aLength == 0 || bLength == 0) {
+        return false;
+    }
+
+    if (aLength >= bLength) {
+        return a.substring(aLength - bLength).equals(b);
+    } else {
+        return b.substring(bLength - aLength).equals(a);
+    }
+}",0,1
+b6849002-5c26-429f-9941-53f216eb50ad,"Solve this ""
+Given a non-empty array, return true if there is a place to split the array so that the sum of the numbers on one side is equal to the sum of the numbers on the other side.
+public boolean canBalance(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean canBalance(int[] nums) {
+    int leftSum = 0;
+    int rightSum = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        rightSum += nums[i];
+    }
+
+    for (int i = 0; i < nums.length; i++) {
+        leftSum += nums[i];
+        rightSum -= nums[i];
+
+        if (leftSum == rightSum) {
+            return true;
+        }
+    }
+
+    return false;
+}",0,1
+5056da3d-3a60-4a9c-ab94-bfdf12cf0d96,"We say a string is xy-balanced if every 'x' character in the string is followed by at least one 'y' character. For example, ""xxy"" is balanced, while ""xyx"" is not. A single 'y' can balance multiple 'x' characters. If the given string is xy-balanced, return true.
+
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean foundY = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char ch = str.charAt(i);
+
+        if (ch == 'y' && !foundY) {
+            foundY = true;
+        } else if (ch == 'x' && !foundY) {
+            return false;
+        }
+    }
+
+    return true;
+}",0,1
+c2ae74c8-d531-4c77-8373-b1c2193ffaf9,"Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}","public int[] fix45(int[] nums) {
+    int index5 = 0;
+
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 4 && nums[i + 1] != 5) {
+            while (nums[index5] != 5 || (index5 > 0 && nums[index5 - 1] == 4)) {
+                index5++;
+            }
+            nums[index5] = nums[i + 1];
+            nums[i + 1] = 5;
+        }
+    }
+
+    return nums;
+}",0,1
+a0b938db-d3bf-4846-b82e-e25546e3bf8c,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            for (int j = 0; j < nums.length; j++) {
+                if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+                    nums[j] = nums[i + 1];
+                    nums[i + 1] = 5;
+                }
+            }
+        }
+    }
+    return nums;
+}",0,1
+fb325f7a-dc3d-47c3-8ca5-198c827925a7,"Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}","public String zipZap(String str) {
+    return str.replaceAll(""z\\w{1}p"", ""zp"");
+}",0,1
+6af4223d-9302-4698-8ef5-1de7d1a2cc34,"Solve this coding assignment ""
+Write a function in Java that returns true if the given string str contains an occurrence of the substring ""xyz"" where ""xyz"" is not directly preceded by a period ("".""). For example, ""xxyz"" counts, while ""x.xyz"" does not.
+public boolean xyzThere(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyzThere(String str) {
+    int len = str.length();
+    for (int i = 0; i < len - 2; i++) {
+        if (str.charAt(i) != '.' && str.substring(i, i + 3).equals(""xyz"")) {
+            return true;
+        }
+    }
+    if (len > 3 && str.substring(len - 3).equals(""xyz"")) {
+        return true;
+    }
+    return false;
+}",0,1
+706aea93-e0ea-4280-bb2c-33c772fc08d6,"Write a Java function that implements the following logic: Given three integers a, b, and c, where one is the small value (small), one is the medium value (medium), and one is the large value (large). If these three values are evenly spaced (i.e., the difference between the small and medium values is equal to the difference between the medium and large values), return true.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}","public boolean evenlySpaced(int a, int b, int c) {
+    int[] arr = {a, b, c};
+    Arrays.sort(arr);
+    
+    if (arr[1] - arr[0] == arr[2] - arr[1]) {
+        return true;
+    } else {
+        return false;
+    }
+}",0,1
+c876e14b-c992-431f-8d5f-4d4d235e9c27,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str) {
+  return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+31d148ca-14f7-44b1-a8a2-6b184318f1d1,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}","public int sum3(int[] nums) {
+    int sum = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];
+    }
+
+    return sum;
+}",0,1
+c6e7665d-b479-4489-b32e-c70fcbe63274,"Write a function in Java that implements the following logic: Given a string and an int n, return a string made of n repetitions of the last n characters of the string. You may assume that n is between 0 and the length of the string, inclusive.
+public String repeatEnd(String str, int n)
+{
+    
+}","public String repeatEnd(String str, int n) {
+    int len = str.length();
+    String endSubstring = str.substring(len - n, len);
+    StringBuilder repeatedEnd = new StringBuilder();
+    
+    for (int i = 0; i < n; i++) {
+        repeatedEnd.append(endSubstring);
+    }
+    
+    return repeatedEnd.toString();
+}",0,1
+76c75ce8-ac0b-4bea-b175-aa6288367154,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str) {
+    return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+dbc04d86-4131-4a5e-b679-9da82c8af8f9,"You are tasked with writing a Java method to solve the following problem:
+
+We need to round an integer value up to the next multiple of 10 if its rightmost digit is 5 or more. For example, 15 rounds up to 20. Conversely, if the rightmost digit is less than 5, we round down to the previous multiple of 10. For example, 12 rounds down to 10.
+
+Given three integers, a, b, and c, write a method roundSum(int a, int b, int c) that returns the sum of their rounded values. To avoid code repetition, write a separate helper method round10(int num) that performs the rounding logic. Call this helper method three times within roundSum to round each of the three integers.
+
+The helper method round10 should be written entirely below and at the same indent level as roundSum.
+
+Here is the skeleton code:
+
+java
+Copy
+public int roundSum(int a, int b, int c) {
+    // Call round10 for each input and return the sum of the rounded values.
+}
+
+public int round10(int num) {
+    // Implement the rounding logic here.
+}
+Instructions:
+
+Implement the round10 method to round a single integer according to the rules described above.
+
+Use the round10 method inside roundSum to round each of the three integers (a, b, and c).
+
+Return the sum of the rounded values in roundSum.
+
+Ensure the code is clean, efficient, and avoids repetition.
+
+Example:
+
+If a = 15, b = 12, and c = 8, then:
+
+round10(15) should return 20.
+
+round10(12) should return 10.
+
+round10(8) should return 10.
+
+The final result of roundSum(15, 12, 8) should be 20 + 10 + 10 = 40.
+
+Write the complete implementation for both methods.","public class RoundNumbers {
+
+    public int roundSum(int a, int b, int c) {
+        return round10(a) + round10(b) + round10(c);
+    }
+
+    public int round10(int num) {
+        if (num % 10 >= 5) {
+            return num + (10 - num % 10);
+        } else {
+            return num - num % 10;
+        }
+    }
+
+    public static void main(String[] args) {
+        RoundNumbers roundNumbers = new RoundNumbers();
+        int a = 15;
+        int b = 12;
+        int c = 8;
+        int result = roundNumbers.roundSum(a, b, c);
+        System.out.println(""Result: "" + result);
+    }
+}",0,1
+cd4049af-78e2-42d1-915c-59a75c451cbd,"""Write a Java function named answerCell that implements the following logic: Your cell phone rings. Return true if you should answer it, and false otherwise. The function should take three boolean parameters: isMorning, isMom, and isAsleep.
+
+The rules for answering the call are as follows:
+
+If you are asleep (isAsleep is true), you do not answer the call (return false).
+
+If it is morning (isMorning is true), you only answer the call if it is your mom calling (isMom is true).
+
+In all other cases, you answer the call (return true).
+
+Write the complete function implementation in Java, including the method signature and logic.""","public class AnswerCell {
+    public static boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {
+        if (isAsleep) {
+            return false;
+        } else if (isMorning && isMom) {
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Example usage of the answerCell function
+        boolean isMorning = true;
+        boolean isMom = true;
+        boolean isAsleep = false;
+
+        boolean shouldAnswer = answerCell(isMorning, isMom, isAsleep);
+        System.out.println(""Should you answer the call? "" + shouldAnswer);
+    }
+}",0,1
+a244f45a-5572-4cfd-ab00-b68dc776b35c,"You are tasked with implementing a Java method called sum67 that takes an integer array nums as input and returns the sum of the numbers in the array. However, you must ignore sections of numbers that start with a 6 and extend to the next 7 (every 6 will be followed by at least one 7). If the array is empty, return 0.
+
+Requirements:
+
+Iterate through the array and sum all the numbers.
+
+When you encounter a 6, ignore all subsequent numbers until you encounter a 7 (including the 6 and 7 themselves).
+
+After encountering a 7, resume summing the numbers.
+
+If the array is empty, return 0.
+
+Example Inputs and Outputs:
+
+sum67([1, 2, 2]) should return 5.
+
+sum67([1, 2, 2, 6, 99, 99, 7]) should return 5.
+
+sum67([1, 1, 6, 7, 2]) should return 4.
+
+sum67([]) should return 0.
+
+Your Task:
+Write the Java method sum67 that fulfills the requirements above. Ensure your code handles edge cases, such as an empty array or multiple 6-7 sections.
+
+Method Signature:
+
+java
+Copy
+public int sum67(int[] nums) {
+    // Your code here
+}","public int sum67(int[] nums) {
+    int sum = 0;
+    boolean ignoreSection = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 6) {
+            ignoreSection = true;
+        } else if (nums[i] == 7 && ignoreSection) {
+            ignoreSection = false;
+        } else if (!ignoreSection) {
+            sum += nums[i];
+        }
+    }
+
+    return sum;
+}",0,1
+844726dd-64d4-40e5-83ed-cf1b034605a4,"For each multiple of 10 in a given array, change all subsequent values to that multiple of 10 until another multiple of 10 is encountered. For example, {2, 10, 3, 4, 20, 5} becomes {2, 10, 10, 10, 20, 20}.
+
+public int[] tenRun(int[] nums)
+{
+    
+}","public int[] tenRun(int[] nums) {
+    int multipleOfTen = 0;
+    boolean foundMultipleOfTen = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            multipleOfTen = nums[i];
+            foundMultipleOfTen = true;
+        }
+
+        if (foundMultipleOfTen) {
+            if (nums[i] % 10 != 0) {
+                nums[i] = multipleOfTen;
+            } else {
+                multipleOfTen = nums[i];
+            }
+        }
+    }
+
+    return nums;
+}",0,1
+17cd8154-a690-40f6-8517-c4d504029da5,"Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.
+public int[] frontPiece(int[] nums)
+{
+    
+}","public int[] frontPiece(int[] nums) {
+    if (nums.length <= 2) {
+        return nums;
+    } else {
+        int[] result = new int[2];
+        result[0] = nums[0];
+        result[1] = nums[1];
+        return result;
+    }
+}",0,1
+8196c70d-e49f-40d3-8c62-2cc653305843,"Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.substring(i, i+2).equals(""co"") && str.charAt(i+3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+51d5bb05-aa73-4bbc-a346-e90b10b0c7f4,"Given a non-empty array, return true if there is a place to split the array so that the sum of the numbers on one side is equal to the sum of the numbers on the other side.
+public boolean canBalance(int[] nums)
+{
+    
+}","public boolean canBalance(int[] nums) {
+    int leftSum = 0;
+    int rightSum = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        rightSum += nums[i];
+    }
+
+    for (int i = 0; i < nums.length; i++) {
+        leftSum += nums[i];
+        rightSum -= nums[i];
+
+        if (leftSum == rightSum) {
+            return true;
+        }
+    }
+
+    return false;
+}",0,1
+38c19242-42af-4bb6-96e5-90578f6ef62d,"You are an expert Java programmer. Your task is to write a function in Java that implements the following logic:
+
+The function should return a modified version of the given integer array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array.
+
+If there is no odd value to the right of the zero, leave the zero as a zero.
+
+You may use a second helper function if needed, such as to find the largest odd value to the right of a specified position.
+
+The function signature is:
+
+java
+Copy
+public int[] zeroMax(int[] nums) {
+    // Your implementation here
+}
+Steps to follow:
+
+Iterate through the input array nums.
+
+For each zero encountered, find the largest odd value to the right of its position.
+
+Replace the zero with the largest odd value found. If no odd value exists to the right, leave the zero unchanged.
+
+Return the modified array.
+
+Hint: You can create a helper function to find the largest odd value to the right of a given index. For example:
+
+java
+Copy
+private int findLargestOddToRight(int[] nums, int startIndex) {
+    // Helper function implementation
+}
+Example Input and Output:
+
+Input: [0, 5, 0, 3]
+Output: [5, 5, 3, 3]
+Explanation: The first zero is replaced by 5 (the largest odd to its right), and the second zero is replaced by 3.
+
+Input: [0, 4, 0, 2]
+Output: [0, 4, 2, 2]
+Explanation: The first zero remains 0 because there is no odd value to its right, and the second zero is replaced by 2.
+
+Input: [0, 1, 0]
+Output: [1, 1, 0]
+Explanation: The first zero is replaced by 1, and the second zero remains 0 because there is no odd value to its right.
+
+Constraints:
+
+The input array nums can have a length of 0 to 100.
+
+The values in the array are integers between 0 and 100.
+
+Write the complete Java function zeroMax and any helper functions if needed. Ensure the code is efficient and handles edge cases appropriately.","public class ZeroMaxTransformer {
+
+    public int[] zeroMax(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                int largestOdd = findLargestOddToRight(nums, i);
+                if (largestOdd != 0) {
+                    nums[i] = largestOdd;
+                }
+            }
+        }
+        return nums;
+    }
+
+    private int findLargestOddToRight(int[] nums, int startIndex) {
+        int largestOdd = 0;
+        for (int i = startIndex + 1; i < nums.length; i++) {
+            if (nums[i] % 2 != 0 && nums[i] > largestOdd) {
+                largestOdd = nums[i];
+            }
+        }
+        return largestOdd;
+    }
+
+    public static void main(String[] args) {
+        ZeroMaxTransformer transformer = new ZeroMaxTransformer();
+
+        // Test cases
+        int[] input1 = {0, 5, 0, 3};
+        int[] output1 = transformer.zeroMax(input1);
+        System.out.println(Arrays.toString(output1));
+
+        int[] input2 = {0, 4, 0, 2};
+        int[] output2 = transformer.zeroMax(input2);
+        System.out.println(Arrays.toString(output2));
+
+        int[] input3 = {0, 1, 0};
+        int[] output3 = transformer.zeroMax(input3);
+        System.out.println(Arrays.toString(output3));
+    }
+}",0,1
+fbe3a55c-e0e3-45db-b32e-c6e2a7419413,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Given a number n, create and return a new int array of length n, containing the numbers 0, 1, 2, ... n-1. The given n may be 0, in which case just return a length 0 array. You do not need a separate if statement for the length-0 case; the for loop should naturally execute 0 times in that case, so it just works. The syntax to make a new int array is new int[desired_length].
+public int[] fizzArray(int n)
+{
+    
+}","public int[] fizzArray(int n) {
+    int[] array = new int[n];
+    for (int i = 0; i < n; i++) {
+        array[i] = i;
+    }
+    return array;
+}",0,1
+887d3df2-f67a-4037-925b-d7f6ce8c271f,"Solve this ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String zipZap(String str)
+{
+  return str.replaceAll(""z.p"", ""zp"");
+}",0,1
+7598a932-bddf-4344-9d1e-9cec73c4ba21,"Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}","public int[] fix45(int[] nums) {
+    int i = 0;
+    
+    while (i < nums.length) {
+        if (nums[i] == 4 && (i == 0 || nums[i-1] != 4)) {
+            int pos5 = find5(nums);
+            nums[pos5] = nums[i+1];
+            nums[i+1] = 5;
+        }
+        i++;
+    }
+    
+    return nums;
+}
+
+private int find5(int[] nums) {
+    for (int j = 0; j < nums.length; j++) {
+        if (nums[j] == 5 && (j == 0 || nums[j-1] != 4)) {
+            return j;
+        }
+    }
+    return -1; // This should never happen if input array is valid
+}",0,1
+0cef6aff-bf3c-438b-8b78-956567c8eb69,"""Write a Java function named answerCell that implements the following logic: Your cell phone rings. Return true if you should answer it, and false otherwise. The function should take three boolean parameters: isMorning, isMom, and isAsleep.
+
+The rules for answering the call are as follows:
+
+If you are asleep (isAsleep is true), you do not answer the call (return false).
+
+If it is morning (isMorning is true), you only answer the call if it is your mom calling (isMom is true).
+
+In all other cases, you answer the call (return true).
+
+Write the complete function implementation in Java, including the method signature and logic.""","public class CellPhone {
+    public static boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {
+        if (isAsleep) {
+            return false;
+        } else if (isMorning && isMom) {
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        boolean shouldAnswer = answerCell(true, true, false);
+        System.out.println(""Should you answer the call? "" + shouldAnswer);
+    }
+}",0,1

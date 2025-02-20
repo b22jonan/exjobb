@@ -1,125 +1,108 @@
 ID,Prompt,Code,label,Predicted Label
-9d9fbd49-5587-4fbd-bf84-d61bf6485b25,"Solve this ""
+6de0a95b-006d-41b1-a927-78b47bc00ada,"Solve this ""
+Write a function in Java that implements the following logic: Your cell phone rings. Return true if you should answer it. Normally you answer, except in the morning you only answer if it is your mom calling. In all cases, if you are asleep, you do not answer.
+public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {
+    if (isAsleep) return false;
+    if (isMorning && !isMom) return false;
+    return true;
+}",0,1
+92160b5f-f00f-43f2-bc2d-7740440f02bf,"Solve this ""
 We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
 public boolean xyBalance(String str)
 {
     
 }
 ""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean xyBalance(String str) {
-    boolean yFound = false;
-    for (int i = str.length() - 1; i >= 0; i--) {
-        if (str.charAt(i) == 'y') {
-            yFound = true;
-        }
-        if (str.charAt(i) == 'x' && !yFound) {
-            return false;
+    int lastX = -1;
+    int lastY = -1;
+    
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x') {
+            lastX = i;
+        } else if (str.charAt(i) == 'y') {
+            lastY = i;
         }
     }
-    return true;
+    
+    return lastX == -1 || lastY >= lastX;
 }",0,1
-c5d77f86-0da0-4043-88be-887b4caa5a4e,"Solve this ""
-You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
-public int greenTicket(int a, int b, int c)
+422dd2fd-50a9-4cf5-b362-0aefeef2f185,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
 {
     
 }
-""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int greenTicket(int a, int b, int c) {
-    if (a == b && b == c) return 20;
-    if (a == b || b == c || a == c) return 10;
-    return 0;
-}",0,1
-7e76b1f4-aeac-4bc8-a971-f17ffeaa22f0,"Solve this ""
-Say that a ""clump"" in an array is a series of 2 or more adjacent elements of the same value. Return the number of clumps in the given array.
-public int countClumps(int[] nums)
-{
-    
-}
-
-""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int countClumps(int[] nums) {
-    int clumps = 0;
-    int i = 0;
-    while (i < nums.length) {
-        int count = 0;
-        int value = nums[i];
-        while (i < nums.length && nums[i] == value) {
-            count++;
-            i++;
-        }
-        if (count >= 2) {
-            clumps++;
-        }
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    if (isBirthday) {
+        speed -= 5;
     }
-    return clumps;
-}",0,1
-b2a22dc2-1aec-4dd1-a6d8-ed0cf4f340b9,"as a cs1 student you are trying to solve this assignment, how would you solve it
-Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
-public int luckySum(int a, int b, int c)
-{
     
-}","public int luckySum(int a, int b, int c) {
-    if (a == 13) {
+    if (speed <= 60) {
         return 0;
-    } else if (b == 13) {
-        return a;
-    } else if (c == 13) {
-        return a + b;
+    } else if (speed <= 80) {
+        return 1;
     } else {
-        return a + b + c;
+        return 2;
     }
 }",0,1
-d0ae1403-c1df-46b8-9b0d-2c4f5f2ddd36,"Solve this coding assignment ""
-We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
-public boolean xyBalance(String str)
+a5e32ff3-17b2-4a1f-9c55-ecda708b892f,"Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
 {
     
-}
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
-    boolean yFound = false;
-    for (int i = str.length() - 1; i >= 0; i--) {
-        if (str.charAt(i) == 'y') {
-            yFound = true;
+}","public int sum3(int[] nums) {
+    int sum = 0;
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];
+    }
+    return sum;
+}",0,1
+35c93ded-bcd4-4111-b8ee-9c3b05382947,"Write a Java function to implement the following logic: Return a modified array in which each zero value in the array is replaced by the maximum odd value to its right. If there is no odd value to the right of the zero, keep the zero unchanged.
+
+Hint: You can use a helper function, such as one to find the maximum odd value to the right of a given position, to solve this problem.
+
+public int[] zeroMax(int[] nums)
+{
+    
+}","public class ZeroMaxReplacement {
+
+    public static void main(String[] args) {
+        int[] nums = {0, 5, 0, 3, 12, 0, 1};
+        int[] result = zeroMax(nums);
+        for (int num : result) {
+            System.out.print(num + "" "");
         }
-        if (str.charAt(i) == 'x' && !yFound) {
-            return false;
+    }
+
+    public static int[] zeroMax(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                nums[i] = findMaxOddToRight(nums, i);
+            }
         }
-    }
-    return true;
-}",0,1
-718eaea3-e07a-47eb-acfe-1b12b57c11bd,"Solve this ""
-Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
-public String atFirst(String str)
-{
-    
-}
-""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String atFirst(String str) {
-    if (str.length() >= 2) {
-        return str.substring(0, 2);
-    }
-    if (str.length() == 1) {
-        return str + ""@"";
-    }
-    return ""@@"";
-}",0,1
-ae795462-90f9-4301-a56f-d365da071ba9,"Solve this coding assignment ""
-Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.
-public int[] frontPiece(int[] nums)
-{
-    
-}
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] frontPiece(int[] nums) {
-    if (nums.length < 2) {
         return nums;
-    } else {
-        return new int[]{nums[0], nums[1]};
+    }
+
+    private static int findMaxOddToRight(int[] nums, int startIndex) {
+        int maxOdd = 0;
+        for (int i = startIndex + 1; i < nums.length; i++) {
+            if (nums[i] % 2 != 0 && nums[i] > maxOdd) {
+                maxOdd = nums[i];
+            }
+        }
+        return maxOdd;
     }
 }",0,1
-8d5aedfc-709e-4dd4-8236-d305fad0e551,"Solve this ""
+8aa7d092-3d69-4664-acf4-83a657c7af0d,"Solve this coding assignment ""
 You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
 public int dateFashion(int you, int date)
 {
     
 }
-""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int dateFashion(int you, int date) {
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
     if (you <= 2 || date <= 2) {
         return 0;
     } else if (you >= 8 || date >= 8) {
@@ -128,25 +111,113 @@ public int dateFashion(int you, int date)
         return 1;
     }
 }",0,1
-0be1edf5-e003-45eb-9d24-ca3cf0709888,"Solve this coding assignment ""
-We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
-public boolean xyBalance(String str)
+d95b6ebd-2b4a-41f8-9e15-81c91d220e88,"Solve this coding assignment ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
 {
     
 }
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
-    boolean yFound = false;
-    for (int i = str.length() - 1; i >= 0; i--) {
-        if (str.charAt(i) == 'y') {
-            yFound = true;
-        }
-        if (str.charAt(i) == 'x' && !yFound) {
-            return false;
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] fix45(int[] nums) {
+    int j = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            while (nums[j] != 5 || (j > 0 && nums[j - 1] == 4)) {
+                j++;
+            }
+            int temp = nums[i + 1];
+            nums[i + 1] = nums[j];
+            nums[j] = temp;
         }
     }
-    return true;
+    return nums;
 }",0,1
-7f97f369-ee69-4c86-9ce9-3f3179cec34a,"Solve this ""
+9b9e7cb3-7b38-43c9-9833-5c92c57ffd9e,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedAllowance = isBirthday ? 5 : 0;
+    if (speed <= 60 + speedAllowance) {
+        return 0;
+    } else if (speed <= 80 + speedAllowance) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+945934c5-acd4-4fe0-810a-b8d82c063df5,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimit = isBirthday ? 65 : 60;
+    if (speed <= speedLimit) {
+        return 0;
+    } else if (speed <= (speedLimit + 20)) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+4f9b5997-f6ca-4818-ab23-9e8faf4d3fbd,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int adjustedSpeed = isBirthday ? speed - 5 : speed;
+    if (adjustedSpeed <= 60) {
+        return 0;
+    } else if (adjustedSpeed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+092c77ec-a18a-4f83-beb1-00f10b7692ca,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    int j = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            while (nums[j] != 5 || (j > 0 && nums[j - 1] == 4)) {
+                j++;
+            }
+            int temp = nums[i + 1];
+            nums[i + 1] = nums[j];
+            nums[j] = temp;
+        }
+    }
+    return nums;
+}",0,1
+d22766c7-33b2-4363-b0bb-a84a740c4c09,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    if (isBirthday) {
+        speed -= 5;
+    }
+    if (speed <= 60) {
+        return 0;
+    } else if (speed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+638e4e91-7472-449b-8ba8-5c5bccab4c07,"Solve this ""
 Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
 public int[] fix45(int[] nums)
 {
@@ -157,126 +228,12 @@ public int[] fix45(int[] nums)
     int j = 0;
     for (int i = 0; i < n; i++) {
         if (nums[i] == 4) {
-            while (nums[j] != 5) {
+            while (nums[j] != 5 || (j > 0 && nums[j - 1] == 4)) {
                 j++;
             }
-            int temp = nums[i + 1];
-            nums[i + 1] = nums[j];
-            nums[j] = temp;
+            nums[j] = nums[i + 1];
+            nums[i + 1] = 5;
         }
     }
     return nums;
-}",0,1
-2ba5117c-2e52-47a5-8d1d-22b3072ef513,"Solve this coding assignment ""
-We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
-public boolean xyBalance(String str)
-{
-    
-}
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
-    boolean yFound = false;
-    for (int i = str.length() - 1; i >= 0; i--) {
-        if (str.charAt(i) == 'y') {
-            yFound = true;
-        }
-        if (str.charAt(i) == 'x' && !yFound) {
-            return false;
-        }
-    }
-    return true;
-}",0,1
-3d00217b-97c2-47d5-ae16-520fa8c232a2,"Solve this coding assignment ""
-Given an array of ints, return true if the array contains two 7s next to each other, or there are two 7s separated by one element, such as with {7, 1, 7}. Otherwise, return false.
-public boolean has77(int[] nums)
-{
-    
-}
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean has77(int[] nums) {
-    for (int i = 0; i < nums.length - 1; i++) {
-        if (nums[i] == 7 && nums[i + 1] == 7) {
-            return true;
-        }
-    }
-    for (int i = 0; i < nums.length - 2; i++) {
-        if (nums[i] == 7 && nums[i + 2] == 7) {
-            return true;
-        }
-    }
-    return false;
-}",0,1
-266da942-f8da-4e71-82a7-cf6d50f9dcb3,"Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
-public String atFirst(String str)
-{
-    
-}","public String atFirst(String str) {
-    if (str.length() >= 2) {
-        return str.substring(0, 2);
-    } else if (str.length() == 1) {
-        return str.charAt(0) + ""@"";
-    } else {
-        return ""@@"";
-    }
-}",0,1
-bd8b036d-001e-428d-ad70-af331cbbffc6,"In an array, a ""clump"" refers to a sequence of two or more adjacent and identical elements. Return the number of clumps in the given array.
-
-public int countClumps(int[] nums)
-{
-    
-}","public int countClumps(int[] nums) {
-    int clumpCount = 0;
-    int i = 0;
-    
-    while (i < nums.length) {
-        int count = 1;
-        while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
-            i++;
-            count++;
-        }
-        if (count > 1) {
-            clumpCount++;
-        }
-        i++;
-    }
-    
-    return clumpCount;
-}",0,1
-f94f5444-e3af-4f82-9ae5-78c875d3a223,"Solve this coding assignment ""
-Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, ""HelloHe"" yields ""lloHe"". Note that the 2-character substring at the beginning may overlap with the one at the end, so ""Hi"" yields """". If the two characters at the start and end of the string do not match each other, return the original string unchanged.
-public String without2(String str) 
-{
-    
-}
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String without2(String str) {
-    if (str.length() < 2) {
-        return str;
-    }
-    String start = str.substring(0, 2);
-    String end = str.substring(str.length() - 2);
-    if (start.equals(end)) {
-        return str.substring(2);
-    }
-    return str;
-}",0,1
-acc1de86-7e33-4bff-96ff-ac7c5a094b07,"Solve this coding assignment ""
-Say that a ""clump"" in an array is a series of 2 or more adjacent elements of the same value. Return the number of clumps in the given array.
-public int countClumps(int[] nums)
-{
-    
-}
-
-""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int countClumps(int[] nums) {
-    int count = 0;
-    int i = 0;
-    while (i < nums.length) {
-        int value = nums[i];
-        int length = 0;
-        while (i < nums.length && nums[i] == value) {
-            i++;
-            length++;
-        }
-        if (length > 1) {
-            count++;
-        }
-    }
-    return count;
 }",0,1

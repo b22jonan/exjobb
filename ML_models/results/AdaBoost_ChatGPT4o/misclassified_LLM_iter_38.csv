@@ -1,1 +1,361 @@
 ID,Prompt,Code,label,Predicted Label
+f5147804-7d1b-47ca-a268-1900bdf76de0,"Solve this ""
+Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.
+public int redTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (a != b && a != c) {
+        return 1;
+    } else {
+        return 0;
+    }
+}",0,1
+a99fc0fb-ba9e-4da9-a6e8-14634cdad422,"Solve this ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+714a9ce4-aef0-492c-b6b7-577263210041,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+034d9ade-85fc-4041-95d4-c827a57e65ed,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimit1 = 60;
+    int speedLimit2 = 80;
+    if (isBirthday) {
+        speedLimit1 += 5;
+        speedLimit2 += 5;
+    }
+    if (speed <= speedLimit1) {
+        return 0;
+    } else if (speed <= speedLimit2) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+e81c172d-e9bf-4f4e-a1f2-a1c8e66884fc,"You are tasked with writing a Java function that determines if three integers are evenly spaced. The function should return true if the three values are evenly spaced, meaning the difference between the smallest and middle value is the same as the difference between the middle and largest value. Otherwise, it should return false.
+
+Requirements:
+The function signature is:
+public boolean evenlySpaced(int a, int b, int c)
+
+The function should handle any three integers as input.
+
+The logic should correctly identify the smallest, middle, and largest values among the three inputs.
+
+The function should return true if the values are evenly spaced, and false otherwise.
+
+Example Inputs and Outputs:
+evenlySpaced(2, 4, 6) should return true because the values are evenly spaced (2, 4, 6).
+
+evenlySpaced(4, 6, 2) should return true because the values are evenly spaced (2, 4, 6) regardless of input order.
+
+evenlySpaced(4, 6, 3) should return false because the values are not evenly spaced (3, 4, 6).
+
+Steps to Implement:
+Determine the smallest, middle, and largest values among the three inputs.
+
+Calculate the difference between the smallest and middle values.
+
+Calculate the difference between the middle and largest values.
+
+Compare the two differences. If they are equal, return true; otherwise, return false.
+
+Write the Java function evenlySpaced that implements the above logic.","public boolean evenlySpaced(int a, int b, int c) {
+    // Identify the smallest, middle, and largest values
+    int smallest, middle, largest;
+
+    if (a <= b && a <= c) {
+        smallest = a;
+        if (b <= c) {
+            middle = b;
+            largest = c;
+        } else {
+            middle = c;
+            largest = b;
+        }
+    } else if (b <= a && b <= c) {
+        smallest = b;
+        if (a <= c) {
+            middle = a;
+            largest = c;
+        } else {
+            middle = c;
+            largest = a;
+        }
+    } else {
+        smallest = c;
+        if (a <= b) {
+            middle = a;
+            largest = b;
+        } else {
+            middle = b;
+            largest = a;
+        }
+    }
+
+    // Calculate the differences
+    int diff1 = middle - smallest;
+    int diff2 = largest - middle;
+
+    // Return true if the differences are equal, otherwise false
+    return diff1 == diff2;
+}",0,1
+bc250988-e6f4-40fd-9b5c-43dff517dbff,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+487c7322-7e52-423e-b271-110efa4bfdf3,"Solve this ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.substring(i, i + 2).equals(""co"") && str.charAt(i + 3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+9baf74e1-f24a-4011-b26b-539e2f81c8d0,"Solve this coding assignment ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.charAt(i) == 'c' && str.charAt(i+1) == 'o' && str.charAt(i+3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+3d00217b-97c2-47d5-ae16-520fa8c232a2,"Solve this coding assignment ""
+Given an array of ints, return true if the array contains two 7s next to each other, or there are two 7s separated by one element, such as with {7, 1, 7}. Otherwise, return false.
+public boolean has77(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean has77(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 7 && nums[i + 1] == 7) {
+            return true;
+        }
+    }
+    for (int i = 0; i < nums.length - 2; i++) {
+        if (nums[i] == 7 && nums[i + 2] == 7) {
+            return true;
+        }
+    }
+    return false;
+}",0,1
+578f2ed4-84ad-4a6a-b78b-aea6ff56a803,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+cda8e46e-7540-4a3a-a131-bb3926d2f1a0,"Solve this ""
+When squirrels get together for a party, they like to have cigars. A squirrel party is successful when the number of cigars is between 40 and 60, inclusive. Unless it is the weekend, in which case there is no upper bound on the number of cigars. Return true if the party with the given values is successful, or false otherwise.
+public boolean cigarParty(int cigars, boolean isWeekend)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean cigarParty(int cigars, boolean isWeekend) {
+    if (isWeekend) {
+        return cigars >= 40;
+    }
+    return cigars >= 40 && cigars <= 60;
+}",0,1
+0494ac2f-6d1e-4f50-ab9e-55b963d6c0c2,"Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}","public String alarmClock(int day, boolean vacation) {
+    boolean isWeekend = (day == 0 || day == 6);
+
+    if (vacation) {
+        if (isWeekend) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (isWeekend) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+718eaea3-e07a-47eb-acfe-1b12b57c11bd,"Solve this ""
+Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String atFirst(String str) {
+    if (str.length() >= 2) {
+        return str.substring(0, 2);
+    }
+    if (str.length() == 1) {
+        return str + ""@"";
+    }
+    return ""@@"";
+}",0,1
+8800edad-2dd6-4142-b28f-cb21866c0b3d,"Solve this ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] tenRun(int[] nums) {
+    if (nums == null || nums.length == 0) return nums;
+    int currentMultiple = 0;
+    boolean inSequence = false;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            currentMultiple = nums[i];
+            inSequence = true;
+        } else if (inSequence) {
+            nums[i] = currentMultiple;
+        }
+    }
+    return nums;
+}",0,1
+99a32659-883f-4096-a823-28e8b91fc015,"Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.
+public int redTicket(int a, int b, int c)
+{
+    
+}","public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (a != b && a != c) {
+        return 1;
+    } else {
+        return 0;
+    }
+}",0,1
+f94af312-793f-4a32-8acc-43081ab9ee00,"Solve this ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.substring(i, i + 2).equals(""co"") && str.charAt(i + 3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+24d6063d-9ebf-475a-8058-407ea7d30fd9,"Given a day of the week encoded as 0 = Sunday, 1 = Monday, 2 = Tuesday, ... 6 = Saturday, and a boolean value indicating whether we are on vacation, return a string representing the alarm time, such as ""7:00"".
+
+On weekdays, the alarm should be set to ""7:00"", while on weekends it should be set to ""10:00"".
+
+Unless we are on vacation—then on weekdays, the alarm should be set to ""10:00"", and on weekends, the alarm should be set to ""off"".
+
+public String alarmClock(int day, boolean vacation)
+{
+    
+}","public String alarmClock(int day, boolean vacation) {
+    boolean isWeekend = (day == 0 || day == 6);
+
+    if (vacation) {
+        if (isWeekend) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (isWeekend) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+93228476-d866-43d7-9389-606813f97060,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    if (isBirthday) {
+        speed -= 5;
+    }
+    if (speed <= 60) {
+        return 0;
+    } else if (speed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1

@@ -1,1 +1,338 @@
 ID,Prompt,Code,label,Predicted Label
+69c6bb61-ef42-4149-8b47-bb0ff340ec0b,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 0) {
+            nums[i] = findLargestOddToRight(nums, i);
+        }
+    }
+    return nums;
+}
+
+public int findLargestOddToRight(int[] nums, int start) {
+    int largestOdd = 0;
+    for (int i = start + 1; i < nums.length; i++) {
+        if (nums[i] % 2 != 0 && nums[i] > largestOdd) {
+            largestOdd = nums[i];
+        }
+    }
+    return largestOdd;
+}",0,1
+c5752817-85c7-46dc-8cdf-ee2dc1374b32,"Solve this ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] tenRun(int[] nums) {
+    for (int i = 1; i < nums.length; i++) {
+        if (nums[i - 1] % 10 == 0) {
+            nums[i] = nums[i - 1];
+        }
+    }
+    return nums;
+}",0,1
+3af978dc-7eae-4a2e-b0e5-29df699ad25a,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Your cell phone rings. Return true if you should answer it. Normally you answer, except in the morning you only answer if it is your mom calling. In all cases, if you are asleep, you do not answer.
+public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)
+{
+    if (isAsleep) return false;
+    if (isMorning && !isMom) return false;
+    return true;
+}",0,1
+f2fbb162-fec6-4d09-ac7f-04ea51b79275,"Solve this coding assignment ""
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str)
+{
+    boolean seenX = false;
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (str.charAt(i) == 'x')
+        {
+            seenX = true;
+        }
+        if (str.charAt(i) == 'y')
+        {
+            if (seenX)
+            {
+                seenX = false;
+            }
+        }
+    }
+    return !seenX;
+}",0,1
+cace8f35-6258-492b-9308-e173597fc01b,"Solve this coding assignment ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] tenRun(int[] nums) {
+    int lastTen = -1;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            lastTen = nums[i];
+        }
+        if (lastTen != -1) {
+            nums[i] = lastTen;
+        }
+    }
+    return nums;
+}",0,1
+042d4b78-75d6-4f20-a3ff-5f265d8e3aa2,"Solve this coding assignment ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) {
+        return 20;
+    } else if (a == b || b == c || a == c) {
+        return 10;
+    } else {
+        return 0;
+    }
+}",0,1
+ce601482-e03d-42e6-8ad4-e63bc3d5b0fc,"Solve this coding assignment ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) {
+        return 20;
+    } else if (a == b || b == c || a == c) {
+        return 10;
+    } else {
+        return 0;
+    }
+}",0,1
+6b3b4cfe-92c9-4b50-8c1e-0439fb96d8de,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+d458b518-7c46-4737-a032-cb1a6ef55666,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is the same as another of the values, it does not count towards the sum.
+public int loneSum(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int loneSum(int a, int b, int c) {
+    if (a == b && b == c) {
+        return 0;
+    } else if (a == b) {
+        return c;
+    } else if (a == c) {
+        return b;
+    } else if (b == c) {
+        return a;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+778c17cd-91bb-4e20-8a8d-73aa906eee45,"Solve this coding assignment ""
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
+    boolean seenX = false;
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x') {
+            seenX = true;
+        } else if (str.charAt(i) == 'y') {
+            if (seenX) {
+                seenX = false;
+            }
+        }
+    }
+    return !seenX;
+}",0,1
+87c03d3f-eb4f-45ef-857b-37bd124f6e4a,"Solve this coding assignment ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) {
+        return 20;
+    } else if (a == b || b == c || a == c) {
+        return 10;
+    } else {
+        return 0;
+    }
+}",0,1
+5a082919-6bcf-4ede-a103-6946f4a2e2c6,"Solve this ""
+Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String atFirst(String str) {
+    return str.length() >= 2 ? str.substring(0, 2) : str + (str.length() == 1 ? ""@"" : ""@@"");
+}",0,1
+fef87b05-e1e2-4782-bae4-f4de086e7508,"Solve this coding assignment ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] tenRun(int[] nums)
+{
+    int lastTen = -1;
+    for (int i = 0; i < nums.length; i++)
+    {
+        if (nums[i] % 10 == 0)
+        {
+            lastTen = nums[i];
+        }
+        if (lastTen != -1)
+        {
+            nums[i] = lastTen;
+        }
+    }
+    return nums;
+}",0,1
+5c722d71-4a55-450c-a796-545b299a2f10,"Solve this coding assignment ""
+When squirrels get together for a party, they like to have cigars. A squirrel party is successful when the number of cigars is between 40 and 60, inclusive. Unless it is the weekend, in which case there is no upper bound on the number of cigars. Return true if the party with the given values is successful, or false otherwise.
+public boolean cigarParty(int cigars, boolean isWeekend)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean cigarParty(int cigars, boolean isWeekend) {
+    if (isWeekend) {
+        return cigars >= 40;
+    } else {
+        return cigars >= 40 && cigars <= 60;
+    }
+}",0,1
+016eb267-e269-402b-8c51-e90d20a22a3c,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+1dafe293-9f8b-463a-abf1-9e9a4754feda,"Solve this ""
+Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean evenlySpaced(int a, int b, int c) {
+    int x = Math.min(a, Math.min(b, c));
+    int z = Math.max(a, Math.max(b, c));
+    int y = a + b + c - x - z;
+    return y - x == z - y;
+}",0,1
+d2848597-d5be-4e41-ba90-c8ecbee47d7f,"Solve this coding assignment ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) {
+        return 20;
+    } else if (a == b || b == c || a == c) {
+        return 10;
+    } else {
+        return 0;
+    }
+}",0,1
+b18413f4-04ae-486e-8218-fd44dcc2fa67,"Solve this coding assignment ""
+We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.
+public int makeChocolate(int small, int big, int goal)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int makeChocolate(int small, int big, int goal) {
+    int bigBarKilos = big * 5;
+    if (bigBarKilos >= goal) {
+        int remaining = goal % 5;
+        if (remaining <= small) {
+            return remaining;
+        } else {
+            return -1;
+        }
+    } else {
+        int remaining = goal - bigBarKilos;
+        if (remaining <= small) {
+            return remaining;
+        } else {
+            return -1;
+        }
+    }
+}",0,1
+45edc91d-dfd8-488a-856b-67993bd5d6bc,"Solve this coding assignment ""
+Write a function in Java that takes an int array as its parameter and returns the number of even ints it contains. Note: the % ""mod"" operator computes the remainder, e.g. 5 % 2 is 1.
+public int countEvens(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int countEvens(int[] nums) {
+    int count = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 2 == 0) {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+1bb9ce00-6352-48cd-b01e-a7eab7dd8164,"Solve this coding assignment ""
+Given an int[] array, write a function that returns an array where all the 10's have been removed. The remaining elements should shift left towards the start of the array as needed, and the empty spaces at the end of the array should be set to 0. So {1, 10, 10, 2} yields {1, 2, 0, 0}. You may modify and return the given array or make a new array.
+public int[] withoutTen(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] withoutTen(int[] nums) {
+    int[] result = new int[nums.length];
+    int index = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] != 10) {
+            result[index] = nums[i];
+            index++;
+        }
+    }
+    return result;
+}",0,1
