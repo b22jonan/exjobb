@@ -49,7 +49,7 @@ for i, state in enumerate(random_states):
     X = imputer.fit_transform(X)
 
     # Train-test split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=state)
+    X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(X, y, data.index, test_size=0.2, random_state=state)
     
     # Train AdaBoost model
     base_model = DecisionTreeClassifier(max_depth=3)
@@ -69,15 +69,24 @@ for i, state in enumerate(random_states):
     
     # Identify misclassified cases
     misclassified_indices = np.where(y_pred != y_test)[0]
-    misclassified_cases = data.iloc[misclassified_indices].copy()  # Avoid SettingWithCopyWarning
+    misclassified_cases = data.loc[indices_test[misclassified_indices]].copy()  # Ensure we're working on a copy
     misclassified_cases["Predicted Label"] = y_pred[misclassified_indices]  # Store predicted labels
 
+    # Ensure label column is properly formatted
+    misclassified_cases["label"] = misclassified_cases["label"].astype(int)
+
     # Save misclassified cases separately per iteration
-    misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]  # From dataset A
-    misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]  # From dataset B
+    misclassified_A = misclassified_cases[misclassified_cases["label"] == 1].copy()  # From dataset A
+    misclassified_B = misclassified_cases[misclassified_cases["label"] == 0].copy()  # From dataset B
+
+    if misclassified_B.empty:
+        print(f"Iteration {i+1}: No misclassified LLM cases found.")
+    else:
+        print(f"Iteration {i+1}: {len(misclassified_B)} misclassified LLM cases saved.")
+        misclassified_B = misclassified_B[["ID", "Prompt", "Code", "label", "Predicted Label"]]
+        misclassified_B.to_csv(f"ML_models/results/AdaBoost_ChatGPT4o/misclassified_LLM_iter_{i+1}.csv", index=False)
 
     misclassified_A.to_csv(f"ML_models/results/AdaBoost_ChatGPT4o/misclassified_Student_iter_{i+1}.csv", index=False)
-    misclassified_B.to_csv(f"ML_models/results/AdaBoost_ChatGPT4o/misclassified_LLM_iter_{i+1}.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
 
 # Save all iteration results
 results_df.to_csv("ML_models/results/AdaBoost_ChatGPT4o/all_iterations.csv", index=False)
