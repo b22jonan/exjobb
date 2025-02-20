@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import time
 
 def extract_function_name(code):
     """Extracts function name from Python or Java-style function signatures."""
@@ -30,8 +31,18 @@ def sample_student_dataset(input_file, output_file, num_samples_per_problem=60, 
     
     # Drop function name column before saving
     sampled_data.drop(columns=["FunctionName"], inplace=True)
-    sampled_data.to_csv(output_file, index=False)
-    print(f"Sampled dataset saved to {output_file} with {len(sampled_data)} samples.")
+    
+    # Attempt to save the dataset with retry mechanism
+    for attempt in range(5):  # Retry up to 5 times
+        try:
+            sampled_data.to_csv(output_file, index=False)
+            print(f"Sampled dataset saved to {output_file} with {len(sampled_data)} samples.")
+            break  # Exit loop if successful
+        except OSError:
+            print(f"Write attempt {attempt + 1} failed. Retrying...")
+            time.sleep(1)  # Wait before retrying
+    else:
+        print("Failed to save the sampled dataset after multiple attempts.")
 
 # Run the function to create the reduced dataset
 if __name__ == "__main__":
