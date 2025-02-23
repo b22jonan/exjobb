@@ -1,1 +1,151 @@
 ID,Prompt,Code,label,Predicted Label
+8e7ad53e-4570-4029-8fa2-3a902587dd07,"In an array, a ""clump"" refers to a sequence of two or more adjacent and identical elements. Return the number of clumps in the given array.
+
+public int countClumps(int[] nums)
+{
+    
+}","public int countClumps(int[] nums) {
+    int count = 0;
+    boolean inClump = false;
+
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == nums[i + 1]) {
+            if (!inClump) {
+                count++;
+                inClump = true;
+            }
+        } else {
+            inClump = false;
+        }
+    }
+
+    return count;
+}",0,1
+ae65558c-bd09-42e6-a3c2-c375fb97430b,"Solve this coding assignment ""
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
+    int lastY = -1;
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'y') {
+            lastY = i;
+        }
+    }
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x' && i > lastY) {
+            return false;
+        }
+    }
+    return true;
+}",0,1
+4dfa547d-2901-43e9-b2dc-bd86b1c09e16,"Solve this coding assignment ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String zipZap(String str) {
+    String result = """";
+    for (int i = 0; i < str.length(); i++) {
+        if (i > 0 && i < str.length() - 1 && str.charAt(i - 1) == 'z' && str.charAt(i + 1) == 'p') {
+            result += ""zp"";
+            i += 1;
+        } else {
+            result += str.charAt(i);
+        }
+    }
+    return result;
+}",0,1
+9baf74e1-f24a-4011-b26b-539e2f81c8d0,"Solve this coding assignment ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i < str.length() - 3; i++) {
+        if (str.charAt(i) == 'c' && str.charAt(i+1) == 'o' && str.charAt(i+3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+35c93ded-bcd4-4111-b8ee-9c3b05382947,"Write a Java function to implement the following logic: Return a modified array in which each zero value in the array is replaced by the maximum odd value to its right. If there is no odd value to the right of the zero, keep the zero unchanged.
+
+Hint: You can use a helper function, such as one to find the maximum odd value to the right of a given position, to solve this problem.
+
+public int[] zeroMax(int[] nums)
+{
+    
+}","public class ZeroMaxReplacement {
+
+    public static void main(String[] args) {
+        int[] nums = {0, 5, 0, 3, 12, 0, 1};
+        int[] result = zeroMax(nums);
+        for (int num : result) {
+            System.out.print(num + "" "");
+        }
+    }
+
+    public static int[] zeroMax(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                nums[i] = findMaxOddToRight(nums, i);
+            }
+        }
+        return nums;
+    }
+
+    private static int findMaxOddToRight(int[] nums, int startIndex) {
+        int maxOdd = 0;
+        for (int i = startIndex + 1; i < nums.length; i++) {
+            if (nums[i] % 2 != 0 && nums[i] > maxOdd) {
+                maxOdd = nums[i];
+            }
+        }
+        return maxOdd;
+    }
+}",0,1
+6de0a95b-006d-41b1-a927-78b47bc00ada,"Solve this ""
+Write a function in Java that implements the following logic: Your cell phone rings. Return true if you should answer it. Normally you answer, except in the morning you only answer if it is your mom calling. In all cases, if you are asleep, you do not answer.
+public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {
+    if (isAsleep) return false;
+    if (isMorning && !isMom) return false;
+    return true;
+}",0,1
+4eae8af3-e968-4187-9f26-92898b519cce,"Solve this ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) {
+        return 20;
+    }
+    if (a == b || b == c || a == c) {
+        return 10;
+    }
+    return 0;
+}",0,1
+cda8e46e-7540-4a3a-a131-bb3926d2f1a0,"Solve this ""
+When squirrels get together for a party, they like to have cigars. A squirrel party is successful when the number of cigars is between 40 and 60, inclusive. Unless it is the weekend, in which case there is no upper bound on the number of cigars. Return true if the party with the given values is successful, or false otherwise.
+public boolean cigarParty(int cigars, boolean isWeekend)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean cigarParty(int cigars, boolean isWeekend) {
+    if (isWeekend) {
+        return cigars >= 40;
+    }
+    return cigars >= 40 && cigars <= 60;
+}",0,1

@@ -1,1 +1,306 @@
 ID,Prompt,Code,label,Predicted Label
+20f99a15-bd51-43db-bd01-64c8ed18dfa5,"Solve this coding assignment ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","for(int i = 0; i < nums.length; i++)
+    {
+        if(nums[i] != 4 && nums[i] != 5)
+        {
+            temp[index++] = nums[i];
+        }
+    }
+    int tempIndex = 0;
+    for(int i = 0; i < nums.length; i++)
+    {
+        if(nums[i] == 4)
+        {
+            nums[i] = 4;
+            nums[i + 1] = 5;
+            i++;
+        }
+        else
+        {
+            nums[i] = temp[tempIndex++];
+        }
+    }
+    return nums;
+}",0,1
+ec976005-ab01-431b-a1d8-e3cba5e5f092,"Solve this ""
+Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.
+public int centeredAverage(int[] nums)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int centeredAverage(int[] nums) {
+    int sum = 0;
+    int min = nums[0];
+    int max = nums[0];
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];
+        if (nums[i] < min) min = nums[i];
+        if (nums[i] > max) max = nums[i];
+    }
+    return (sum - min - max) / (nums.length - 2);
+}",0,1
+f6c4b2f6-930c-483a-8772-646c12a5b7d2,"Solve this ""
+Write two methods in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if any of the values is a teen--in the range 13..19 inclusive--then that value counts as 0, except 15 and 16 do not count as teens. Write a separate helper method called fixTeen() that takes in an int value and returns that value fixed for the teen rule. In this way you avoid repeating the teen code 3 times (i.e. ""decomposition"").
+public int noTeenSum(int a, int b, int c)
+{
+
+}
+
+public int fixTeen(int n)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int noTeenSum(int a, int b, int c) {
+    return fixTeen(a) + fixTeen(b) + fixTeen(c);
+}
+
+public int fixTeen(int n) {
+    if (n >= 13 && n <= 19 && (n != 15 && n != 16)) {
+        return 0;
+    }
+    return n;
+}",0,1
+6d6276a7-0e6c-4745-92dd-85afda612efe,"Solve this ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean twoTwo(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 2) {
+            if (nums[i + 1] != 2) {
+                return false;
+            }
+            i++;
+        }
+    }
+    if (nums.length > 0 && nums[nums.length - 1] == 2) {
+        return false;
+    }
+    return true;
+}",0,1
+78dd6c20-1b1e-48cc-b681-480a202587a7,"Solve this coding assignment ""
+For this problem, we'll round an int value up to the next multiple of 10 if its rightmost digit is 5 or more, so 15 rounds up to 20. Alternately, round down to the previous multiple of 10 if its rightmost digit is less than 5, so 12 rounds down to 10. Given 3 ints, a, b, and c, return the sum of their rounded values. To avoid code repetition, write a separate helper public int round10(int num) and call it 3 times. Write the helper entirely below and at the same indent level as roundSum().
+public int roundSum(int a, int b, int c)
+{
+    
+}
+
+public int round10(int num)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int roundSum(int a, int b, int c)
+{
+    return round10(a) + round10(b) + round10(c);
+}
+
+public int round10(int num)
+{
+    if(num % 10 >= 5)
+    {
+        return ((num / 10) + 1) * 10;
+    }
+    else
+    {
+        return (num / 10) * 10;
+    }
+}",0,1
+4481def8-0c0c-488d-9702-7caf850fac22,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Your cell phone rings. Return true if you should answer it. Normally you answer, except in the morning you only answer if it is your mom calling. In all cases, if you are asleep, you do not answer.
+public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {
+    if (isAsleep) {
+        return false;
+    }
+    if (isMorning && !isMom) {
+        return false;
+    }
+    return true;
+}",0,1
+f5a386eb-d6db-4542-9415-4e6620241ca0,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    int[] temp = new int[nums.length];
+    int index = 0;
+    for (int num : nums) {
+        if (num != 4 && num != 5) {
+            temp[index++] = num;
+        }
+    }
+    index = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            nums[i + 1] = 5;
+            i++;
+        } else if (nums[i] != 5) {
+            nums[i] = temp[index++];
+        }
+    }
+    return nums;
+}",0,1
+029c9f7d-e0bb-4798-bf82-cbec98d653be,"Solve this coding assignment ""
+We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.
+public int makeChocolate(int small, int big, int goal)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int makeChocolate(int small, int big, int goal)
+{
+    int totalBigWeight = big * 5;
+    if (totalBigWeight >= goal)
+    {
+        int remainder = goal % 5;
+        if (remainder <= small)
+        {
+            return remainder;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        int needed = goal - totalBigWeight;
+        if (needed <= small)
+        {
+            return needed;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+}",0,1
+9e93dc71-1374-4013-b792-d2a5f471dfac,"Solve this coding assignment ""
+Write a function in Java that returns true if the given string str contains an occurrence of the substring ""xyz"" where ""xyz"" is not directly preceded by a period ("".""). For example, ""xxyz"" counts, while ""x.xyz"" does not.
+public boolean xyzThere(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyzThere(String str)
+{
+    if (str == null || str.length() < 3) {
+        return false;
+    }
+    for (int i = 0; i < str.length() - 2; i++) {
+        if (str.substring(i, i + 3).equals(""xyz"")) {
+            if (i == 0 || str.charAt(i - 1) != '.') {
+                return true;
+            }
+        }
+    }
+    return false;
+}",0,1
+a2402c58-d75a-41cf-a22d-9c572af9d1db,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b)
+{
+    if (a > 21 && b > 21)
+    {
+        return 0;
+    }
+    if (a > 21)
+    {
+        return b;
+    }
+    if (b > 21)
+    {
+        return a;
+    }
+    if (21 - a < 21 - b)
+    {
+        return a;
+    }
+    else
+    {
+        return b;
+    }
+}",0,1
+36959349-5fb1-4a5f-b101-5f3dd37dd66d,"Solve this ""
+Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.
+public int redTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (a != b && a != c) {
+        return 1;
+    } else {
+        return 0;
+    }
+}",0,1
+57896c2d-a5e6-4264-bc4c-f9b610b61cf0,"Solve this ""
+Return an array that is ""left shifted"" by one--so for an input of {6, 2, 5, 3}, the method returns {2, 5, 3, 6}. You may modify and return the given array, or return a new array.
+public int[] shiftLeft(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] shiftLeft(int[] nums) {
+    if (nums.length > 1) {
+        int first = nums[0];
+        for (int i = 0; i < nums.length - 1; i++) {
+            nums[i] = nums[i + 1];
+        }
+        nums[nums.length - 1] = first;
+    }
+    return nums;
+}",0,1
+eaed23c7-ac01-40cb-9a1a-4db1b59ff2d3,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b)
+{
+    if(a > 21 && b > 21) return 0;
+    if(a > 21) return b;
+    if(b > 21) return a;
+    return (21 - a < 21 - b) ? a : b;
+}",0,1
+08b9689b-39f1-41a3-b2d6-1dd1142acd94,"Solve this ""
+We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.
+public int makeChocolate(int small, int big, int goal)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int makeChocolate(int small, int big, int goal) {
+    int bigNeeded = goal / 5;
+    if (big >= bigNeeded) {
+        goal -= bigNeeded * 5;
+    } else {
+        goal -= big * 5;
+    }
+    if (goal <= small) {
+        return goal;
+    }
+    return -1;
+}",0,1

@@ -1,1 +1,207 @@
 ID,Prompt,Code,label,Predicted Label
+1bcd7665-f0a4-450f-98cd-4db603573c79,"Solve this coding assignment ""
+Write two methods in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if any of the values is a teen--in the range 13..19 inclusive--then that value counts as 0, except 15 and 16 do not count as teens. Write a separate helper method called fixTeen() that takes in an int value and returns that value fixed for the teen rule. In this way you avoid repeating the teen code 3 times (i.e. ""decomposition"").
+public int noTeenSum(int a, int b, int c)
+{
+
+}
+
+public int fixTeen(int n)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int noTeenSum(int a, int b, int c) {
+    return fixTeen(a) + fixTeen(b) + fixTeen(c);
+}
+
+public int fixTeen(int n) {
+    if ((n >= 13 && n <= 19) && !(n == 15 || n == 16)) {
+        return 0;
+    }
+    return n;
+}",0,1
+e176ff40-94aa-44f3-a4aa-3037d4efbe43,"Solve this ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] tenRun(int[] nums) {
+    int current = -1;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            current = nums[i];
+        } else if (current != -1) {
+            nums[i] = current;
+        }
+    }
+    return nums;
+}",0,1
+0494ac2f-6d1e-4f50-ab9e-55b963d6c0c2,"Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}","public String alarmClock(int day, boolean vacation) {
+    boolean isWeekend = (day == 0 || day == 6);
+
+    if (vacation) {
+        if (isWeekend) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (isWeekend) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+f613af96-7acc-4559-b5e6-5a1d95b632f3,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b) {
+    if (a > 21 && b > 21) {
+        return 0;
+    } else if (a > 21) {
+        return b;
+    } else if (b > 21) {
+        return a;
+    } else {
+        return Math.max(a, b);
+    }
+}",0,1
+9df5905e-b414-455c-a96e-c958ccf9e1b2,"Solve this ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] tenRun(int[] nums) {
+    int current = -1;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            current = nums[i];
+        } else if (current != -1) {
+            nums[i] = current;
+        }
+    }
+    return nums;
+}",0,1
+c6004cb8-d18b-4be4-962d-480ebd08b77a,"Solve this ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int blackjack(int a, int b) {
+    if (a > 21) a = 0;
+    if (b > 21) b = 0;
+    return Math.max(a, b);
+}",0,1
+c5d77f86-0da0-4043-88be-887b4caa5a4e,"Solve this ""
+You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.
+public int greenTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int greenTicket(int a, int b, int c) {
+    if (a == b && b == c) return 20;
+    if (a == b || b == c || a == c) return 10;
+    return 0;
+}",0,1
+24d6063d-9ebf-475a-8058-407ea7d30fd9,"Given a day of the week encoded as 0 = Sunday, 1 = Monday, 2 = Tuesday, ... 6 = Saturday, and a boolean value indicating whether we are on vacation, return a string representing the alarm time, such as ""7:00"".
+
+On weekdays, the alarm should be set to ""7:00"", while on weekends it should be set to ""10:00"".
+
+Unless we are on vacation—then on weekdays, the alarm should be set to ""10:00"", and on weekends, the alarm should be set to ""off"".
+
+public String alarmClock(int day, boolean vacation)
+{
+    
+}","public String alarmClock(int day, boolean vacation) {
+    boolean isWeekend = (day == 0 || day == 6);
+
+    if (vacation) {
+        if (isWeekend) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (isWeekend) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+034d9ade-85fc-4041-95d4-c827a57e65ed,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimit1 = 60;
+    int speedLimit2 = 80;
+    if (isBirthday) {
+        speedLimit1 += 5;
+        speedLimit2 += 5;
+    }
+    if (speed <= speedLimit1) {
+        return 0;
+    } else if (speed <= speedLimit2) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+e7ccca9c-5c97-42e6-97bc-6cfd0dfc25ee,"Write a Java function to implement the following logic:
+
+Given two strings, a and b, create a longer string constructed as follows: take the first character of a, then the first character of b, followed by the second character of a, then the second character of b, and so on. Any remaining characters will be appended to the end of the result.
+
+public String mixString(String a, String b)
+{
+    
+}","public String mixString(String a, String b) {
+    StringBuilder mixed = new StringBuilder();
+    int maxLength = Math.max(a.length(), b.length());
+
+    // Interleave characters of both strings
+    for (int i = 0; i < maxLength; i++) {
+        if (i < a.length()) {
+            mixed.append(a.charAt(i));
+        }
+        if (i < b.length()) {
+            mixed.append(b.charAt(i));
+        }
+    }
+
+    return mixed.toString();
+}",0,1
+35a5b0cd-8f05-4d18-9d1f-6c0c74c3aa51,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b) {
+    if (a > 21 && b > 21) {
+        return 0;
+    } else if (a > 21) {
+        return b;
+    } else if (b > 21) {
+        return a;
+    } else {
+        return Math.max(a, b);
+    }
+}",0,1

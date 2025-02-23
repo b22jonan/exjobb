@@ -1,1 +1,505 @@
 ID,Prompt,Code,label,Predicted Label
+e176ff40-94aa-44f3-a4aa-3037d4efbe43,"Solve this ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] tenRun(int[] nums) {
+    int current = -1;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            current = nums[i];
+        } else if (current != -1) {
+            nums[i] = current;
+        }
+    }
+    return nums;
+}",0,1
+12f874d2-6d14-4a40-988d-7e5bc92c721c,"Solve this ""
+A sandwich is two pieces of bread with something in between. Write a Java method that takes in a string str and returns the string that is between the first and last appearance of ""bread"" in str. Return the empty string """" if there are not two pieces of bread.
+public String getSandwich(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String getSandwich(String str) {
+    int first = str.indexOf(""bread"");
+    int last = str.lastIndexOf(""bread"");
+    if (first != -1 && last != -1 && first != last) {
+        return str.substring(first + 5, last);
+    }
+    return """";
+}",0,1
+638e4e91-7472-449b-8ba8-5c5bccab4c07,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    int n = nums.length;
+    int j = 0;
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == 4) {
+            while (nums[j] != 5 || (j > 0 && nums[j - 1] == 4)) {
+                j++;
+            }
+            nums[j] = nums[i + 1];
+            nums[i + 1] = 5;
+        }
+    }
+    return nums;
+}",0,1
+e1cfc022-a956-40db-94e3-b175fd3e0609,"Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}","public String atFirst(String str) {
+    if (str == null || str.isEmpty()) {
+        return ""@@"";
+    } else if (str.length() == 1) {
+        return str.charAt(0) + ""@"";
+    } else {
+        return str.substring(0, 2);
+    }
+}",0,1
+bd8b036d-001e-428d-ad70-af331cbbffc6,"In an array, a ""clump"" refers to a sequence of two or more adjacent and identical elements. Return the number of clumps in the given array.
+
+public int countClumps(int[] nums)
+{
+    
+}","public int countClumps(int[] nums) {
+    int clumpCount = 0;
+    int i = 0;
+    
+    while (i < nums.length) {
+        int count = 1;
+        while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+            i++;
+            count++;
+        }
+        if (count > 1) {
+            clumpCount++;
+        }
+        i++;
+    }
+    
+    return clumpCount;
+}",0,1
+f613af96-7acc-4559-b5e6-5a1d95b632f3,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b) {
+    if (a > 21 && b > 21) {
+        return 0;
+    } else if (a > 21) {
+        return b;
+    } else if (b > 21) {
+        return a;
+    } else {
+        return Math.max(a, b);
+    }
+}",0,1
+765d608a-89d9-489b-aa63-1ddbc52e90ec,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    int n = nums.length;
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == 4 && nums[i + 1] != 5) {
+            for (int j = 0; j < n; j++) {
+                if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+                    int temp = nums[i + 1];
+                    nums[i + 1] = nums[j];
+                    nums[j] = temp;
+                    break;
+                }
+            }
+        }
+    }
+    return nums;
+}",0,1
+cc9cc5a9-7a01-467f-a358-81f15d289b37,"Solve this ""
+Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.
+public int centeredAverage(int[] nums)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int centeredAverage(int[] nums) {
+    Arrays.sort(nums);
+    int sum = 0;
+    for (int i = 1; i < nums.length - 1; i++) {
+        sum += nums[i];
+    }
+    return sum / (nums.length - 2);
+}",0,1
+93228476-d866-43d7-9389-606813f97060,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    if (isBirthday) {
+        speed -= 5;
+    }
+    if (speed <= 60) {
+        return 0;
+    } else if (speed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+b2a22dc2-1aec-4dd1-a6d8-ed0cf4f340b9,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}","public int luckySum(int a, int b, int c) {
+    if (a == 13) {
+        return 0;
+    } else if (b == 13) {
+        return a;
+    } else if (c == 13) {
+        return a + b;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+b536a2c6-3289-48a2-9aa4-b9f51397d0f8,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+f94f5444-e3af-4f82-9ae5-78c875d3a223,"Solve this coding assignment ""
+Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, ""HelloHe"" yields ""lloHe"". Note that the 2-character substring at the beginning may overlap with the one at the end, so ""Hi"" yields """". If the two characters at the start and end of the string do not match each other, return the original string unchanged.
+public String without2(String str) 
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String without2(String str) {
+    if (str.length() < 2) {
+        return str;
+    }
+    String start = str.substring(0, 2);
+    String end = str.substring(str.length() - 2);
+    if (start.equals(end)) {
+        return str.substring(2);
+    }
+    return str;
+}",0,1
+a3f0d95f-8bc9-4b62-b3c3-08db582c7f32,"Solve this coding assignment ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean twoTwo(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 2) {
+            if (i + 1 < nums.length && nums[i + 1] == 2) {
+                i++;
+            } else if (i == 0 || nums[i - 1] != 2) {
+                return false;
+            }
+        }
+    }
+    return true;
+}",0,1
+82f4f5c9-715d-4caa-8ec5-da2a1b5cadef,"Solve this ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+fb6eb949-a926-4a03-ae16-7810006d7acd,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int luckySum(int a, int b, int c) {
+    if (a == 13) {
+        return 0;
+    } else if (b == 13) {
+        return a;
+    } else if (c == 13) {
+        return a + b;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+3a6599f8-76db-4509-8b19-124bf231dda9,"Solve this ""
+Write a function in Java that counts the number of times the string ""code"" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, ""cope"" and ""cooe"" count.
+public int countCode(String str)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int countCode(String str) {
+    int count = 0;
+    for (int i = 0; i <= str.length() - 4; i++) {
+        if (str.substring(i, i + 2).equals(""co"") && str.charAt(i + 3) == 'e') {
+            count++;
+        }
+    }
+    return count;
+}",0,1
+9a99958a-bec8-4480-9ed2-08dfd0ffa61e,"Solve this ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+33a11c1f-ddb2-4f81-8677-0668622c80ac,"Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}","public int luckySum(int a, int b, int c) {
+    if (a == 13) {
+        return 0;
+    } else if (b == 13) {
+        return a;
+    } else if (c == 13) {
+        return a + b;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+8d1e89ec-1295-4e8b-8cfa-f227bc204ca0,"Solve this ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1
+67b32c15-6866-44d4-9f13-56d9554f9a0c,"You and your date are trying to get a table at a restaurant. The parameter you represents your level of fashion, ranging from 0 to 10, and date represents your date's level of fashion.
+
+Write a method that returns the likelihood of getting a table, encoded as an integer value:
+
+0 means ""No""
+1 means ""Maybe""
+2 means ""Yes""
+The rules are as follows:
+
+If either of you has a fashion level of 8 or above, the result is 2 (""Yes"").
+If either of you has a fashion level of 2 or below, the result is 0 (""No"").
+Otherwise, the result is 1 (""Maybe"").
+
+public int dateFashion(int you, int date)
+{
+    
+}","public int dateFashion(int you, int date) {
+    if (you >= 8 || date >= 8) {
+        return 2; // ""Yes""
+    } else if (you <= 2 || date <= 2) {
+        return 0; // ""No""
+    } else {
+        return 1; // ""Maybe""
+    }
+}",0,1
+c1c434bb-c637-4de5-b4bd-53ea5752d274,"Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}","public int sum3(int[] nums) {
+    int sum = 0;
+    for (int num : nums) {
+        sum += num;
+    }
+    return sum;
+}
+
+java
+public int sum3(int[] nums) {
+    return nums[0] + nums[1] + nums[2];
+}",0,1
+a3331da4-3af2-4978-a8fd-ecac31ecc9cd,"Solve this ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean twoTwo(int[] nums) {
+    if (nums == null || nums.length == 0) return true;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 2) {
+            if (i > 0 && nums[i - 1] == 2) continue;
+            if (i < nums.length - 1 && nums[i + 1] == 2) continue;
+            return false;
+        }
+    }
+    return true;
+}",0,1
+8e7ad53e-4570-4029-8fa2-3a902587dd07,"In an array, a ""clump"" refers to a sequence of two or more adjacent and identical elements. Return the number of clumps in the given array.
+
+public int countClumps(int[] nums)
+{
+    
+}","public int countClumps(int[] nums) {
+    int count = 0;
+    boolean inClump = false;
+
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == nums[i + 1]) {
+            if (!inClump) {
+                count++;
+                inClump = true;
+            }
+        } else {
+            inClump = false;
+        }
+    }
+
+    return count;
+}",0,1
+c67f8959-ce44-4840-912d-f01319086853,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int luckySum(int a, int b, int c) {
+    if (a == 13) {
+        return 0;
+    } else if (b == 13) {
+        return a;
+    } else if (c == 13) {
+        return a + b;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+e277c5e6-9147-425e-945d-3e95ffac0487,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimitNoTicket = 60;
+    int speedLimitSmallTicket = 80;
+    
+    if (isBirthday) {
+        speedLimitNoTicket += 5;
+        speedLimitSmallTicket += 5;
+    }
+    
+    if (speed <= speedLimitNoTicket) {
+        return 0;
+    } else if (speed <= speedLimitSmallTicket) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+266da942-f8da-4e71-82a7-cf6d50f9dcb3,"Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}","public String atFirst(String str) {
+    if (str.length() >= 2) {
+        return str.substring(0, 2);
+    } else if (str.length() == 1) {
+        return str.charAt(0) + ""@"";
+    } else {
+        return ""@@"";
+    }
+}",0,1
+9cc8d847-b481-495f-b027-223ed80b62ab,"Solve this coding assignment ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        if (day == 0 || day == 6) {
+            return ""off"";
+        } else {
+            return ""10:00"";
+        }
+    } else {
+        if (day == 0 || day == 6) {
+            return ""10:00"";
+        } else {
+            return ""7:00"";
+        }
+    }
+}",0,1

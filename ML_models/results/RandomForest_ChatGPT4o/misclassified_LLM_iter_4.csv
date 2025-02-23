@@ -1,1 +1,438 @@
 ID,Prompt,Code,label,Predicted Label
+ae65558c-bd09-42e6-a3c2-c375fb97430b,"Solve this coding assignment ""
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str) {
+    int lastY = -1;
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'y') {
+            lastY = i;
+        }
+    }
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x' && i > lastY) {
+            return false;
+        }
+    }
+    return true;
+}",0,1
+e277c5e6-9147-425e-945d-3e95ffac0487,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimitNoTicket = 60;
+    int speedLimitSmallTicket = 80;
+    
+    if (isBirthday) {
+        speedLimitNoTicket += 5;
+        speedLimitSmallTicket += 5;
+    }
+    
+    if (speed <= speedLimitNoTicket) {
+        return 0;
+    } else if (speed <= speedLimitSmallTicket) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+f613af96-7acc-4559-b5e6-5a1d95b632f3,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b) {
+    if (a > 21 && b > 21) {
+        return 0;
+    } else if (a > 21) {
+        return b;
+    } else if (b > 21) {
+        return a;
+    } else {
+        return Math.max(a, b);
+    }
+}",0,1
+d0b54547-f4b8-4f58-8876-7322366f1abb,"Solve this coding assignment ""
+Given two strings, return true if either of the strings appears at the very end of the other string, ignoring upper/lower case differences (in other words, the computation should not be ""case sensitive""). Note: str.toLowerCase() returns the lowercase version of a string.
+public boolean endOther(String a, String b)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean endOther(String a, String b) {
+    a = a.toLowerCase();
+    b = b.toLowerCase();
+    if (a.endsWith(b) || b.endsWith(a)) {
+        return true;
+    }
+    return false;
+}",0,1
+8aa7d092-3d69-4664-acf4-83a657c7af0d,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+fb6eb949-a926-4a03-ae16-7810006d7acd,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int luckySum(int a, int b, int c) {
+    if (a == 13) {
+        return 0;
+    } else if (b == 13) {
+        return a;
+    } else if (c == 13) {
+        return a + b;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+279c8616-a394-436f-ad7a-b607c422f7c4,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+99b16114-3774-4dbb-8f2f-a377fb90f96f,"Solve this ""
+A sandwich is two pieces of bread with something in between. Write a Java method that takes in a string str and returns the string that is between the first and last appearance of ""bread"" in str. Return the empty string """" if there are not two pieces of bread.
+public String getSandwich(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String getSandwich(String str) {
+    int first = str.indexOf(""bread"");
+    int last = str.lastIndexOf(""bread"");
+    if (first != -1 && last != -1 && first != last) {
+        return str.substring(first + 5, last);
+    }
+    return """";
+}",0,1
+718eaea3-e07a-47eb-acfe-1b12b57c11bd,"Solve this ""
+Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.
+public String atFirst(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String atFirst(String str) {
+    if (str.length() >= 2) {
+        return str.substring(0, 2);
+    }
+    if (str.length() == 1) {
+        return str + ""@"";
+    }
+    return ""@@"";
+}",0,1
+ea26c41d-fce0-4d65-a762-8f389e28c955,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+ID,Prompt,Extracted_Code,0,1
+d592bcfa-cc14-48eb-ad25-bd97c4f38ffd,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+75bf4a15-a073-48a0-b99e-1979004e52d0,"Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}","public int luckySum(int a, int b, int c) {
+    int sum = 0;
+
+    if (a != 13) {
+        sum += a;
+    } else {
+        return sum;
+    }
+
+    if (b != 13) {
+        sum += b;
+    } else {
+        return sum;
+    }
+
+    if (c != 13) {
+        sum += c;
+    }
+
+    return sum;
+}",0,1
+3eb9ed98-fe35-4754-91ac-39fb2cfb18b0,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+b816a763-f807-4029-93f7-83933c792007,"Solve this coding assignment ""
+Given an int array, return the sum of the numbers in the array, except ignore sections of numbers starting with a 6 and extending to the next 7 (every 6 will be followed by at least one 7). Return 0 for no numbers.
+public int sum67(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int sum67(int[] nums) {
+    int sum = 0;
+    boolean ignoring = false;
+    
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 6) {
+            ignoring = true;
+        }
+        
+        if (!ignoring) {
+            sum += nums[i];
+        }
+        
+        if (nums[i] == 7 && ignoring) {
+            ignoring = false;
+        }
+    }
+    
+    return sum;
+}",0,1
+999a68d6-2994-4a66-b7f9-e1ad6748a051,"Solve this ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int dateFashion(int you, int date) {
+    if (you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+5ec48e99-f620-431c-8cf9-49253e8b8abb,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    int n = nums.length;
+    int j = 0;
+    
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == 4) {
+            while (nums[j] != 5 || (j > 0 && nums[j - 1] == 4)) {
+                j++;
+            }
+            int temp = nums[i + 1];
+            nums[i + 1] = 5;
+            nums[j] = temp;
+        }
+    }
+    
+    return nums;
+}",0,1
+12f874d2-6d14-4a40-988d-7e5bc92c721c,"Solve this ""
+A sandwich is two pieces of bread with something in between. Write a Java method that takes in a string str and returns the string that is between the first and last appearance of ""bread"" in str. Return the empty string """" if there are not two pieces of bread.
+public String getSandwich(String str)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String getSandwich(String str) {
+    int first = str.indexOf(""bread"");
+    int last = str.lastIndexOf(""bread"");
+    if (first != -1 && last != -1 && first != last) {
+        return str.substring(first + 5, last);
+    }
+    return """";
+}",0,1
+8525ee31-5e5d-4ba6-91cb-7efef724a529,"Solve this ""
+Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.
+public int redTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    }
+    if (a == b && b == c) {
+        return 5;
+    }
+    if (b != a && c != a) {
+        return 1;
+    }
+    return 0;
+}",0,1
+a0d3ce0c-29be-472f-a99a-e61684b91bc7,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+4f9b5997-f6ca-4818-ab23-9e8faf4d3fbd,"Solve this ""
+Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int adjustedSpeed = isBirthday ? speed - 5 : speed;
+    if (adjustedSpeed <= 60) {
+        return 0;
+    } else if (adjustedSpeed <= 80) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+9c06af5f-a6a0-4e1b-a509-1d3184f161ed,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.
+public int blackjack(int a, int b)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int blackjack(int a, int b) {
+    if (a > 21) a = 0;
+    if (b > 21) b = 0;
+    return Math.max(a, b);
+}",0,1
+b2a22dc2-1aec-4dd1-a6d8-ed0cf4f340b9,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}","public int luckySum(int a, int b, int c) {
+    if (a == 13) {
+        return 0;
+    } else if (b == 13) {
+        return a;
+    } else if (c == 13) {
+        return a + b;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+91795ea2-adfe-4209-bbe4-e72746d720fb,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+ca0af83d-e0ff-4413-9e5f-9619518f1fe7,"Write a Java function that implements the following logic: Given three integer values a, b, and c, return their sum. However, if any of the values is 13, that value will not be included in the sum, and any value to its right will also be excluded. For example, if b is 13, then both b and c will not be included in the sum.
+public int luckySum(int a, int b, int c)
+{
+    
+}","public int luckySum(int a, int b, int c) {
+    int sum = 0;
+    
+    if (a != 13) {
+        sum += a;
+    } else {
+        return sum;
+    }
+    
+    if (b != 13) {
+        sum += b;
+    } else {
+        return sum;
+    }
+    
+    if (c != 13) {
+        sum += c;
+    }
+    
+    return sum;
+}",0,1
+dd1d20af-9e63-4bc9-89c5-3fc513345574,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.
+public int luckySum(int a, int b, int c)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int luckySum(int a, int b, int c) {
+    if (a == 13) return 0;
+    if (b == 13) return a;
+    if (c == 13) return a + b;
+    return a + b + c;
+}",0,1
+a3f0d95f-8bc9-4b62-b3c3-08db582c7f32,"Solve this coding assignment ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean twoTwo(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 2) {
+            if (i + 1 < nums.length && nums[i + 1] == 2) {
+                i++;
+            } else if (i == 0 || nums[i - 1] != 2) {
+                return false;
+            }
+        }
+    }
+    return true;
+}",0,1

@@ -44,7 +44,8 @@ for i, state in enumerate(random_states):
     y = data["label"]
 
     # Train-test split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=state)
+    X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(
+        X, y, data.index, test_size=0.3, random_state=state)
     
     # Train Random Forest model
     model = RandomForestClassifier(
@@ -68,16 +69,23 @@ for i, state in enumerate(random_states):
     results_df.loc[i] = [i+1, accuracy, precision, recall, f1]
     
     # Identify misclassified cases
-    misclassified_indices = np.where(y_pred != y_test)[0]
-    misclassified_cases = data.iloc[misclassified_indices].copy()
+    misclassified_indices = np.where(y_pred != y_test.values)[0]
+    misclassified_cases = data.iloc[indices_test[misclassified_indices]].copy()
     misclassified_cases["Predicted Label"] = y_pred[misclassified_indices]
 
+
     # Save misclassified cases separately per iteration
-    misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]
-    misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]
+    misclassified_A = misclassified_cases[misclassified_cases["label"] == 1].copy()
+    misclassified_B = misclassified_cases[misclassified_cases["label"] == 0].copy()
+
+    if misclassified_B.empty:
+        print(f"Iteration {i+1}: No misclassified LLM cases found.")
+    else:
+        print(f"Iteration {i+1}: {len(misclassified_B)} misclassified LLM cases saved.")
+        misclassified_B = misclassified_B[["ID", "Prompt", "Code", "label", "Predicted Label"]]
+        misclassified_B.to_csv(f"ML_models/results/RandomForest_Qwen/misclassified_LLM_iter_{i+1}.csv", index=False)
 
     misclassified_A.to_csv(f"ML_models/results/RandomForest_Qwen/misclassified_Student_iter_{i+1}.csv", index=False)
-    misclassified_B.to_csv(f"ML_models/results/RandomForest_Qwen/misclassified_LLM_iter_{i+1}.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
 
 # Save all iteration results
 results_df.to_csv("ML_models/results/RandomForest_Qwen/all_iterations.csv", index=False)
@@ -99,34 +107,3 @@ print(f"Accuracy: {accuracy_mean:.4f} (±{accuracy_std:.4f})")
 print(f"Precision: {precision_mean:.4f} (±{precision_std:.4f})")
 print(f"Recall: {recall_mean:.4f} (±{recall_std:.4f})")
 print(f"F1 Score: {f1_mean:.4f} (±{f1_std:.4f})")
-
-# Visualize an individual decision tree
-if final_model and hasattr(final_model, "estimators_") and len(final_model.estimators_) > 0:
-    tree = final_model.estimators_[0]  # Take the first tree from the final trained model
-    dot_data = export_graphviz(
-        tree,
-        feature_names=vectorizer.get_feature_names_out(),
-        class_names=["LLM", "Student"],
-        filled=True,
-        rounded=True,
-        special_characters=True,
-        max_depth=7  # Limit tree depth for better visualization
-    )
-    graph = graphviz.Source(dot_data)
-    graph.render("ML_models/results/RandomForest_Qwen/tree_visualization")
-else:
-    print("Warning: No trees found in the final trained model.")
-
-# Plot feature importance
-importances = final_model.feature_importances_
-feature_names = vectorizer.get_feature_names_out()
-indices = np.argsort(importances)[::-1]
-plt.figure(figsize=(10, 6))
-plt.title("Feature Importance in Random Forest")
-plt.bar(range(20), importances[indices][:20], align="center")
-plt.xticks(range(20), np.array(feature_names)[indices][:20], rotation=90)
-plt.xlabel("Feature (Character n-grams)")
-plt.ylabel("Importance Score")
-plt.tight_layout()
-plt.savefig("ML_models/results/RandomForest_Qwen/feature_importance.png")
-plt.show()

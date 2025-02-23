@@ -30,7 +30,7 @@ for i, state in enumerate(random_states):
     data1["label"] = 1  # Label for dataset A
 
     # Load second dataset (LLM generated) and use only Extracted_Code
-    data2 = pd.read_csv("prompting/ChatGPT4o/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
+    data2 = pd.read_csv("prompting/Qwen/processed_responses.csv", header=None, names=["ID", "Prompt", "Extracted_Code"])
     data2 = data2[["ID", "Prompt", "Extracted_Code"]].rename(columns={"Extracted_Code": "Code"})
     data2["label"] = 0  # Label for dataset B
 
@@ -43,7 +43,7 @@ for i, state in enumerate(random_states):
     y = data["label"]
 
     # Train-test split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=state)
+    X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(X, y, data.index, test_size=0.2, random_state=state)
     
     # Train a LightGBM model
     model = lgb.LGBMClassifier(learning_rate=0.05, num_leaves=31, random_state=state)
@@ -62,18 +62,27 @@ for i, state in enumerate(random_states):
     
     # Identify misclassified cases
     misclassified_indices = np.where(y_pred != y_test)[0]
-    misclassified_cases = data.iloc[misclassified_indices].copy()
+    misclassified_cases = data.loc[indices_test[misclassified_indices]].copy()
     misclassified_cases["Predicted Label"] = y_pred[misclassified_indices]
 
-    # Save misclassified cases separately per iteration
-    misclassified_A = misclassified_cases[misclassified_cases["label"] == 1]
-    misclassified_B = misclassified_cases[misclassified_cases["label"] == 0]
+    # Ensure label column is properly formatted
+    misclassified_cases["label"] = misclassified_cases["label"].astype(int)
 
-    misclassified_A.to_csv(f"ML_models/results/LightGBM_ChatGPT4o/misclassified_Student_iter_{i+1}.csv", index=False)
-    misclassified_B.to_csv(f"ML_models/results/LightGBM_ChatGPT4o/misclassified_LLM_iter_{i+1}.csv", index=False, columns=["ID", "Prompt", "Code", "label", "Predicted Label"])
+    # Save misclassified cases separately per iteration
+    misclassified_A = misclassified_cases[misclassified_cases["label"] == 1].copy()
+    misclassified_B = misclassified_cases[misclassified_cases["label"] == 0].copy()
+
+    if misclassified_B.empty:
+        print(f"Iteration {i+1}: No misclassified LLM cases found.")
+    else:
+        print(f"Iteration {i+1}: {len(misclassified_B)} misclassified LLM cases saved.")
+        misclassified_B = misclassified_B[["ID", "Prompt", "Code", "label", "Predicted Label"]]
+        misclassified_B.to_csv(f"ML_models/results/LightGBM_Qwen/misclassified_LLM_iter_{i+1}.csv", index=False)
+
+    misclassified_A.to_csv(f"ML_models/results/LightGBM_Qwen/misclassified_Student_iter_{i+1}.csv", index=False)
 
 # Save all iteration results
-results_df.to_csv("ML_models/results/LightGBM_ChatGPT4o/all_iterations.csv", index=False)
+results_df.to_csv("ML_models/results/LightGBM_Qwen/all_iterations.csv", index=False)
 
 # Compute mean and standard deviation
 accuracy_mean, accuracy_std = results_df["Accuracy"].mean(), results_df["Accuracy"].std()
@@ -82,7 +91,7 @@ recall_mean, recall_std = results_df["Recall"].mean(), results_df["Recall"].std(
 f1_mean, f1_std = results_df["F1 Score"].mean(), results_df["F1 Score"].std()
 
 # Save evaluation metrics
-with open("ML_models/results/LightGBM_ChatGPT4o/results.txt", "w") as f:
+with open("ML_models/results/LightGBM_Qwen/results.txt", "w") as f:
     f.write(f"Accuracy: {accuracy_mean:.4f} (±{accuracy_std:.4f})\n")
     f.write(f"Precision: {precision_mean:.4f} (±{precision_std:.4f})\n")
     f.write(f"Recall: {recall_mean:.4f} (±{recall_std:.4f})\n")
@@ -96,11 +105,11 @@ print(f"F1 Score: {f1_mean:.4f} (±{f1_std:.4f})")
 # Visualize the LightGBM tree
 lgb.plot_tree(final_model, tree_index=0, figsize=(20, 10), show_info=['split_gain', 'internal_value', 'leaf_count'])
 plt.title("LightGBM Decision Tree")
-plt.savefig("ML_models/results/LightGBM_ChatGPT4o/tree_visualization.png")
+plt.savefig("ML_models/results/LightGBM_Qwen/tree_visualization.png")
 plt.show()
 
 # Plot feature importance
 lgb.plot_importance(final_model, max_num_features=20, figsize=(10, 6))
 plt.title("Feature Importance in LightGBM")
-plt.savefig("ML_models/results/LightGBM_ChatGPT4o/feature_importance.png")
+plt.savefig("ML_models/results/LightGBM_Qwen/feature_importance.png")
 plt.show()

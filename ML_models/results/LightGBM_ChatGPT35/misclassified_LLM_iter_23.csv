@@ -1,1 +1,391 @@
 ID,Prompt,Code,label,Predicted Label
+31d31025-4949-43a2-b341-ca3d7973f672,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is the same as another of the values, it does not count towards the sum.
+public int loneSum(int a, int b, int c)
+{
+    
+}","public int loneSum(int a, int b, int c) {
+    if (a != b && a != c && b != c) {
+        return a + b + c;
+    } else if (a == b && a != c) {
+        return c;
+    } else if (a == c && a != b) {
+        return b;
+    } else if (b == c && a != b) {
+        return a;
+    } else {
+        return 0;
+    }
+}",0,1
+2507e41e-137c-4dcf-9bf4-42b132d246ca,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.
+public int centeredAverage(int[] nums)
+{
+    
+}","public int centeredAverage(int[] nums) {
+    Arrays.sort(nums);
+
+    int sum = 0;
+    int n = nums.length;
+
+    for (int i = 1; i < n - 1; i++) {
+        sum += nums[i];
+    }
+
+    return sum / (n - 2);
+}",0,1
+a7b4ad17-ceda-4534-b756-7deaf81ac0e2,"Solve this ""
+Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean evenlySpaced(int a, int b, int c)
+{
+    int[] nums = {a, b, c};
+    Arrays.sort(nums);
+    return Math.abs(nums[0] - nums[1]) == Math.abs(nums[1] - nums[2]);
+}",0,1
+4746b72a-1ad6-4388-93ab-4a1ecd2425ed,"You are tasked with writing a Java function that determines if three integers are evenly spaced. The function should return true if the three values are evenly spaced, meaning the difference between the smallest and middle value is the same as the difference between the middle and largest value. Otherwise, it should return false.
+
+Requirements:
+The function signature is:
+public boolean evenlySpaced(int a, int b, int c)
+
+The function should handle any three integers as input.
+
+The logic should correctly identify the smallest, middle, and largest values among the three inputs.
+
+The function should return true if the values are evenly spaced, and false otherwise.
+
+Example Inputs and Outputs:
+evenlySpaced(2, 4, 6) should return true because the values are evenly spaced (2, 4, 6).
+
+evenlySpaced(4, 6, 2) should return true because the values are evenly spaced (2, 4, 6) regardless of input order.
+
+evenlySpaced(4, 6, 3) should return false because the values are not evenly spaced (3, 4, 6).
+
+Steps to Implement:
+Determine the smallest, middle, and largest values among the three inputs.
+
+Calculate the difference between the smallest and middle values.
+
+Calculate the difference between the middle and largest values.
+
+Compare the two differences. If they are equal, return true; otherwise, return false.
+
+Write the Java function evenlySpaced that implements the above logic.","public boolean evenlySpaced(int a, int b, int c) {
+    int[] values = {a, b, c};
+    Arrays.sort(values);
+
+    int small = values[0];
+    int middle = values[1];
+    int large = values[2];
+
+    int diff1 = middle - small;
+    int diff2 = large - middle;
+
+    return diff1 == diff2;
+}",0,1
+59c996ae-7091-494d-b7a5-28eb9121272a,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is the same as another of the values, it does not count towards the sum.
+public int loneSum(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int loneSum(int a, int b, int c) {
+    if(a == b && b == c) return 0;
+    if(a == b) return c;
+    if(a == c) return b;
+    if(b == c) return a;
+    return a + b + c;
+}",0,1
+4aea62ba-afb3-491a-8535-34834462dd82,"We say a string is xy-balanced if every 'x' character in the string is followed by at least one 'y' character. For example, ""xxy"" is balanced, while ""xyx"" is not. A single 'y' can balance multiple 'x' characters. If the given string is xy-balanced, return true.
+
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean ySeen = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char currentChar = str.charAt(i);
+
+        if (currentChar == 'y') {
+            ySeen = true;
+        } else if (currentChar == 'x' && !ySeen) {
+            return false;
+        }
+    }
+
+    return true;
+}",0,1
+ae21f76b-ed06-4f75-8944-e9a33383b601,"""Write a Java function named repeatEnd that takes two parameters: a String named str and an int named n. The function should return a new string composed of n repetitions of the last n characters of the input string str. You can assume that n is always between 0 and the length of the string, inclusive.
+
+For example:
+
+If str = ""Hello"" and n = 2, the function should return ""lolo"" because the last 2 characters are ""lo"", and it is repeated twice.
+
+If str = ""Hello"" and n = 3, the function should return ""llollollo"" because the last 3 characters are ""llo"", and it is repeated three times.
+
+If n = 0, the function should return an empty string.
+
+Complete the following function skeleton:
+
+java
+Copy
+public String repeatEnd(String str, int n) {
+    // Your code here
+}
+Ensure the function handles edge cases, such as when n is 0 or equal to the length of the string.""","public String repeatEnd(String str, int n) {
+    if(n == 0) {
+        return """";
+    } else {
+        int len = str.length();
+        String endSubstring = str.substring(len - n);
+        StringBuilder result = new StringBuilder();
+        
+        for(int i = 0; i < n; i++) {
+            result.append(endSubstring);
+        }
+        
+        return result.toString();
+    }
+}",0,1
+5056da3d-3a60-4a9c-ab94-bfdf12cf0d96,"We say a string is xy-balanced if every 'x' character in the string is followed by at least one 'y' character. For example, ""xxy"" is balanced, while ""xyx"" is not. A single 'y' can balance multiple 'x' characters. If the given string is xy-balanced, return true.
+
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean foundY = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char ch = str.charAt(i);
+
+        if (ch == 'y' && !foundY) {
+            foundY = true;
+        } else if (ch == 'x' && !foundY) {
+            return false;
+        }
+    }
+
+    return true;
+}",0,1
+3381f5a6-27d7-4263-99c3-3ed301ab6e4a,"Solve this coding assignment ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int dateFashion(int you, int date) {
+    if(you <= 2 || date <= 2) {
+        return 0;
+    } else if (you >= 8 || date >= 8) {
+        return 2;
+    } else {
+        return 1;
+    }
+}",0,1
+588fbcbb-8c6d-4eba-9cdf-eabfd8b09305,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is the same as another of the values, it does not count towards the sum.
+public int loneSum(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int loneSum(int a, int b, int c) {
+    if(a == b && b == c) {
+        return 0;
+    } else if(a == b) {
+        return c;
+    } else if(a == c) {
+        return b;
+    } else if(b == c) {
+        return a;
+    } else {
+        return a + b + c;
+    }
+}",0,1
+a582ce0e-6aed-40f4-b102-3891dfad43ce,"Solve this coding assignment ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String zipZap(String str)
+{
+    if(str.length() < 3) {
+        return str;
+    }
+    
+    StringBuilder result = new StringBuilder();
+    
+    for(int i = 0; i < str.length(); i++) {
+        if(i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') {
+            result.append(""zp"");
+            i += 2;
+        } else {
+            result.append(str.charAt(i));
+        }
+    }
+    
+    return result.toString();
+}",0,1
+a0b938db-d3bf-4846-b82e-e25546e3bf8c,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            for (int j = 0; j < nums.length; j++) {
+                if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+                    nums[j] = nums[i + 1];
+                    nums[i + 1] = 5;
+                }
+            }
+        }
+    }
+    return nums;
+}",0,1
+b5845232-50b7-4231-941d-97e837e69731,"Solve this coding assignment ""
+We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.
+public int makeChocolate(int small, int big, int goal)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int makeChocolate(int small, int big, int goal) {
+    int bigBarsNeeded = goal / 5;
+    if(bigBarsNeeded <= big) {
+        int smallBarsNeeded = goal - bigBarsNeeded * 5;
+        if(smallBarsNeeded <= small) {
+            return smallBarsNeeded;
+        }
+    }
+    return -1;
+}",0,1
+c8094737-5632-4436-8e30-a2723f16c7a1,"Given a number n, create and return a new integer array of length n, containing the numbers 0, 1, 2, ... n-1. The given n may be 0, in which case simply return an array of length 0. You do not need to write a separate if statement for the case where the length is 0; in this case, the for loop will naturally execute 0 times, so it will work correctly. The syntax for creating a new integer array is new int[desired_length].
+
+public int[] fizzArray(int n)
+{
+    
+}","public int[] fizzArray(int n) {
+    int[] arr = new int[n];
+    for (int i = 0; i < n; i++) {
+        arr[i] = i;
+    }
+    return arr;
+}",0,1
+750c5593-2440-4ab6-859d-c8985da14973,"Solve this ""
+Return an array that is ""left shifted"" by one--so for an input of {6, 2, 5, 3}, the method returns {2, 5, 3, 6}. You may modify and return the given array, or return a new array.
+public int[] shiftLeft(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","if(nums.length <= 1) return nums;
+    
+    int first = nums[0];
+    
+    for(int i = 0; i < nums.length - 1; i++)
+    {
+        nums[i] = nums[i + 1];
+    }
+    
+    nums[nums.length - 1] = first;
+    
+    return nums;
+}",0,1
+3b82937f-8b6c-4e1e-8858-bf59d59d17dd,"We say a string is xy-balanced if every 'x' character in the string is followed by at least one 'y' character. For example, ""xxy"" is balanced, while ""xyx"" is not. A single 'y' can balance multiple 'x' characters. If the given string is xy-balanced, return true.
+
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean yFound = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char currentChar = str.charAt(i);
+        if (currentChar == 'y') {
+            yFound = true;
+        } else if (currentChar == 'x' && !yFound) {
+            return false;
+        }
+    }
+
+    return true;
+}",0,1
+751f58b7-9629-45af-9935-e21099c093d8,"Solve this ""
+Write a function in Java that implements the following logic: Given a string str and a non-empty word, return a version of the original string where all chars have been replaced by pluses (+), except for appearances of the word which are preserved unchanged.
+public String plusOut(String str, String word)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String plusOut(String str, String word)
+{
+    String result = """";
+    for (int i = 0; i < str.length(); i++) {
+        if (i + word.length() <= str.length() && str.substring(i, i + word.length()).equals(word)) {
+            result += word;
+            i += word.length() - 1;
+        } else {
+            result += ""+"";
+        }
+    }
+    return result;
+}",0,1
+991155bb-5a05-443a-9fba-5998ea2c1733,"We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean yFound = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char currentChar = str.charAt(i);
+
+        if (currentChar == 'y') {
+            yFound = true;
+        } else if (currentChar == 'x' && !yFound) {
+            return false;
+        }
+    }
+
+    return true;
+}",0,1
+fbe3a55c-e0e3-45db-b32e-c6e2a7419413,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Given a number n, create and return a new int array of length n, containing the numbers 0, 1, 2, ... n-1. The given n may be 0, in which case just return a length 0 array. You do not need a separate if statement for the length-0 case; the for loop should naturally execute 0 times in that case, so it just works. The syntax to make a new int array is new int[desired_length].
+public int[] fizzArray(int n)
+{
+    
+}","public int[] fizzArray(int n) {
+    int[] array = new int[n];
+    for (int i = 0; i < n; i++) {
+        array[i] = i;
+    }
+    return array;
+}",0,1
+90c535bc-c528-472f-b2d6-7aa213901dad,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that takes an array and returns the sum of the numbers in the array, or 0 if the array is empty. Except the number 13 is very unlucky, so it does not count any 13, or any number that immediately follows a 13.
+public int sum13(int[] nums)
+{
+    
+}","public int sum13(int[] nums) {
+    int sum = 0;
+    boolean skipNext = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 13 || skipNext) {
+            skipNext = false;
+        } else {
+            sum += nums[i];
+            if (i < nums.length - 1 && nums[i + 1] == 13) {
+                skipNext = true;
+            }
+        }
+    }
+
+    return sum;
+}",0,1

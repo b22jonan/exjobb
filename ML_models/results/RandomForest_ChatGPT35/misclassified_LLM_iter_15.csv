@@ -1,1 +1,702 @@
 ID,Prompt,Code,label,Predicted Label
+a244f45a-5572-4cfd-ab00-b68dc776b35c,"You are tasked with implementing a Java method called sum67 that takes an integer array nums as input and returns the sum of the numbers in the array. However, you must ignore sections of numbers that start with a 6 and extend to the next 7 (every 6 will be followed by at least one 7). If the array is empty, return 0.
+
+Requirements:
+
+Iterate through the array and sum all the numbers.
+
+When you encounter a 6, ignore all subsequent numbers until you encounter a 7 (including the 6 and 7 themselves).
+
+After encountering a 7, resume summing the numbers.
+
+If the array is empty, return 0.
+
+Example Inputs and Outputs:
+
+sum67([1, 2, 2]) should return 5.
+
+sum67([1, 2, 2, 6, 99, 99, 7]) should return 5.
+
+sum67([1, 1, 6, 7, 2]) should return 4.
+
+sum67([]) should return 0.
+
+Your Task:
+Write the Java method sum67 that fulfills the requirements above. Ensure your code handles edge cases, such as an empty array or multiple 6-7 sections.
+
+Method Signature:
+
+java
+Copy
+public int sum67(int[] nums) {
+    // Your code here
+}","public int sum67(int[] nums) {
+    int sum = 0;
+    boolean ignoreSection = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 6) {
+            ignoreSection = true;
+        } else if (nums[i] == 7 && ignoreSection) {
+            ignoreSection = false;
+        } else if (!ignoreSection) {
+            sum += nums[i];
+        }
+    }
+
+    return sum;
+}",0,1
+487007f7-d054-4b88-bbfd-8cd411acbec2,"Solve this ""
+Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form ""7:00"" indicating when the alarm clock should ring. Weekdays, the alarm should be ""7:00"" and on the weekend it should be ""10:00"". Unless we are on vacation--then on weekdays it should be ""10:00"" and weekends it should be ""off"".
+public String alarmClock(int day, boolean vacation)
+{
+    
+}
+
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public String alarmClock(int day, boolean vacation) {
+    if (vacation) {
+        return (day >= 1 && day <= 5) ? ""10:00"" : ""off"";
+    } else {
+        return (day == 0 || day == 6) ? ""10:00"" : ""7:00"";
+    }
+}",0,1
+3ad8e0a6-9b87-4537-919d-2c0f4a1782d2,"Given an array of int values, return true if the group of n numbers at the start of the array is the same as the group of n numbers at the end of the array. For example, with {5, 6, 45, 99, 13, 5, 6}, the ends are the same for n == 0 and n == 2, and false for n == 1 and n == 3. You may assume that n is in the range 0..nums.length, inclusive.
+public boolean sameEnds(int[] nums, int n)
+{
+    
+}","public boolean sameEnds(int[] nums, int n) {
+    int length = nums.length;
+    
+    for (int i = 0; i < n; i++) {
+        if (nums[i] != nums[length - n + i]) {
+            return false;
+        }
+    }
+    
+    return true;
+}",0,1
+27ccf8c4-c155-4b81-9188-e8c26f5fa00e,"Solve this coding assignment ""
+Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int sum3(int[] nums)
+{
+    int sum = 0;
+    for (int i = 0; i < nums.length; i++)
+    {
+        sum += nums[i];
+    }
+    return sum;
+}",0,1
+ID,Prompt,Extracted_Code,0,1
+955494cb-832f-420f-9e2a-f66906fb14fb,"Solve this ""
+For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.
+public int[] tenRun(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","for (int i = 0; i < nums.length; i++) {
+    if (nums[i] % 10 == 0) {
+      multiple = nums[i];
+    } else if (multiple != -1) {
+      nums[i] = multiple;
+    }
+  }
+  return nums;
+}",0,1
+ae21f76b-ed06-4f75-8944-e9a33383b601,"""Write a Java function named repeatEnd that takes two parameters: a String named str and an int named n. The function should return a new string composed of n repetitions of the last n characters of the input string str. You can assume that n is always between 0 and the length of the string, inclusive.
+
+For example:
+
+If str = ""Hello"" and n = 2, the function should return ""lolo"" because the last 2 characters are ""lo"", and it is repeated twice.
+
+If str = ""Hello"" and n = 3, the function should return ""llollollo"" because the last 3 characters are ""llo"", and it is repeated three times.
+
+If n = 0, the function should return an empty string.
+
+Complete the following function skeleton:
+
+java
+Copy
+public String repeatEnd(String str, int n) {
+    // Your code here
+}
+Ensure the function handles edge cases, such as when n is 0 or equal to the length of the string.""","public String repeatEnd(String str, int n) {
+    if(n == 0) {
+        return """";
+    } else {
+        int len = str.length();
+        String endSubstring = str.substring(len - n);
+        StringBuilder result = new StringBuilder();
+        
+        for(int i = 0; i < n; i++) {
+            result.append(endSubstring);
+        }
+        
+        return result.toString();
+    }
+}",0,1
+8fcfdac2-4973-4d96-9fba-4f8cc87a7a97,"You are tasked with implementing a Java method called endOther that takes two strings, a and b, as input. The method should return true if either of the strings appears at the very end of the other string, ignoring case differences. For example, ""Hiabc"" and ""abc"" should return true, as should ""AbC"" and ""HiaBc"". The computation should not be case-sensitive, and you can use str.toLowerCase() to handle case differences.
+
+Write the complete implementation of the endOther method. Ensure that your solution is efficient and handles edge cases, such as empty strings or strings of different lengths.
+
+Example Input/Output:
+
+endOther(""Hiabc"", ""abc"") → true
+
+endOther(""AbC"", ""HiaBc"") → true
+
+endOther(""abc"", ""abXabc"") → true
+
+endOther(""abc"", ""abXabcd"") → false
+
+Constraints:
+
+The method should be case-insensitive.
+
+The method should handle empty strings.
+
+The method should not use any external libraries or complex data structures.
+
+Your Task:
+
+Complete the following method:
+
+java
+Copy
+public boolean endOther(String a, String b) {
+    // Your implementation here
+}","public boolean endOther(String a, String b) {
+    a = a.toLowerCase();
+    b = b.toLowerCase();
+    
+    int aLen = a.length();
+    int bLen = b.length();
+    
+    if (aLen == 0 || bLen == 0) {
+        return false;
+    }
+    
+    if (aLen >= bLen) {
+        return a.endsWith(b);
+    } else {
+        return b.endsWith(a);
+    }
+}",0,1
+0d7671a4-543d-4d9d-9128-fc8b83115486,"Solve this coding assignment ""
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean xyBalance(String str)
+{
+    int lastYIndex = -1;
+    for (int i = 0; i < str.length(); i++) {
+        if (str.charAt(i) == 'x') {
+            lastYIndex = str.indexOf('y', lastYIndex + 1);
+            if (lastYIndex == -1) {
+                return false;
+            }
+        }
+    }
+    return true;
+}",0,1
+31d148ca-14f7-44b1-a8a2-6b184318f1d1,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Given an array containing three ints, return the sum of all the elements.
+public int sum3(int[] nums)
+{
+    
+}","public int sum3(int[] nums) {
+    int sum = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];
+    }
+
+    return sum;
+}",0,1
+f54d986e-d5d4-4953-aefb-1b7af231057f,"Solve this coding assignment ""
+Given a string str, find all places where a three-letter combination starting with ""z"" and ending with ""p"" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like ""zipXzap"" would produce a result of ""zpXzp"".
+public String zipZap(String str)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public String zipZap(String str)
+{
+    String result = """";
+    for (int i = 0; i < str.length() - 2; i++) {
+        if (str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') {
+            result += ""zp"";
+            i += 2;
+        } else {
+            result += str.charAt(i);
+        }
+    }
+    return result + str.substring(str.length() - 2);
+}",0,1
+4b961faa-7969-489e-986d-1a8ec3a8639a,"Solve this ""
+Given a number n, create and return a new int array of length n, containing the numbers 0, 1, 2, ... n-1. The given n may be 0, in which case just return a length 0 array. You do not need a separate if statement for the length-0 case; the for loop should naturally execute 0 times in that case, so it just works. The syntax to make a new int array is new int[desired_length].
+public int[] fizzArray(int n)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","for (int i = 0; i < n; i++) {
+        arr[i] = i;
+    }
+    return arr;
+}",0,1
+b6199a49-25c5-4adb-8115-5bc632499f16,"Solve this coding assignment ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean twoTwo(int[] nums) {
+    if (nums.length < 2) return true;
+    
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 2) {
+            if (i > 0 && nums[i - 1] == 2) {
+                continue;
+            }
+            if (i < nums.length - 1 && nums[i + 1] == 2) {
+                i++;
+            } else {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}",0,1
+9eff649b-fb49-490a-b6b1-e524b069511c,"Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}","public boolean evenlySpaced(int a, int b, int c) {
+    int small, medium, large;
+
+    if (a >= b && a >= c) {
+        large = a;
+        if (b >= c) {
+            medium = b;
+            small = c;
+        } else {
+            medium = c;
+            small = b;
+        }
+    } else if (b >= a && b >= c) {
+        large = b;
+        if (a >= c) {
+            medium = a;
+            small = c;
+        } else {
+            medium = c;
+            small = a;
+        }
+    } else {
+        large = c;
+        if (a >= b) {
+            medium = a;
+            small = b;
+        } else {
+            medium = b;
+            small = a;
+        }
+    }
+
+    return (medium - small) == (large - medium);
+}",0,1
+29d987ec-8467-4d96-b810-973227b1122d,"Solve this ""
+When squirrels get together for a party, they like to have cigars. A squirrel party is successful when the number of cigars is between 40 and 60, inclusive. Unless it is the weekend, in which case there is no upper bound on the number of cigars. Return true if the party with the given values is successful, or false otherwise.
+public boolean cigarParty(int cigars, boolean isWeekend)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean cigarParty(int cigars, boolean isWeekend)
+{
+    if(isWeekend)
+        return (cigars >= 40);
+    else
+        return (cigars >= 40 && cigars <= 60);
+}",0,1
+e2f86a54-9166-4a4d-a26d-a098fa83dbe6,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.
+public int[] zeroMax(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int[] zeroMax(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 0) {
+            int maxOdd = 0;
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[j] % 2 != 0 && nums[j] > maxOdd) {
+                    maxOdd = nums[j];
+                }
+            }
+            nums[i] = maxOdd;
+        }
+    }
+    return nums;
+}",0,1
+fe1f607b-c117-4836-bede-254b1d4be0c0,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Write a function in Java that returns true if the given string str contains an occurrence of the substring ""xyz"" where ""xyz"" is not directly preceded by a period ("".""). For example, ""xxyz"" counts, while ""x.xyz"" does not.
+public boolean xyzThere(String str)
+{
+    
+}","public boolean xyzThere(String str) {
+    boolean foundXYZ = false;
+
+    for (int i = 0; i < str.length() - 2; i++) {
+        if (str.charAt(i) == 'x' && str.startsWith(""xyz"", i + 1)) {
+            if (i == 0 || str.charAt(i - 1) != '.') {
+                foundXYZ = true;
+                break;
+            }
+        }
+    }
+
+    return foundXYZ;
+}",0,1
+81cb1a08-8590-42fd-b710-897f603455c3,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean evenlySpaced(int a, int b, int c) {
+    int[] sorted = {a, b, c};
+    Arrays.sort(sorted);
+    return (sorted[1] - sorted[0] == sorted[2] - sorted[1]);
+}",0,1
+59c996ae-7091-494d-b7a5-28eb9121272a,"Solve this ""
+Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is the same as another of the values, it does not count towards the sum.
+public int loneSum(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int loneSum(int a, int b, int c) {
+    if(a == b && b == c) return 0;
+    if(a == b) return c;
+    if(a == c) return b;
+    if(b == c) return a;
+    return a + b + c;
+}",0,1
+f8800a2c-e8d2-4b14-b6e6-236b45b6d496,"Solve this ""
+Given an array of int values, return true if the group of n numbers at the start of the array is the same as the group of n numbers at the end of the array. For example, with {5, 6, 45, 99, 13, 5, 6}, the ends are the same for n == 0 and n == 2, and false for n == 1 and n == 3. You may assume that n is in the range 0..nums.length, inclusive.
+public boolean sameEnds(int[] nums, int n)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean sameEnds(int[] nums, int n) {
+    if (n == 0) {
+        return true;
+    } else if (n > 0 && n <= nums.length) {
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != nums[nums.length - n + i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}",0,1
+29d6d0a5-46e1-4277-a7a3-1affb00afefc,"Write a function in Java to implement the following logic:
+
+You are driving a bit fast and get pulled over by the police. Write code to calculate the result and encode it as an integer value:
+
+0 = No ticket
+1 = Small ticket
+2 = Big ticket
+If your speed does not exceed 60, the result is 0.
+If your speed is between 61 and 80 (inclusive), the result is 1.
+If your speed is 81 or higher, the result is 2.
+
+However, if today is your birthday, your speed limit increases by 5 in all cases.
+
+public int caughtSpeeding(int speed, boolean isBirthday)
+{
+    
+}","public int caughtSpeeding(int speed, boolean isBirthday) {
+    int limit = isBirthday ? 5 : 0;
+
+    if (speed <= 60 + limit) {
+        return 0;
+    } else if (speed >= 61 + limit && speed <= 80 + limit) {
+        return 1;
+    } else {
+        return 2;
+    }
+}",0,1
+983e0a4f-b51d-4326-831e-6d714a66cdb6,"as a cs1 student you are trying to solve this assignment, how would you solve it
+We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So ""xxy"" is balanced, but ""xyx"" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.
+public boolean xyBalance(String str)
+{
+    
+}","public boolean xyBalance(String str) {
+    boolean xFound = false;
+    boolean yFound = false;
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+        char currentChar = str.charAt(i);
+
+        if (currentChar == 'x') {
+            xFound = true;
+        } else if (currentChar == 'y' && xFound) {
+            yFound = true;
+        }
+    }
+
+    return !xFound || yFound;
+}",0,1
+cd4049af-78e2-42d1-915c-59a75c451cbd,"""Write a Java function named answerCell that implements the following logic: Your cell phone rings. Return true if you should answer it, and false otherwise. The function should take three boolean parameters: isMorning, isMom, and isAsleep.
+
+The rules for answering the call are as follows:
+
+If you are asleep (isAsleep is true), you do not answer the call (return false).
+
+If it is morning (isMorning is true), you only answer the call if it is your mom calling (isMom is true).
+
+In all other cases, you answer the call (return true).
+
+Write the complete function implementation in Java, including the method signature and logic.""","public class AnswerCell {
+    public static boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {
+        if (isAsleep) {
+            return false;
+        } else if (isMorning && isMom) {
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Example usage of the answerCell function
+        boolean isMorning = true;
+        boolean isMom = true;
+        boolean isAsleep = false;
+
+        boolean shouldAnswer = answerCell(isMorning, isMom, isAsleep);
+        System.out.println(""Should you answer the call? "" + shouldAnswer);
+    }
+}",0,1
+2507e41e-137c-4dcf-9bf4-42b132d246ca,"as a cs1 student you are trying to solve this assignment, how would you solve it
+Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.
+public int centeredAverage(int[] nums)
+{
+    
+}","public int centeredAverage(int[] nums) {
+    Arrays.sort(nums);
+
+    int sum = 0;
+    int n = nums.length;
+
+    for (int i = 1; i < n - 1; i++) {
+        sum += nums[i];
+    }
+
+    return sum / (n - 2);
+}",0,1
+5217037b-f4ef-4dd7-a323-64a8a662e3db,"Solve this ""
+Given n >= 0, create an array with the pattern {1, 1, 2, 1, 2, 3, ... 1, 2, 3 .. n} (spaces added to show the grouping). Note that the length of the array will be 1 + 2 + 3 ... + n, which is known to sum to exactly n * (n + 1)/2.
+public int[] seriesUp(int n)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] seriesUp(int n) {
+  int[] arr = new int[n * (n + 1) / 2];
+  int index = 0;
+  for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= i; j++) {
+      arr[index] = j;
+      index++;
+    }
+  }
+  return arr;
+}",0,1
+f92684f6-2c30-4bec-a3dd-873ccd267649,"Given a number n, create and return a new integer array of length n, containing the numbers 0, 1, 2, ... n-1. The given n may be 0, in which case simply return an array of length 0. You do not need to write a separate if statement for the case where the length is 0; in this case, the for loop will naturally execute 0 times, so it will work correctly. The syntax for creating a new integer array is new int[desired_length].
+
+public int[] fizzArray(int n)
+{
+    
+}","public int[] fizzArray(int n) {
+    int[] arr = new int[n];
+    
+    for (int i = 0; i < n; i++) {
+        arr[i] = i;
+    }
+    
+    return arr;
+}",0,1
+6cec5072-f48e-41b5-b97e-a447b6b1a058,"""Write a Java function named luckySum that takes three integer parameters: a, b, and c. The function should return the sum of these three values, but with the following special rule: if any of the values is 13, that value and all values to its right do not count toward the sum.
+
+For example:
+
+If a is 13, the function should return 0 because a, b, and c do not count.
+
+If b is 13, the function should return the value of a because b and c do not count.
+
+If c is 13, the function should return the sum of a and b because c does not count.
+
+If none of the values are 13, the function should return the sum of a, b, and c.
+
+Write the complete function implementation in Java, including the method signature and logic to handle the special rule. Use conditional statements to check for the value 13 and exclude the appropriate values from the sum.""","public class LuckySum {
+    public static int luckySum(int a, int b, int c) {
+        if (a == 13) {
+            return 0;
+        } else if (b == 13) {
+            return a;
+        } else if (c == 13) {
+            return a + b;
+        } else {
+            return a + b + c;
+        }
+    }
+
+    public static void main(String[] args) {
+        int a = 7;
+        int b = 13;
+        int c = 5;
+        System.out.println(""The lucky sum is: "" + luckySum(a, b, c));
+    }
+}",0,1
+73a4cfc3-2f42-4ef6-86c9-4127fb3dd4d6,"Solve this ""
+You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).
+public int dateFashion(int you, int date)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int dateFashion(int you, int date)
+{
+    if (you <= 2 || date <= 2)
+        return 0;
+    if (you >= 8 || date >= 8)
+        return 2;
+    return 1;
+}",0,1
+b5845232-50b7-4231-941d-97e837e69731,"Solve this coding assignment ""
+We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.
+public int makeChocolate(int small, int big, int goal)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int makeChocolate(int small, int big, int goal) {
+    int bigBarsNeeded = goal / 5;
+    if(bigBarsNeeded <= big) {
+        int smallBarsNeeded = goal - bigBarsNeeded * 5;
+        if(smallBarsNeeded <= small) {
+            return smallBarsNeeded;
+        }
+    }
+    return -1;
+}",0,1
+2b0fe5c5-22c2-4df8-993f-9f1edd232347,"Solve this coding assignment ""
+Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.
+public boolean evenlySpaced(int a, int b, int c)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean evenlySpaced(int a, int b, int c) {
+    int small, medium, large;
+    if (a < b && a < c) {
+        small = a;
+        if (b < c) {
+            medium = b;
+            large = c;
+        } else {
+            medium = c;
+            large = b;
+        }
+    } else if (b < a && b < c) {
+        small = b;
+        if (a < c) {
+            medium = a;
+            large = c;
+        } else {
+            medium = c;
+            large = a;
+        }
+    } else {
+        small = c;
+        if (a < b) {
+            medium = a;
+            large = b;
+        } else {
+            medium = b;
+            large = a;
+        }
+    }
+    
+    return (large - medium == medium - small);
+}",0,1
+39640f6d-e9c3-4004-93b9-d31c4dccf278,"Given two strings, return true if either of the strings appears at the very end of the other string, ignoring upper/lower case differences (in other words, the computation should not be ""case sensitive""). Note: str.toLowerCase() returns the lowercase version of a string.
+public boolean endOther(String a, String b)
+{
+    
+}","public boolean endOther(String a, String b) {
+    String strA = a.toLowerCase();
+    String strB = b.toLowerCase();
+    
+    return strA.endsWith(strB) || strB.endsWith(strA);
+}",0,1
+844726dd-64d4-40e5-83ed-cf1b034605a4,"For each multiple of 10 in a given array, change all subsequent values to that multiple of 10 until another multiple of 10 is encountered. For example, {2, 10, 3, 4, 20, 5} becomes {2, 10, 10, 10, 20, 20}.
+
+public int[] tenRun(int[] nums)
+{
+    
+}","public int[] tenRun(int[] nums) {
+    int multipleOfTen = 0;
+    boolean foundMultipleOfTen = false;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] % 10 == 0) {
+            multipleOfTen = nums[i];
+            foundMultipleOfTen = true;
+        }
+
+        if (foundMultipleOfTen) {
+            if (nums[i] % 10 != 0) {
+                nums[i] = multipleOfTen;
+            } else {
+                multipleOfTen = nums[i];
+            }
+        }
+    }
+
+    return nums;
+}",0,1
+56c459c2-3d0f-4c5d-b7c7-e2d454315dca,"""Write a Java function named atFirst that takes a single String parameter str and returns a new string based on the following logic:
+
+If the input string str has a length of 2 or more, return a string made of its first 2 characters.
+
+If the input string str has a length of less than 2, return a string where the missing characters are replaced with the '@' character. For example:
+
+If the input is ""hello"", the output should be ""he"".
+
+If the input is ""h"", the output should be ""h@"".
+
+If the input is an empty string """", the output should be ""@@"".
+
+The function signature is provided below:
+
+java
+Copy
+public String atFirst(String str) {
+    // Implement the logic here
+}
+Write the complete implementation of the atFirst function in Java, ensuring it handles all edge cases correctly.""","public String atFirst(String str) {
+    if (str.length() >= 2) {
+        return str.substring(0, 2);
+    } else {
+        String defaultChars = ""@@"";
+        if (str.length() == 1) {
+            return str + ""@"";
+        } else {
+            return defaultChars;
+        }
+    }
+}",0,1

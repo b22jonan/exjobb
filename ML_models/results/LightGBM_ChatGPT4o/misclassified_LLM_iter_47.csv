@@ -1,1 +1,147 @@
 ID,Prompt,Code,label,Predicted Label
+765d608a-89d9-489b-aa63-1ddbc52e90ec,"Solve this ""
+Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)
+public int[] fix45(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int[] fix45(int[] nums) {
+    int n = nums.length;
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == 4 && nums[i + 1] != 5) {
+            for (int j = 0; j < n; j++) {
+                if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+                    int temp = nums[i + 1];
+                    nums[i + 1] = nums[j];
+                    nums[j] = temp;
+                    break;
+                }
+            }
+        }
+    }
+    return nums;
+}",0,1
+d71caeee-7c28-47af-93d0-a176af98a968,"Solve this ""
+Given an array of ints, return true if the array contains two 7s next to each other, or there are two 7s separated by one element, such as with {7, 1, 7}. Otherwise, return false.
+public boolean has77(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean has77(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 7 && (nums[i + 1] == 7 || (i + 2 < nums.length && nums[i + 2] == 7))) {
+            return true;
+        }
+    }
+    return false;
+}",0,1
+442160da-3fda-422a-b881-e6b1ba09709a,"Solve this ""
+Given an array of ints, return true if the array contains two 7s next to each other, or there are two 7s separated by one element, such as with {7, 1, 7}. Otherwise, return false.
+public boolean has77(int[] nums)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public boolean has77(int[] nums) {
+    for (int i = 0; i < nums.length - 1; i++) {
+        if (nums[i] == 7 && (nums[i + 1] == 7 || (i + 2 < nums.length && nums[i + 2] == 7))) {
+            return true;
+        }
+    }
+    return false;
+}",0,1
+72103050-c592-4b2d-a2d7-a09fb8b1331f,"Solve this coding assignment ""
+Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.
+public boolean twoTwo(int[] nums)
+{
+    
+}
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public boolean twoTwo(int[] nums) {
+    int n = nums.length;
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == 2) {
+            if (i + 1 < n && nums[i + 1] == 2) {
+                i++;
+            } else {
+                return false;
+            }
+        }
+    }
+    return true;
+}",0,1
+1ea12f6a-b56d-4775-b98e-579c6c3c2a82,"Solve this coding assignment ""
+Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.
+public int centeredAverage(int[] nums)
+{
+    
+}
+
+""your answer is to consist of the complete function/functions given with working code added. You are a CS1 student trying to solve this assignment. The answer is to be the complete code solution. For a example ""Assignment: write a function that returns true public bolean returnTrue(){}"" should return ""bolean returnTrue(){return true}"". You are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution. Write this with syntax from 2019.","public int centeredAverage(int[] nums) {
+    int min = Integer.MAX_VALUE;
+    int max = Integer.MIN_VALUE;
+    int sum = 0;
+    
+    for(int num : nums) {
+        sum += num;
+        if(num < min) {
+            min = num;
+        }
+        if(num > max) {
+            max = num;
+        }
+    }
+    
+    sum -= min;
+    sum -= max;
+    
+    return sum / (nums.length - 2);
+}",0,1
+ID,Prompt,Extracted_Code,0,1
+f5147804-7d1b-47ca-a268-1900bdf76de0,"Solve this ""
+Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.
+public int redTicket(int a, int b, int c)
+{
+    
+}
+""you are not allowed to produce a code that does not compile, that produces incorrect output, that contains comments, or that is easily identified as being LLM written. There is to be no text at all besides the code solution.","public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (a != b && a != c) {
+        return 1;
+    } else {
+        return 0;
+    }
+}",0,1
+0ee0577e-e8c2-403b-9a0d-58a30af110ca,"Consider a sequence of numbers starting from start up to (but not including) end. For example, if start=1 and end=5, the generated sequence would be 1, 2, 3, 4.
+
+Return a new String[] array containing the string representation of these numbers. However:
+
+Replace multiples of 3 with ""Fizz"".
+Replace multiples of 5 with ""Buzz"".
+Replace numbers that are multiples of both 3 and 5 with ""FizzBuzz"".
+In Java, String.valueOf(xxx) can be used to convert an int or other types to their string representation.
+
+public String[] fizzBuzz(int start, int end)
+{
+    
+}","public String[] fizzBuzz(int start, int end) {
+    int size = end - start;
+    String[] result = new String[size];
+
+    for (int i = 0; i < size; i++) {
+        int currentNumber = start + i;
+        
+        if (currentNumber % 3 == 0 && currentNumber % 5 == 0) {
+            result[i] = ""FizzBuzz"";
+        } else if (currentNumber % 3 == 0) {
+            result[i] = ""Fizz"";
+        } else if (currentNumber % 5 == 0) {
+            result[i] = ""Buzz"";
+        } else {
+            result[i] = String.valueOf(currentNumber);
+        }
+    }
+
+    return result;
+}",0,1
