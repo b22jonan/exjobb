@@ -35,10 +35,10 @@ with open(metrics_path, 'w') as f:
         os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin" 
         subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-        # Load first dataset (student dataset)
+        # Load first dataset (LLM dataset)
         x_data = pd.read_csv(x_data_path, header=0, names=["CodeStateID", "Prompt", "Code"])
         
-        # Load second dataset
+        # Load second dataset (student dataset)
         y_data = pd.read_csv("CSV_files\Sampled_CodeStates.csv", header=None, names=["CodeStateID", "Code"])
         
         # Add labels (0 for X, 1 for Y)
