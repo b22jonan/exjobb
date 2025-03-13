@@ -12,9 +12,6 @@ csv_path = 'ML_models/code_similarity/ada_4o_students_merged.csv'
 # Load CSV file
 df = pd.read_csv(csv_path)
 
-# Ensure unique IDs (useful for labeling)
-df['Label'] = df['ID'].astype(str)
-
 # Vectorize the code snippets
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(df['Code'])
@@ -62,8 +59,8 @@ fig.add_trace(go.Scatter(
     x=X_embedded[:, 0],
     y=X_embedded[:, 1],
     mode='markers',
-    marker=dict(size=10, color=df['label'], colorscale='Viridis', opacity=0.8),
-    text=df['Label'],
+    marker=dict(size=10, color=df['ID'], colorscale='Viridis', opacity=0.8),
+    text=df['ID'],
     hoverinfo='text',
     showlegend=False
 ))
