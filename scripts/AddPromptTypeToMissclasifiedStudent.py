@@ -22,4 +22,4 @@ def add_prompt_type_column(input_file, output_file):
 
     print(f"File '{output_file}' created successfully with 'PromptType' column.")
 
-add_prompt_type_column('ML_models/results/XGBoost_Qwen/Student.csv', 'ML_models/results/XGBoost_Qwen/Updated_Student.csv')
+add_prompt_type_column('ML_models/results/XGBoost_Qwen/Student.csv', 'ML_models/results/XGBoost_Qwen/Updated_Student_1.csv')
