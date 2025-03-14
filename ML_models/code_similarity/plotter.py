@@ -12,7 +12,7 @@ from sklearn.manifold import TSNE
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Directory containing CSV files
-csv_folder = 'ML_models/code_similarity/'
+csv_folder = 'ML_models/code_similarity/csv_files/'
 csv_files = [os.path.join(csv_folder, f) for f in os.listdir(csv_folder) if f.endswith('.csv')]
 
 # Load and merge all CSV files
@@ -22,7 +22,7 @@ def load_and_merge_csvs(csv_files):
         df = pd.read_csv(file)
         df['source_file'] = os.path.basename(file)  # Track source file
         dfs.append(df)
-    return pd.concat(dfs, ignore_index=True)
+    return pd.concat(dfs, ignore_index=True).drop_duplicates(subset=['ID'])  # Remove duplicate IDs
 
 # Load all data
 df = load_and_merge_csvs(csv_files)
@@ -32,7 +32,7 @@ vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(df['Code'])
 
 # **Optimize with PCA before t-SNE**
-pca = TruncatedSVD(n_components=25)  # Reduce dimensionality to 50 before t-SNE
+pca = TruncatedSVD(n_components=50)  # Reduce dimensionality to 50 before t-SNE
 X_reduced = pca.fit_transform(X)
 
 # Compute cosine similarity
@@ -67,13 +67,15 @@ df['y'] = X_embedded[:, 1]
 threshold = 0.5  # Lowered for more edges
 edges = []
 nodes_with_edges = set()
+df = df.reset_index(drop=True)  # Reset index after filtering out duplicates
+
 for i in range(n_samples):
     for j in range(i + 1, n_samples):
         if similarity_matrix[i, j] > threshold:
             edges.append(
                 go.Scattergl(
-                    x=[df.loc[i, 'x'], df.loc[j, 'x']],
-                    y=[df.loc[i, 'y'], df.loc[j, 'y']],
+                    x=[df.iloc[i]['x'], df.iloc[j]['x']],
+                    y=[df.iloc[i]['y'], df.iloc[j]['y']],
                     mode='lines',
                     line=dict(color='gray', width=0.3),
                     opacity=0.2,
@@ -104,7 +106,7 @@ app.layout = html.Div([
                     {'label': 'Show only nodes with similarity edges', 'value': 'only_connected'},
                     {'label': 'Show only isolated nodes', 'value': 'only_isolated'}
                 ],
-                value=[]
+                value=['only_connected']  # Default to showing only connected nodes
             )
         ]
     ),
@@ -139,7 +141,7 @@ def update_graph(filter_value):
         filtered_df = df
 
     figure = go.Figure(
-        data=edges if 'only_isolated' not in filter_value else [] + [
+        data=edges + [
             go.Scattergl(
                 x=filtered_df['x'],
                 y=filtered_df['y'],
