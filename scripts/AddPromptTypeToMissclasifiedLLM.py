@@ -29,6 +29,6 @@ def categorize_prompts(txt_file, csv_file, output_csv):
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
     csv_file = "ML_models//results//XGBoost_Qwen//LLM.csv"
-    output_csv = "ML_models//results//XGBoost_Qwen//updated_LLM_1.csv"
+    output_csv = "ML_models//results//XGBoost_Qwen//Updated_LLM_1.csv"
     
     categorize_prompts(txt_file, csv_file, output_csv)
