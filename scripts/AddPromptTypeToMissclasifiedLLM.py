@@ -22,13 +22,13 @@ def categorize_prompts(txt_file, csv_file, output_csv):
         
         writer.writeheader()
         for row in reader:
-            prompt = row['Prompt'].strip()
+            prompt = row['prompt'].strip()
             row['PromptType'] = prompt_mapping.get(prompt, '')  # Assign type or empty if not found
             writer.writerow(row)
 
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    csv_file = "ML_models//results//XGBoost_Qwen//LLM.csv"
-    output_csv = "ML_models//results//XGBoost_Qwen//Updated_LLM_1.csv"
+    csv_file =   "ML_models/code_similarity/csv_files/misclassified_LLM_all_ada_gpt35.csv"
+    output_csv = "ML_models/code_similarity/csv_files/updated_misclassified_LLM_all_ada_gpt35.csv"
     
     categorize_prompts(txt_file, csv_file, output_csv)
