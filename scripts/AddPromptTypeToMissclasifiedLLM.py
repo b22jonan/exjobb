@@ -28,7 +28,7 @@ def categorize_prompts(txt_file, csv_file, output_csv):
 
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    csv_file =   "ML_models/code_similarity/csv_files/misclassified_LLM_all_ada_gpt35.csv"
-    output_csv = "ML_models/code_similarity/csv_files/updated_misclassified_LLM_all_ada_gpt35.csv"
+    csv_file =           "ML_models/code_similarity/misclassified_LLM_all_xg_qwen.csv"
+    output_csv = "ML_models/code_similarity/updated_misclassified_LLM_all_xg_qwen.csv"
     
     categorize_prompts(txt_file, csv_file, output_csv)
