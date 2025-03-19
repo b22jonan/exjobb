@@ -92,7 +92,7 @@ def num_to_color(num):
         1: '#DC143C',  # Crimson (Copy Paste)
         2: '#40E0D0',  # Turquoise (Perfect)
         3: '#E97451',  # Burnt Sienna (Memetic Proxy)
-        4: '#8B00FF',  # electric violet (Meta)
+        4: '#8B00FF',  # Electric Violet (Meta)
         5: '#DAA520',  # Goldenrod (Restraints)
         6: '#009688',  # Teal (Translation)
     }
@@ -133,20 +133,6 @@ app.layout = html.Div([
             )
         ]
     ),
-    html.Div(
-        style={'textAlign': 'center', 'marginTop': '20px'},
-        children=[
-            html.P("Legend:", style={'fontWeight': 'bold'}),
-            html.Ul([
-                html.Li("Copy Paste - Crimson", style={'color': '#DC143C'}),
-                html.Li("Perfect - Turquoise", style={'color': '#40E0D0'}),
-                html.Li("Memetic Proxy - Burnt Sienna", style={'color': '#E97451'}),
-                html.Li("Meta - Electric Violet", style={'color': '#8B00FF'}),
-                html.Li("Restraints - Goldenrod", style={'color': '#DAA520'}),
-                html.Li("Translation - Teal", style={'color': '#009688'})
-            ])
-        ]
-    ),
     html.Div(id='output-div', style={'marginTop': 20, 'fontSize': 20, 'textAlign': 'center'})
 ])
 
@@ -156,15 +142,24 @@ app.layout = html.Div([
 )
 def update_graph(filter_value):
     show_edges = 'show_edges' in filter_value
+
+    # **Fix for Node Filtering**
+    if 'only_connected' in filter_value:
+        filtered_df = df.iloc[list(nodes_with_edges)]
+    elif 'only_isolated' in filter_value:
+        filtered_df = df[~df.index.isin(nodes_with_edges)]
+    else:
+        filtered_df = df
+
     figure = go.Figure(
         data=(edges if show_edges else []) + [
             go.Scattergl(
-                x=df['x'],
-                y=df['y'],
+                x=filtered_df['x'],
+                y=filtered_df['y'],
                 mode='markers',
-                marker=dict(size=15, color=[num_to_color(val) for val in df['PromptType']], opacity=0.8),
-                text=df['ID'],
-                customdata=df['ID'],
+                marker=dict(size=15, color=[num_to_color(val) for val in filtered_df['PromptType']], opacity=0.8),
+                text=filtered_df['ID'],
+                customdata=filtered_df['ID'],
                 hoverinfo='text'
             )
         ],
@@ -179,5 +174,16 @@ def update_graph(filter_value):
     )
     return figure
 
+@app.callback(
+    Output('output-div', 'children'),
+    Input('scatter-plot', 'clickData')
+)
+def display_click_data(clickData):
+    if clickData and 'points' in clickData:
+        selected_id = clickData['points'][0]['customdata']
+        pyperclip.copy(str(selected_id))
+        return f"Copied ID: {selected_id}"
+    return "Click a point to copy its ID."
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run_server(debug=True)
