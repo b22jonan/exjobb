@@ -133,6 +133,20 @@ app.layout = html.Div([
             )
         ]
     ),
+    html.Div(
+        style={'textAlign': 'center', 'marginTop': '20px'},
+        children=[
+            html.P("Legend:", style={'fontWeight': 'bold'}),
+            html.Ul([
+                html.Li("Copy Paste - Crimson", style={'color': '#DC143C'}),
+                html.Li("Perfect - Turquoise", style={'color': '#40E0D0'}),
+                html.Li("Memetic Proxy - Burnt Sienna", style={'color': '#E97451'}),
+                html.Li("Meta - Electric Violet", style={'color': '#8B00FF'}),
+                html.Li("Restraints - Goldenrod", style={'color': '#DAA520'}),
+                html.Li("Translation - Teal", style={'color': '#009688'})
+            ])
+        ]
+    ),
     html.Div(id='output-div', style={'marginTop': 20, 'fontSize': 20, 'textAlign': 'center'})
 ])
 
