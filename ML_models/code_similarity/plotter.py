@@ -32,7 +32,7 @@ llm_colors = {
     "gpt4o": "#FF4500",      # Orange Red
     "gpt35": "#1E90FF",      # Dodger Blue
     "deepseek": "#32CD32",   # Lime Green
-    "qwen": "#FFD700"        # Gold
+    "qwen": "#DFB700"        # Yellow
 }
 
 # Directory containing CSV files
@@ -80,7 +80,7 @@ vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(df['Code'])  # This ensures only "Code" is used
 
 # **Reduce TF-IDF Vectors to 2D using UMAP**
-umap_reducer = umap.UMAP(n_components=2, random_state=42)
+umap_reducer = umap.UMAP(n_components=2, random_state=42, spread=1, min_dist=0.5)
 X_embedded = umap_reducer.fit_transform(X)  # Use TF-IDF directly instead of LDA
 
 # **Apply HDBSCAN to dynamically find the number of clusters**
@@ -103,22 +103,23 @@ topic_to_color_map = {topic: dynamic_topic_colors[i] for i, topic in enumerate(u
 df['TopicColor'] = df['Topic'].map(lambda t: topic_to_color_map.get(t, '#999999'))  # Default to gray for noise
 
 
-# Offset overlapping points in a consistent direction
-def offset_duplicates(coords, min_distance=0.5):
-    seen = {}
-    adjusted_coords = coords.copy()
-    offset_step = min_distance
-    for i, point in enumerate(coords):
-        key = tuple(np.round(point, decimals=3))
-        if key in seen:
-            count = seen[key]
-            adjusted_coords[i] += np.array([offset_step * count, offset_step * count])
-            seen[key] += 1
-        else:
-            seen[key] = 1
-    return adjusted_coords
+## Offset overlapping points in a consistent direction
+#def offset_duplicates(coords, min_distance=0.5):
+#    seen = {}
+#    adjusted_coords = coords.copy()
+#    offset_step = min_distance
+#    for i, point in enumerate(coords):
+#        key = tuple(np.round(point, decimals=3))
+#        if key in seen:
+#            count = seen[key]
+#            adjusted_coords[i] += np.array([offset_step * count, offset_step * count])
+#            seen[key] += 1
+#        else:
+#            seen[key] = 1
+#    return adjusted_coords
+#
+#X_embedded = offset_duplicates(X_embedded)
 
-X_embedded = offset_duplicates(X_embedded)
 df['x'] = X_embedded[:, 0]
 df['y'] = X_embedded[:, 1]
 
@@ -141,7 +142,7 @@ def generate_edges(df, similarity_matrix, threshold=0.5, cluster_threshold=5):
     """
     Generates:
     - raw_edges (full edges, used for filtering)
-    - optimized_edges (cluster-based edges, used for rendering)
+    - optimized_edges (cluster-based edges, planned on using for rendering, doesnt work)
 
     Args:
         df: DataFrame of nodes.
@@ -158,7 +159,7 @@ def generate_edges(df, similarity_matrix, threshold=0.5, cluster_threshold=5):
     optimized_edges = []  # Reduced edges (for rendering)
     nodes_with_edges = set()
 
-    # 1️⃣ **Full Edge List (for filtering)**
+    # **Full Edge List (for filtering)**
     for i in range(len(df)):
         for j in range(i + 1, len(df)):
             if similarity_matrix[i, j] > threshold:
@@ -166,7 +167,7 @@ def generate_edges(df, similarity_matrix, threshold=0.5, cluster_threshold=5):
                 nodes_with_edges.add(i)
                 nodes_with_edges.add(j)
 
-    # 2️⃣ **Cluster-Based Edge Simplification**
+    # **Cluster-Based Edge Simplification**
     G = nx.Graph()
     for i in range(len(df)):
         G.add_node(i)
@@ -304,7 +305,7 @@ def update_graph(filter_value, color_mode):
             x=filtered_df['x'],
             y=filtered_df['y'],
             mode='markers',
-            marker=dict(size=15, color=filtered_df[color_column], opacity=0.8),
+            marker=dict(size=15, color=filtered_df[color_column], opacity=0.5),
             text=filtered_df['ID'],
             customdata=filtered_df['ID'],
             hoverinfo='text'
@@ -328,23 +329,31 @@ def update_graph(filter_value, color_mode):
     if color_mode == 'llm':
         legend = html.Div([
             html.P("Legend (LLM Models):", style={'fontWeight': 'bold'}),
-            html.Ul([
-                html.Li("GPT-4o - Orange Red", style={'color': '#FF4500'}),
-                html.Li("GPT-3.5 - Dodger Blue", style={'color': '#1E90FF'}),
-                html.Li("DeepSeek - Lime Green", style={'color': '#32CD32'}),
-                html.Li("Qwen - Gold", style={'color': '#FFD700'})
+            html.Div([
+                html.Span("GPT-4o - Orange Red", style={'color': '#FF4500'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("GPT-3.5 - Dodger Blue", style={'color': '#1E90FF'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("DeepSeek - Lime Green", style={'color': '#32CD32'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Qwen - Yellow", style={'color': '#DFB700'})
             ])
         ])
     elif color_mode == 'prompt':
         legend = html.Div([
             html.P("Legend (Prompt Types):", style={'fontWeight': 'bold'}),
-            html.Ul([
-                html.Li("Copy Paste - Crimson", style={'color': '#DC143C'}),
-                html.Li("Perfect - Turquoise", style={'color': '#40E0D0'}),
-                html.Li("Memetic Proxy - Burnt Sienna", style={'color': '#E97451'}),
-                html.Li("Meta - Electric Violet", style={'color': '#8B00FF'}),
-                html.Li("Restraints - Goldenrod", style={'color': '#DAA520'}),
-                html.Li("Translation - Teal", style={'color': '#009688'})
+            html.Div([
+                html.Span("Copy Paste - Crimson", style={'color': '#DC143C'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Perfect - Turquoise", style={'color': '#40E0D0'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Memetic Proxy - Burnt Sienna", style={'color': '#E97451'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Meta - Electric Violet", style={'color': '#8B00FF'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Restraints - Goldenrod", style={'color': '#DAA520'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Translation - Teal", style={'color': '#009688'})
             ])
         ])
     else:
