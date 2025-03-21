@@ -1,0 +1,274 @@
+# topic 1 
+
+public int sum67(int[] nums) {
+    int total = 0;
+    boolean inSection = false;
+
+    for (int num : nums) {
+        if (num == 6) {
+            inSection = true;
+        }
+
+        if (!inSection) {
+            total += num;
+        }
+
+        if (inSection && num == 7) {
+            inSection = false;
+        }
+    }
+
+    return total;
+}
+
+import java.util.Arrays;
+
+public int centeredAverage(int[] nums) {
+    Arrays.sort(nums);
+    int sum = 0;
+    int count = 0;
+    for (int i = 1, j = nums.length - 2; i < j; i++, j--) {
+        sum += nums[i];
+        count++;
+    }
+    return sum / count;
+}
+
+public int sum13(int[] nums) {
+    int sum = 0;
+    boolean isUnlucky = false;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 13) {
+            isUnlucky = true;
+        } else if (!isUnlucky) {
+            sum += nums[i];
+        }
+        isUnlucky = false;
+    }
+    return sum;
+}
+
+public int sum3(int[] nums) {
+    int sum = 0;
+    for (int i = 0; i < nums.length; i++) {
+        sum += nums[i];
+    }
+    return sum;
+}
+
+
+
+
+# topic 2
+
+public int sum3(int[] nums) {
+    return nums[0] + nums[1] + nums[2];
+}
+
+public int sum3(int[] nums)
+{
+    return nums[0] + nums[1] + nums[2];
+}
+
+public int sum3(int[] nums)
+{
+    return nums[0] + nums[1] + nums[2];
+}
+
+public int sum3(int[] nums) {
+    return nums[0] + nums[1] + nums[2];
+}
+
+public int sum3(int[] nums) {
+    return nums[0] + nums[1] + nums[2];
+}
+
+
+# topic 3
+
+public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (b != a && c != a) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (a != b && a != c) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+public int redTicket(int a, int b, int c) {
+    if(a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if(a == b && b == c) {
+        return 5;
+    } else if(b != a && c != a) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+public int redTicket(int a, int b, int c) {
+    if (a == 2 && b == 2 && c == 2) {
+        return 10;
+    } else if (a == b && b == c) {
+        return 5;
+    } else if (b != a && c != a) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+# topic 4
+
+public int[] fix45(int[] nums) {
+    int i = 0;
+    while (i < nums.length && nums[i] != 4) {
+        i++;
+    }
+    
+    int j = i + 1;
+    while (j < nums.length && (nums[j] != 5 || (j > 0 && nums[j-1] == 4))) {
+        j++;
+    }
+    
+    while (i < nums.length) {
+        if (nums[i] == 4 && (i == 0 || nums[i-1] != 5)) {
+            if (nums[j] == 5) {
+                int temp = nums[i+1];
+                nums[i+1] = nums[j];
+                nums[j] = temp;
+            }
+            while (j < nums.length && (nums[j] != 5 || (j > 0 && nums[j-1] == 4))) {
+                j++;
+            }
+        }
+        i++;
+    }
+    
+    return nums;
+}
+
+public int[] fix45(int[] nums) {
+    int i = 0;
+    while (i < nums.length && nums[i] != 4) {
+        i++;
+    }
+
+    int j = i + 1;
+    while (j < nums.length && (nums[j] != 5 || (j > 0 && nums[j - 1] == 4))) {
+        j++;
+    }
+
+    while (i < nums.length) {
+        if (nums[i] == 4 && (i == 0 || nums[i - 1] != 5)) {
+            if (nums[j] == 5) {
+                int temp = nums[i + 1];
+                nums[i + 1] = 5;
+                nums[j] = temp;
+            }
+        }
+        i++;
+    }
+
+    return nums;
+}
+
+public int[] fix45(int[] nums) {
+    int i = 0;
+    while (i < nums.length && (nums[i] != 4 || (i > 0 && nums[i - 1] == 4))) {
+        i++;
+    }
+
+    int j = 0;
+    while (j < nums.length) {
+        if (nums[j] == 5 && (j == 0 || nums[j - 1] == 4)) {
+            j++;
+        } else if (nums[j] == 4) {
+            if (nums[i] != 5) {
+                int temp = nums[i];
+                nums[i] = nums[j + 1];
+                nums[j + 1] = temp;
+            }
+            i++;
+        }
+        j++;
+    }
+
+    return nums;
+}
+
+public int[] fix45(int[] nums) {
+    int i = 0;
+    int j = 0;
+
+    while (j < nums.length && nums[j] != 5) {
+        if (nums[i] == 4) {
+            while (nums[j] == 4 || (j > 0 && nums[j - 1] == 4) || nums[j] == 5) {
+                j++;
+            }
+
+            if (nums[j] == 5) {
+                int temp = nums[j];
+                nums[j] = nums[i + 1];
+                nums[i + 1] = temp;
+            } else {
+                int k = i + 1;
+                while (nums[k] != 5 || (k > 0 && nums[k - 1] == 4)) {
+                    k++;
+                }
+                int temp = nums[k];
+                nums[k] = nums[i + 1];
+                nums[i + 1] = temp;
+            }
+        }
+        i++;
+        j++;
+    }
+
+    return nums;
+}
+
+    for (int num : nums) {
+            if (num != 4 && num != 5) {
+                temp[index++] = num;
+            }
+        }
+    int tempIndex = 0;
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            nums[i + 1] = 5;
+            i++;
+        } else if (nums[i] != 5) {
+            nums[i] = temp[tempIndex++];
+        }
+    }
+    return nums;
+}
+
+public int countCode(String str) {
+    int count = 0;
+    int pos = 0;
+    while ((pos = str.indexOf(""co"", pos)) != -1) {
+        if (str.charAt(pos + 2) == 'e' && str.charAt(pos + 1) != ' ') {
+            count++;
+        }
+        pos += 3;
+    }
+    return count;
+}

@@ -6,13 +6,12 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 import pyperclip
 import os
-from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import umap.umap_ as umap
 import networkx as nx
 import hdbscan
-import seaborn as sns  # Use for dynamically generating colors
+import seaborn as sns 
 
 
 # Define color mapping for LDA topics
