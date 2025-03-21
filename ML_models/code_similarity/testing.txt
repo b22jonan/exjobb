@@ -1,0 +1,116 @@
+orange ig:
+
+public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimit = 60;
+    
+    if (isBirthday) {
+        speedLimit += 5;
+    }
+    
+    if (speed <= speedLimit) {
+        return 0;
+    } else if (speed >= speedLimit + 1 && speed <= speedLimit + 20) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
+public int caughtSpeeding(int speed, boolean isBirthday) {
+    int speedLimit = isBirthday ? 65 : 60;
+    if (speed <= speedLimit) {
+        return 0;
+    } else if (speed <= (isBirthday ? 85 : 80)) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
+public int caughtSpeeding(int speed, boolean isBirthday) {
+    int result;
+    if (isBirthday) {
+        if (speed <= 65) {
+            result = 0;
+        } else if (speed <= 85) {
+            result = 1;
+        } else {
+            result = 2;
+        }
+    } else {
+        if (speed <= 60) {
+            result = 0;
+        } else if (speed <= 80) {
+            result = 1;
+        } else {
+            result = 2;
+        }
+    }
+    return result;
+}
+
+
+pink shi
+
+public int[] fix45(int[] nums) {
+  // Find the index of 4
+  for (int i = 0; i < nums.length; i++) {
+    if (nums[i] == 4) {
+      int pos = 0;
+      for (int j = 0; j < nums.length; j++) {
+        if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+          pos = j;
+          break;
+        }
+      }
+      nums[pos] = nums[i + 1];
+      nums[i + 1] = 5;
+    }
+  }
+  return nums;
+}
+
+public int[] fix45(int[] nums) {
+    int[] result = new int[nums.length];
+    int[] positionsOf5 = new int[nums.length];
+    int index = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 5) {
+            positionsOf5[index] = i;
+            index++;
+        }
+    }
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 4) {
+            for (int j = 0; j < nums.length; j++) {
+                if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+                    int temp = nums[i + 1];
+                    nums[i + 1] = nums[j];
+                    nums[j] = temp;
+                    break;
+                }
+            }
+        }
+    }
+
+    return nums;
+}
+
+public int[] fix45(int[] nums) {
+    int n = nums.length;
+    for (int i = 0; i < n; i++) {
+        if (nums[i] == 4 && nums[i + 1] != 5) {
+            for (int j = 0; j < n; j++) {
+                if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {
+                    int temp = nums[i + 1];
+                    nums[i + 1] = nums[j];
+                    nums[j] = temp;
+                    break;
+                }
+            }
+        }
+    }
+    return nums;
+}
