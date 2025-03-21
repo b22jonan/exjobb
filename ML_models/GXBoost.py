@@ -10,10 +10,10 @@ import subprocess
 import sys
 
 # File paths
-x_data_path = 'prompting/Qwen/processed_responses.csv'
-failed_x_path = 'ML_models/results/XGBoost_Qwen/LLM.csv'
-failed_y_path = 'ML_models/results/XGBoost_Qwen/Student.csv'
-conf_matrix_path = 'ML_models/results/XGBoost_Qwen/confusion_matrix.csv'
+x_data_path = 'prompting/ChatGPT4o/processed_responses.csv'
+failed_x_path = 'ML_models/results/XGBoost_ChatGPT4o/LLM.csv'
+failed_y_path = 'ML_models/results/XGBoost_ChatGPT4o/Student.csv'
+conf_matrix_path = 'ML_models/results/XGBoost_ChatGPT4o/confusion_matrix.csv'
 
 # Initialize lists to store failed samples and confusion matrices
 failed_x_all = pd.DataFrame()
@@ -28,18 +28,17 @@ for i in range(iterations):
     print(f"Training iteration {i + 1}...")
     
     # Generate new dataset for each iteration
-    os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
     subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-    # Load first dataset (student dataset)
+    # Load first dataset 
     x_data = pd.read_csv(x_data_path, header=0, names=["ID", "Prompt", "Code"])
     
     # Load second dataset
-    y_data = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=None, names=["ID", "Code"])
+    y_data = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
     
-    # Add labels (0 for X, 1 for Y)
-    x_data['label'] = 0
-    y_data['label'] = 1
+    # Add labels (1 for X, 0 for Y)
+    x_data['label'] = 1
+    y_data['label'] = 0
 
     # Store ExtraField separately and drop from x_data for training
     x_extra_field = x_data[['ID', 'Prompt']]
@@ -80,9 +79,9 @@ for i in range(iterations):
     misclassified = misclassified[['ID', 'Code', 'label']]
 
     # Separate misclassified entries for X and Y datasets
-    failed_x = misclassified[misclassified['label'] == 0]
-    failed_y = misclassified[misclassified['label'] == 1]
-
+    failed_x = misclassified[misclassified['label'] == 1]
+    failed_y = misclassified[misclassified['label'] == 0]
+    
     # Merge back the extra field for dataset X
     failed_x = failed_x.merge(x_extra_field, on="ID", how="left")
 

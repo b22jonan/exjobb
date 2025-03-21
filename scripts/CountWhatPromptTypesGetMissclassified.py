@@ -26,5 +26,5 @@ def count_prompt_occurrences(txt_file, csv_file):
 
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    csv_file = "ML_models//results//XGBoost_Qwen//LLM.csv"
+    csv_file = "ML_models//results//NN_ChatGPT4o//LLM.csv"
     count_prompt_occurrences(txt_file, csv_file)
