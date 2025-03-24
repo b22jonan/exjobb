@@ -380,14 +380,29 @@ def update_graph(filter_value, color_mode):
 def display_click_data(clickData):
     if clickData and 'points' in clickData:
         selected_id = clickData['points'][0]['customdata']
-        
+        row = df[df['ID'] == selected_id].iloc[0]
+
+        code_block = html.Pre(row['Code'], style={
+            'backgroundColor': '#f8f8f8',
+            'padding': '10px',
+            'border': '1px solid #ccc',
+            'overflowX': 'auto',
+            'maxHeight': '300px',
+            'whiteSpace': 'pre-wrap',
+            'textAlign': 'left'
+        })
+
         try:
             pyperclip.copy(str(selected_id))
-            return f"Copied ID: {selected_id}"
+            return html.Div([
+                html.P(f"Copied ID: {selected_id}", style={'fontWeight': 'bold'}),
+                html.P("Code Snippet:"),
+                code_block
+            ])
         except Exception as e:
             return f"Failed to copy ID: {str(e)}"
     
-    return "Click a point to copy its ID."
+    return "Click a point to view its code and copy the ID."
 
 if __name__ == '__main__':
     app.run_server(debug=True)

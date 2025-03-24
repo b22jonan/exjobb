@@ -27,13 +27,13 @@ ml_colors = {
 }
 
 # ====== Load CSVs ======
-csv_folder = 'ML_models/code_similarity/student_csvs/'
+csv_folder = 'ML_models/code_similarity/csv_files_student/'
 csv_files = [os.path.join(csv_folder, f) for f in os.listdir(csv_folder) if f.endswith('.csv')]
 
 def extract_ml_model(filename):
     # Gets e.g. "ada" from "misclassified_student_ada_deepseek.csv"
     parts = os.path.basename(filename).split('_')
-    return parts[2] if len(parts) >= 3 else 'unknown'
+    return parts[3] if len(parts) >= 4 else 'unknown'
 
 def load_and_merge_csvs(files):
     dfs = []
@@ -57,7 +57,7 @@ df['Code'] = df['Code'].apply(clean_code)
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(df['Code'])
 
-umap_model = umap.UMAP(n_components=2, random_state=42)
+umap_model = umap.UMAP(n_components=2, random_state=42, spread=4, min_dist=4)
 X_umap = umap_model.fit_transform(X)
 
 # Apply HDBSCAN for topic clustering
@@ -206,7 +206,8 @@ def update_graph(filters, color_mode):
             html.Div([
                 html.Span(f"Topic {i}", style={'color': col, 'marginRight': '20px'})
                 for i, col in enumerate(topic_colors)
-            ], style={'display': 'flex', 'justifyContent': 'center', 'flexWrap': 'wrap'})
+            ],  style={'display': 'flex', 'justifyContent': 'center', 'flexWrap': 'wrap'}),
+            html.P(f"Noise", style={'color': '#999999', 'marginRight': '20px'}),
         ])
 
     return figure, legend
@@ -216,14 +217,32 @@ def update_graph(filters, color_mode):
     Input('scatter-plot', 'clickData')
 )
 def display_click_data(clickData):
-    if clickData:
+    if clickData and 'points' in clickData:
         selected_id = clickData['points'][0]['customdata']
+        row = df[df['ID'] == selected_id].iloc[0]
+
+        code_block = html.Pre(row['Code'], style={
+            'backgroundColor': '#f8f8f8',
+            'padding': '10px',
+            'border': '1px solid #ccc',
+            'overflowX': 'auto',
+            'maxHeight': '300px',
+            'whiteSpace': 'pre-wrap',
+            'textAlign': 'left'
+        })
+
         try:
             pyperclip.copy(str(selected_id))
-            return f"Copied ID: {selected_id}"
+            return html.Div([
+                html.P(f"Copied ID: {selected_id}", style={'fontWeight': 'bold'}),
+                html.P("Code Snippet:"),
+                code_block
+            ])
         except Exception as e:
-            return f"Failed to copy: {str(e)}"
-    return "Click a point to copy its ID."
+            return f"Failed to copy ID: {str(e)}"
+    
+    return "Click a point to view its code and copy the ID."
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
