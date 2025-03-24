@@ -36,7 +36,7 @@ llm_colors = {
 }
 
 # Directory containing CSV files
-csv_folder = 'ML_models/code_similarity/csv_files/'
+csv_folder = 'ML_models/code_similarity/csv_files_llm/'
 csv_files = [os.path.join(csv_folder, f) for f in os.listdir(csv_folder) if f.endswith('.csv')]
 
 # Extract LLM Name from Filename
