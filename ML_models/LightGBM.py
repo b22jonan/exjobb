@@ -18,8 +18,8 @@ num_iterations = 50
 random_states = random.sample(list(range(100, 10000)), num_iterations)
 
 # DataFrames to accumulate misclassified cases
-misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "prompt", "Label"])
-misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt", "Label"])
+misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
 
 # DataFrame to store confusion matrices per iteration
 confusion_matrices = []
