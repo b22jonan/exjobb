@@ -56,13 +56,13 @@ for i, state in enumerate(random_states):
 
     # Compute confusion matrix
     cm = confusion_matrix(y_test, y_pred)
-    confusion_matrices.append({"Loopnr": i + 1, "RN": cm[0,0], "FP": cm[0,1], "FN": cm[1,0], "TP": cm[1,1]})
+    confusion_matrices.append({"Loopnr": i + 1, "TN": cm[0,0], "FP": cm[0,1], "FN": cm[1,0], "TP": cm[1,1]})
 
     misclassified_indices = np.where(y_pred != y_test)[0]
     misclassified_cases = data.loc[indices_test[misclassified_indices]].copy()
 
-    misclassified_llm = misclassified_cases[misclassified_cases["label"] == 0][["ID", "Code", "prompt", "label"]]
-    misclassified_student = misclassified_cases[misclassified_cases["label"] == 1][["ID", "Code", "prompt", "label"]]
+    misclassified_llm = misclassified_cases[misclassified_cases["label"] == 0][["ID", "Code", "Prompt"]]
+    misclassified_student = misclassified_cases[misclassified_cases["label"] == 1][["ID", "Code", "Prompt"]]
 
     misclassified_llm_all = pd.concat([misclassified_llm_all, misclassified_llm], ignore_index=True)
     misclassified_student_all = pd.concat([misclassified_student_all, misclassified_student], ignore_index=True)

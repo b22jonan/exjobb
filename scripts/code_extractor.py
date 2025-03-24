@@ -2,28 +2,40 @@ import re
 import pandas as pd
 
 def extract_code(text):
-    # Try to extract code within triple backticks first
+    # First, extract code within triple backticks
     code_blocks = re.findall(r'```(?:[a-zA-Z0-9+]*\n)?(.*?)```', text, re.DOTALL)
-    
     if code_blocks:
-        extracted = '\n'.join(code_blocks).strip()
-    else:
-        # If no triple backticks, attempt to identify code heuristically
-        lines = text.split('\n')
-        code_lines = []
-        in_code_block = False
-        
-        for line in lines:
-            # Detect potential start of code (heuristics)
-            if re.match(r'^[a-zA-Z0-9_\s]+\(.*\)\s*\{?', line):  # Looks like function/class definition
-                in_code_block = True
-            
-            if in_code_block:
+        cleaned_blocks = []
+        for block in code_blocks:
+            # Remove any accidental language specifier lines
+            block_clean = re.sub(r'^[a-zA-Z0-9+]+\s*\n', '', block.strip())
+            cleaned_blocks.append(block_clean.strip())
+        return '\n\n'.join(cleaned_blocks).strip()
+
+    # Fallback heuristic with explanatory detection (ignoring comments)
+    lines = text.split('\n')
+    code_lines = []
+    capturing = False
+
+    # Patterns
+    explanatory_pattern = re.compile(r'^\s*(In\s+the|This\s+way|You\s+can|Thus,|Therefore,|So,|Hence,|Finally,|As\s+such|If\s+you|Based\s+on|We\s+can|To\s+solve|Alternatively,|\*|-)')
+    comment_pattern = re.compile(r'^\s*(//|/\*|\*|#)')
+    code_start_pattern = re.compile(
+        r'^\s*(public|private|protected|static|class|def|import\s|\w+\s+\w+\s*\(.*\)\s*\{|[#@]|[\}\{])'
+    )
+
+    for line in lines:
+        if capturing:
+            if explanatory_pattern.match(line.strip()) and not comment_pattern.match(line.strip()):
+                # Stop capturing when explanatory text (but not comment) is found
+                break
+            else:
                 code_lines.append(line)
-        
-        extracted = '\n'.join(code_lines).strip() if code_lines else text
-    
-    return extracted
+        elif code_start_pattern.match(line.strip()):
+            capturing = True
+            code_lines.append(line)
+
+    return '\n'.join(code_lines).strip() if code_lines else ''
 
 def process_csv(file_path, output_file):
     df = pd.read_csv(file_path)
@@ -52,4 +64,4 @@ def process_csv(file_path, output_file):
     print(f"Processed file saved to {output_file}")
 
 # Process both files
-process_csv("prompting/DeepSeek/Complete_DeepSeek_Responses.csv", "prompting/DeepSeek/processed_DeepSeek_Responces.csv")
+process_csv("prompting/Qwen/responses.csv", "prompting/Qwen/processed_responces.csv")
