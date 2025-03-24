@@ -64,4 +64,4 @@ def process_csv(file_path, output_file):
     print(f"Processed file saved to {output_file}")
 
 # Process both files
-process_csv("prompting/Qwen/responses.csv", "prompting/Qwen/processed_responces.csv")
+process_csv("prompting/Qwen/responses.csv", "prompting/Qwen/processed_responses.csv")
