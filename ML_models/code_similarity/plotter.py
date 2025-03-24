@@ -80,7 +80,7 @@ vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(df['Code'])  # This ensures only "Code" is used
 
 # **Reduce TF-IDF Vectors to 2D using UMAP**
-umap_reducer = umap.UMAP(n_components=2, random_state=42, spread=1, min_dist=0.5)
+umap_reducer = umap.UMAP(n_components=2, random_state=42, spread=4, min_dist=4)
 X_embedded = umap_reducer.fit_transform(X)  # Use TF-IDF directly instead of LDA
 
 # **Apply HDBSCAN to dynamically find the number of clusters**
