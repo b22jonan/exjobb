@@ -64,14 +64,6 @@ def load_and_merge_csvs(csv_files):
 # Load all data
 df = load_and_merge_csvs(csv_files)
 
-# Preprocess Code (normalize spaces & line breaks)
-def clean_code(text):
-    text = text.replace('\r', '').replace('\n', ' ')  # Normalize newlines
-    text = ' '.join(text.split())  # Remove extra spaces & tabs
-    return text
-
-df['Code'] = df['Code'].apply(clean_code)
-
 # Assign PromptType colors
 df['PromptColor'] = df['PromptType'].map(num_to_color)
 

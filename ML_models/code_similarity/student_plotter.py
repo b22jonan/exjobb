@@ -46,13 +46,6 @@ def load_and_merge_csvs(files):
 
 df = load_and_merge_csvs(csv_files)
 
-# ====== Preprocessing ======
-def clean_code(text):
-    text = text.replace('\r', '').replace('\n', ' ')
-    return ' '.join(text.split())
-
-df['Code'] = df['Code'].apply(clean_code)
-
 # ====== Vectorization & Clustering ======
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(df['Code'])
