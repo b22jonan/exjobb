@@ -12,7 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.impute import SimpleImputer
 import graphviz
 
-# run: ChatGPT4o
+# run: Qwen
 
 # Ensure Graphviz is in PATH (adjust as needed)
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
@@ -21,8 +21,8 @@ num_iterations = 50
 random_states = random.sample(list(range(100, 10000)), num_iterations)
 
 # DataFrames to accumulate misclassified cases
-misclassified_llm_all = pd.DataFrame(columns=["ID", "code", "prompt", "label"])
-misclassified_student_all = pd.DataFrame(columns=["ID", "code", "prompt", "label"])
+misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
 
 # DataFrame to store confusion matrices per iteration
 confusion_matrices = []
@@ -30,17 +30,17 @@ confusion_matrices = []
 for i, state in enumerate(random_states):
     subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-    data_llm = pd.read_csv("prompting/ChatGPT4o/processed_responses.csv", header=0, names=["ID", "prompt", "code"])
+    data_llm = pd.read_csv("prompting/Qwen/processed_responses.csv", header=0, names=["ID", "Prompt", "Code"])
     data_llm["label"] = 0
 
-    data_student = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "code"])
+    data_student = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
     data_student["label"] = 1
-    data_student["prompt"] = ""
+    data_student["Prompt"] = ""
 
     data = pd.concat([data_llm, data_student], ignore_index=True)
 
     vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(4, 6), max_features=1000)
-    X = vectorizer.fit_transform(data["code"]).toarray()
+    X = vectorizer.fit_transform(data["Code"]).toarray()
     y = data["label"].values
 
     imputer = SimpleImputer(strategy='median')
@@ -70,11 +70,11 @@ for i, state in enumerate(random_states):
 
 # Save confusion matrices
 confusion_matrices_df = pd.DataFrame(confusion_matrices)
-confusion_matrices_df.to_csv("ML_models/results/AdaBoost_ChatGPT4o/confusion_matrices.csv", index=False)
+confusion_matrices_df.to_csv("ML_models/results/AdaBoost_Qwen/confusion_matrices.csv", index=False)
 
 # Save accumulated misclassified cases
-misclassified_llm_all.to_csv("ML_models/results/AdaBoost_ChatGPT4o/misclassified_LLM_all.csv", index=False)
-misclassified_student_all.to_csv("ML_models/results/AdaBoost_ChatGPT4o/misclassified_Student_all.csv", index=False)
+misclassified_llm_all.to_csv("ML_models/results/AdaBoost_Qwen/misclassified_LLM_all.csv", index=False)
+misclassified_student_all.to_csv("ML_models/results/AdaBoost_Qwen/misclassified_Student_all.csv", index=False)
 
 # Visualize an individual decision tree from the final model
 if hasattr(model, "estimators_") and len(model.estimators_) > 0:
@@ -88,6 +88,6 @@ if hasattr(model, "estimators_") and len(model.estimators_) > 0:
         special_characters=True
     )
     graph = graphviz.Source(dot_data)
-    graph.render("ML_models/results/AdaBoost_ChatGPT4o/tree_visualization")
+    graph.render("ML_models/results/AdaBoost_Qwen/tree_visualization")
 
 print("Confusion matrices and accumulated misclassified cases saved.")
