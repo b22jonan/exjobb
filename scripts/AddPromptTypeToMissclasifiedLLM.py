@@ -17,18 +17,21 @@ def categorize_prompts(txt_file, csv_file, output_csv):
     # Read original CSV and add the "promptType" column
     with open(csv_file, 'r', encoding='utf-8') as infile, open(output_csv, 'w', encoding='utf-8', newline='') as outfile:
         reader = csv.DictReader(infile)
-        fieldnames = reader.fieldnames + ['PromptType']
+        # Rename "Prompt" to "prompt" and add "PromptType"
+        fieldnames = ["prompt" if field == "Prompt" else field for field in reader.fieldnames] + ['PromptType']
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
-        
+
         writer.writeheader()
         for row in reader:
             prompt = row['Prompt'].strip()
+            row['prompt'] = row.pop('Prompt')  # Rename the column
             row['PromptType'] = prompt_mapping.get(prompt, '')  # Assign type or empty if not found
             writer.writerow(row)
 
+
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    csv_file = "ML_models//results//XGBoost_Qwen//LLM.csv"
-    output_csv = "ML_models//results//XGBoost_Qwen//Updated_LLM_1.csv"
+    csv_file =           "ML_models/code_similarity/misclassified_LLM_all_xg_qwen.csv"
+    output_csv = "ML_models/code_similarity/updated_misclassified_LLM_all_xg_qwen.csv"
     
     categorize_prompts(txt_file, csv_file, output_csv)
