@@ -28,10 +28,11 @@ def categorize_prompts(txt_file, csv_file, output_csv):
             row['PromptType'] = prompt_mapping.get(prompt, '')  # Assign type or empty if not found
             writer.writerow(row)
 
-
+# llm: DeepSee
+# ML:  NN
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    csv_file =           "ML_models/code_similarity/misclassified_LLM_all_xg_qwen.csv"
-    output_csv = "ML_models/code_similarity/updated_misclassified_LLM_all_xg_qwen.csv"
+    csv_file =           "ML_models/results/NN_DeepSee/LLM.csv"
+    output_csv = "ML_models/code_similarity/csv_files_llm_not_in_use/updated_misclassified_LLM_NN_DeepSee.csv"
     
     categorize_prompts(txt_file, csv_file, output_csv)
