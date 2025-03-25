@@ -8,10 +8,10 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 
 # File paths
-data_x_path = "prompting/Qwen/processed_responses.csv"
-failed_y_path = "ML_models/results/SVM_Qwen/Student.csv"
-failed_x_path = "ML_models/results/SVM_Qwen/LLM.csv"
-conf_matrix_path = "ML_models/results/SVM_Qwen/confusion_matrices.csv"
+data_x_path = "prompting/ChatGPT4o/processed_responses.csv"
+failed_y_path = "ML_models/results/SVM_ChatGPT4o/Student.csv"
+failed_x_path = "ML_models/results/SVM_ChatGPT4o/LLM.csv"
+conf_matrix_path = "ML_models/results/SVM_ChatGPT4o/confusion_matrices.csv"
 
 # Variables to store misclassified samples
 misclassified_df1 = pd.DataFrame()  # For Label 1 (failed_x_path)
@@ -89,7 +89,7 @@ while iteration < num_iterations:
     print(f"{iteration} ML model")
 
 # Save confusion matrices to CSV file
-conf_matrix_df = pd.DataFrame(conf_matrix_list, columns=["loopnr", "tn", "fp", "fn", "tp"])
+conf_matrix_df = pd.DataFrame(conf_matrix_list, columns=["Loopnr", "TN", "FP", "FN", "TP"])
 conf_matrix_df.to_csv(conf_matrix_path, index=False)
 
 # Print the final results
