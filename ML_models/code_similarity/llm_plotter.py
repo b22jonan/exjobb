@@ -29,10 +29,10 @@ def num_to_color(num):
     return color_map.get(num, '#999999')  # Default: Neutral Gray if not found
 # Define LLM Color Mapping
 llm_colors = {
-    "gpt4o": "#FF4500",      # Orange Red
-    "gpt35": "#1E90FF",      # Dodger Blue
-    "deepseek": "#32CD32",   # Lime Green
-    "qwen": "#DFB700"        # Yellow
+    "ChatGPT4o": "#FF4500",      # Orange Red
+    "ChatGPT35": "#1E90FF",      # Dodger Blue
+    "DeepSeek": "#32CD32",   # Lime Green
+    "Qwen": "#DFB700"        # Yellow
 }
 
 # Directory containing CSV files
