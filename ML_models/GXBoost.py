@@ -13,7 +13,7 @@ import sys
 x_data_path = 'prompting/ChatGPT4o/processed_responses.csv'
 failed_x_path = 'ML_models/results/XGBoost_ChatGPT4o/LLM.csv'
 failed_y_path = 'ML_models/results/XGBoost_ChatGPT4o/Student.csv'
-conf_matrix_path = 'ML_models/results/XGBoost_ChatGPT4o/confusion_matrix.csv'
+conf_matrix_path = 'ML_models/results/XGBoost_ChatGPT4o/confusion_matrices.csv'
 
 # Initialize lists to store failed samples and confusion matrices
 failed_x_all = pd.DataFrame()
