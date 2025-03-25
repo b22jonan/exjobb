@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
 import dash
 from dash import dcc, html
@@ -351,7 +350,7 @@ def update_graph(filter_value, color_mode):
     else:
         unique_topics_sorted = sorted(df['Topic'].unique())
         legend_items = [
-            html.Li(f"Topic {topic}", style={'color': dynamic_topic_colors[idx]})
+            html.Span(f"Topic {topic} ", style={'color': dynamic_topic_colors[idx]})
             for idx, topic in enumerate(unique_topics_sorted) if topic >= 0
         ]
         legend_items.append(html.Li("Noise / Unclustered", style={'color': '#999999'}))
@@ -397,4 +396,4 @@ def display_click_data(clickData):
     return "Click a point to view its code and copy the ID."
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
