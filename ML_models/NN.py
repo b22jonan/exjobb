@@ -8,10 +8,10 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 
 # File paths
-data_x_path = "prompting/DeepSeek/processed_responses.csv"
-failed_y_path = "ML_models/results/NN_DeepSeek/Student.csv"
-failed_x_path = "ML_models/results/NN_DeepSeek/LLM.csv"
-conf_matrix_path = "ML_models/results/NN_DeepSeek/confusion_matrices.csv"
+data_x_path = "prompting/ChatGPT4o/processed_responses.csv"
+failed_y_path = "ML_models/results/NN_ChatGPT4o/Student.csv"
+failed_x_path = "ML_models/results/NN_ChatGPT4o/LLM.csv"
+conf_matrix_path = "ML_models/results/NN_ChatGPT4o/confusion_matrices.csv"
 
 # Variables to store misclassified samples
 misclassified_df1 = pd.DataFrame()  # For Label 0 (failed_x_path)
