@@ -12,7 +12,7 @@ def read_prompts(txt_file):
 
 def count_prompt_occurrences(txt_file, csv_file):
     prompts = read_prompts(txt_file)
-    prompt_counts = {f'Nr{i+1}': 0 for i in range(6)}
+    prompt_counts = {f'Nr{i+1}': 0 for i in range(50)}  # 50 bins instead of 6
     
     # Read CSV and count occurrences
     with open(csv_file, 'r', encoding='utf-8') as f:
@@ -20,18 +20,16 @@ def count_prompt_occurrences(txt_file, csv_file):
         csv_prompts = [row['Prompt'].strip() for row in reader if 'Prompt' in row]
     
     for i, prompt in enumerate(prompts):
-        nr_index = (i % 6)  # Cycle through Nr1 - Nr6
+        nr_index = (i // 6) % 50  # Cycle through Nr1 - Nr50
         count = csv_prompts.count(prompt)
         prompt_counts[f'Nr{nr_index + 1}'] += count
     
     return prompt_counts
 
 def process_all_files(txt_file, folder_path):
-    # Initialize a list to store counts for each subfolder
     all_counts = []
     subfolder_names = []
 
-    # Iterate over subfolders
     for subfolder in os.listdir(folder_path):
         subfolder_path = os.path.join(folder_path, subfolder)
         if os.path.isdir(subfolder_path):
@@ -39,40 +37,36 @@ def process_all_files(txt_file, folder_path):
             if os.path.exists(csv_file):
                 subfolder_names.append(subfolder)
                 prompt_counts = count_prompt_occurrences(txt_file, csv_file)
-                all_counts.append([prompt_counts[f'Nr{i+1}'] for i in range(6)])
-            else :
+                all_counts.append([prompt_counts[f'Nr{i+1}'] for i in range(50)])
+            else:
                 csv_file = os.path.join(subfolder_path, "misclassified_LLM_all.csv")
                 if os.path.exists(csv_file):
                     subfolder_names.append(subfolder)
                     prompt_counts = count_prompt_occurrences(txt_file, csv_file)
-                    all_counts.append([prompt_counts[f'Nr{i+1}'] for i in range(6)])
+                    all_counts.append([prompt_counts[f'Nr{i+1}'] for i in range(50)])
 
     return subfolder_names, all_counts
 
-def plot_results(subfolder_names, all_counts, bar_names, colors):
-    df = pd.DataFrame(all_counts, columns=[f'Nr{i+1}' for i in range(6)], index=subfolder_names)
-
-    # Plotting the 100% stacked bar chart
-    ax = df.div(df.sum(axis=1), axis=0).plot(kind='bar', stacked=True, figsize=(10, 6), color=colors, width=0.8)
+def plot_heatmap(subfolder_names, all_counts):
+    df = pd.DataFrame(all_counts, columns=[f'Nr{i+1}' for i in range(50)], index=subfolder_names)
     
-    # Adding the bar names below the columns
-    ax.set_xticklabels(subfolder_names, rotation=45, ha='right')
-    ax.set_ylabel('Percentage')
-    ax.set_title('Prompt missclasification diagram')
+    plt.figure(figsize=(14, 8))  # Adjust figure size for better spacing
+    plt.imshow(df, aspect='auto', cmap='RdYlGn_r')  # Green to Yellow to Red
+    plt.colorbar(label='Count', shrink=0.8)
     
-    # Adjust layout to provide space for labels
-    plt.subplots_adjust(bottom=0.35, left=0.1, right=0.9, top=0.9)
-
-    legend_patches = [plt.Line2D([0], [0], color=color, lw=6) for color in colors[:6]]
-    plt.legend(legend_patches, bar_names, loc='center', ncol=4, bbox_to_anchor=(0.5, -0.55))
+    plt.xticks(ticks=np.arange(50), labels=[f'Nr{i+1}' for i in range(50)], rotation=90)
+    plt.yticks(ticks=np.arange(len(subfolder_names)), labels=subfolder_names, ha='right')
     
+    plt.xlabel("Question Nr")
+    plt.ylabel("LLM/ML combo")
+    plt.title("Question missclassification Heatmap")
+    
+    plt.subplots_adjust(left=0.2, right=0.85)  # Adjust layout to shift heatmap right
     plt.show()
 
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    folder_path = "ML_models//results"  # Path to the results folder
-    bar_names = ['Copy Paste', 'P.e.r.f.e.c.t', 'Memetic', 'Meta', 'Restraints', 'Translate']  # Custom bar names
-    colors = ['#DC143C', '#40E0D0', '#E97451', '#D81B60', '#DAA520', '#009688']  # Custom colors
-
+    folder_path = "ML_models//results"
+    
     subfolder_names, all_counts = process_all_files(txt_file, folder_path)
-    plot_results(subfolder_names, all_counts, bar_names, colors)
+    plot_heatmap(subfolder_names, all_counts)
