@@ -220,7 +220,7 @@ app.layout = html.Div([
     html.Div(
         style={'backgroundColor': '#f4f4f4', 'padding': '10px', 'textAlign': 'center'},
         children=[
-            html.H1("Code Similarity Visualization", style={'margin': '0px'}),
+            html.H1("Code Similarity Visualisation", style={'margin': '0px'}),
             html.P("Merging all datasets for visualization."),
             dcc.Checklist(
                 id='filter-nodes',
@@ -296,7 +296,7 @@ def update_graph(filter_value, color_mode):
             x=filtered_df['x'],
             y=filtered_df['y'],
             mode='markers',
-            marker=dict(size=15, color=filtered_df[color_column], opacity=0.5),
+            marker=dict(size=10, color=filtered_df[color_column], opacity=0.5),
             text=filtered_df['ID'],
             customdata=filtered_df['ID'],
             hoverinfo='text'
@@ -307,7 +307,7 @@ def update_graph(filter_value, color_mode):
     figure = go.Figure(
         data=figure_data,
         layout=go.Layout(
-            title="Code Similarity Visualization",
+            title="Neural networks Missclassified Code Similarity Visualisation",
             xaxis=dict(visible=False),
             yaxis=dict(visible=False),
             margin=dict(l=10, r=10, t=40, b=10),

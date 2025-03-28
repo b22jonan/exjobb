@@ -63,5 +63,5 @@ def process_csv(file_path, output_file):
     df[columns_to_keep].to_csv(output_file, index=False)
     print(f"Processed file saved to {output_file}")
 
-# Process both files
+# Process file and save the output
 process_csv("prompting/Qwen/responses.csv", "prompting/Qwen/processed_responses.csv")
