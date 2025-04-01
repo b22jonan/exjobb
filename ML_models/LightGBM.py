@@ -15,20 +15,21 @@ LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
-num_iterations = 10
-random_states = random.sample(list(range(100, 10000)), num_iterations)
-
-# DataFrames to accumulate misclassified cases
-misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
-misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
-
-# DataFrame to store confusion matrices per iteration
-confusion_matrices = []
 for LLM in LLMs:
+    num_iterations = 50
+    random_states = random.sample(list(range(100, 10000)), num_iterations)
+
+    # DataFrames to accumulate misclassified cases
+    misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+    misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+
+    # DataFrame to store confusion matrices per iteration
+    confusion_matrices = []
+    
     for i, state in enumerate(random_states):
         subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-        data_llm = pd.read_csv("prompting/{LLM}/processed_responses.csv", header=0, names=["ID", "Prompt", "Code"])
+        data_llm = pd.read_csv(f"prompting/{LLM}/processed_responses.csv", header=0, names=["ID", "Prompt", "Code"])
         data_llm["label"] = 0
 
         data_student = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
@@ -37,7 +38,7 @@ for LLM in LLMs:
 
         data = pd.concat([data_llm, data_student], ignore_index=True)
 
-        vectorizer = TfidfVectorizer(analyzer="char_wb", ngram_range=(4, 6), max_features=1000)
+        vectorizer = TfidfVectorizer(max_features=1000)
         X = vectorizer.fit_transform(data["Code"]).toarray()
         y = data["label"].values
 
@@ -49,8 +50,8 @@ for LLM in LLMs:
 
         y_pred = model.predict(X_test)
         
-        os.makedirs("ML_models/feature_importance/models/LightGBM_{LLM}", exist_ok=True)
-        os.makedirs("ML_models/results/models/LightGBM_{LLM}", exist_ok=True)
+        os.makedirs(f"ML_models/feature_importance/models/LightGBM_{LLM}", exist_ok=True)
+        os.makedirs(f"ML_models/results/models/LightGBM_{LLM}", exist_ok=True)
         
         # Save the model and vectorizer
         joblib.dump(model, f"ML_models/feature_importance/models/LightGBM_{LLM}/model_{i+1}.joblib")
@@ -71,15 +72,15 @@ for LLM in LLMs:
     
     # Save confusion matrices
     confusion_df = pd.DataFrame(confusion_matrices)
-    confusion_df.to_csv("ML_models/results/LightGBM_{LLM}/confusion_matrices.csv", index=False)
+    confusion_df.to_csv(f"ML_models/results/LightGBM_{LLM}/confusion_matrices.csv", index=False)
     
     # Save accumulated misclassifications
-    misclassified_llm_all.to_csv("ML_models/results/LightGBM_{LLM}/misclassified_LLM_all.csv", index=False)
-    misclassified_student_all.to_csv("ML_models/results/LightGBM_{LLM}/misclassified_Student_all.csv", index=False)
+    misclassified_llm_all.to_csv(f"ML_models/results/LightGBM_{LLM}/misclassified_LLM_all.csv", index=False)
+    misclassified_student_all.to_csv(f"ML_models/results/LightGBM_{LLM}/misclassified_Student_all.csv", index=False)
     
     # Visualize tree
     lgb.plot_tree(model, tree_index=0, figsize=(20, 8), show_info=['split_gain'])
-    plt.savefig("ML_models/results/LightGBM_{LLM}/tree_visualization.png")
+    plt.savefig(f"ML_models/results/LightGBM_{LLM}/tree_visualization.png")
     plt.close()
     
     print("Confusion matrices and accumulated misclassified cases saved.")
