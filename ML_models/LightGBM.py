@@ -9,12 +9,13 @@ import lightgbm as lgb
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+import joblib
 
-# run: Qwen
+# run: ChatGPT4o
 
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin"
 
-num_iterations = 50
+num_iterations = 10
 random_states = random.sample(list(range(100, 10000)), num_iterations)
 
 # DataFrames to accumulate misclassified cases
@@ -27,7 +28,7 @@ confusion_matrices = []
 for i, state in enumerate(random_states):
     subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-    data_llm = pd.read_csv("prompting/Qwen/processed_responses.csv", header=0, names=["ID", "Prompt", "Code"])
+    data_llm = pd.read_csv("prompting/ChatGPT4o/processed_responses.csv", header=0, names=["ID", "Prompt", "Code"])
     data_llm["label"] = 0
 
     data_student = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
@@ -47,31 +48,38 @@ for i, state in enumerate(random_states):
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
+    
+    os.makedirs("ML_models/feature_importance/models/LightGBM_ChatGPT4o", exist_ok=True)
+    os.makedirs("ML_models/results/models/LightGBM_ChatGPT4o", exist_ok=True)
+    
+    # Save the model and vectorizer
+    joblib.dump(model, f"ML_models/feature_importance/models/LightGBM_ChatGPT4o/model_{i+1}.joblib")
+    joblib.dump(vectorizer, f"ML_models/feature_importance/models/LightGBM_ChatGPT4o/vectorizer_{i+1}.joblib")
 
-    # Compute confusion matrix
-    cm = confusion_matrix(y_test, y_pred)
-    confusion_matrices.append({"Loopnr": i + 1, "TN": cm[0, 0], "FP": cm[0, 1], "FN": cm[1, 0], "TP": cm[1, 1]})
-
-    misclassified_indices = np.where(y_pred != y_test)[0]
-    misclassified_cases = data.loc[indices_test[misclassified_indices]].copy()
-
-    misclassified_llm = misclassified_cases[misclassified_cases["label"] == 0][["ID", "Code", "Prompt"]]
-    misclassified_student = misclassified_cases[misclassified_cases["label"] == 1][["ID", "Code", "Prompt"]]
-
-    misclassified_llm_all = pd.concat([misclassified_llm_all, misclassified_llm], ignore_index=True)
-    misclassified_student_all = pd.concat([misclassified_student_all, misclassified_student], ignore_index=True)
-
-# Save confusion matrices
-confusion_df = pd.DataFrame(confusion_matrices)
-confusion_df.to_csv("ML_models/results/LightGBM_Qwen/confusion_matrices.csv", index=False)
-
-# Save accumulated misclassifications
-misclassified_llm_all.to_csv("ML_models/results/LightGBM_Qwen/misclassified_LLM_all.csv", index=False)
-misclassified_student_all.to_csv("ML_models/results/LightGBM_Qwen/misclassified_Student_all.csv", index=False)
-
-# Visualize tree
-lgb.plot_tree(model, tree_index=0, figsize=(20, 8), show_info=['split_gain'])
-plt.savefig("ML_models/results/LightGBM_Qwen/tree_visualization.png")
-plt.close()
-
-print("Confusion matrices and accumulated misclassified cases saved.")
+#    # Compute confusion matrix
+#    cm = confusion_matrix(y_test, y_pred)
+#    confusion_matrices.append({"Loopnr": i + 1, "TN": cm[0, 0], "FP": cm[0, 1], "FN": cm[1, 0], "TP": cm[1, 1]})
+#
+#    misclassified_indices = np.where(y_pred != y_test)[0]
+#    misclassified_cases = data.loc[indices_test[misclassified_indices]].copy()
+#
+#    misclassified_llm = misclassified_cases[misclassified_cases["label"] == 0][["ID", "Code", "Prompt"]]
+#    misclassified_student = misclassified_cases[misclassified_cases["label"] == 1][["ID", "Code", "Prompt"]]
+#
+#    misclassified_llm_all = pd.concat([misclassified_llm_all, misclassified_llm], ignore_index=True)
+#    misclassified_student_all = pd.concat([misclassified_student_all, misclassified_student], ignore_index=True)
+#
+## Save confusion matrices
+#confusion_df = pd.DataFrame(confusion_matrices)
+#confusion_df.to_csv("ML_models/results/LightGBM_ChatGPT4o/confusion_matrices.csv", index=False)
+#
+## Save accumulated misclassifications
+#misclassified_llm_all.to_csv("ML_models/results/LightGBM_ChatGPT4o/misclassified_LLM_all.csv", index=False)
+#misclassified_student_all.to_csv("ML_models/results/LightGBM_ChatGPT4o/misclassified_Student_all.csv", index=False)
+#
+## Visualize tree
+#lgb.plot_tree(model, tree_index=0, figsize=(20, 8), show_info=['split_gain'])
+#plt.savefig("ML_models/results/LightGBM_ChatGPT4o/tree_visualization.png")
+#plt.close()
+#
+#print("Confusion matrices and accumulated misclassified cases saved.")
