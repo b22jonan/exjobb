@@ -28,11 +28,17 @@ def categorize_prompts(txt_file, csv_file, output_csv):
             row['PromptType'] = prompt_mapping.get(prompt, '')  # Assign type or empty if not found
             writer.writerow(row)
 
-# llm: ChatGPT35
-# ML:  XGBoost
+LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
+MLs = ["RandomForest", "SVM", "LightGBM", "NN", "XGBoost", "AdaBoost"]
+
 if __name__ == "__main__":
     txt_file = "Prompts.txt"
-    csv_file = "ML_models/results/XGBoost_ChatGPT35/LLM.csv"
-    output_csv = "ML_models/code_similarity/csv_files_llm_not_in_use/updated_misclassified_LLM_XGBoost_ChatGPT35.csv"
     
-    categorize_prompts(txt_file, csv_file, output_csv)
+    for LLM in LLMs:
+        for ML in MLs:
+            # Specify the CSV file path based on the model
+            csv_file = f"ML_models/results/{ML}_{LLM}/LLM.csv"
+            output_csv = f"ML_models/code_similarity/csv_files_llm_not_in_use/updated_misclassified_LLM_{ML}_{LLM}.csv"
+            
+            categorize_prompts(txt_file, csv_file, output_csv)
+
