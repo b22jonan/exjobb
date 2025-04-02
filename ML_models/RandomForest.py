@@ -25,6 +25,10 @@ for LLM in LLMs:
     # DataFrames to accumulate misclassified cases
     misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
     misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+    
+    # DataFrames to accumulate classified cases
+    classified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+    classified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
 
     # DataFrame to store confusion matrices per iteration
     confusion_matrices = []
@@ -78,6 +82,15 @@ for LLM in LLMs:
 
         misclassified_llm_all = pd.concat([misclassified_llm_all, misclassified_llm], ignore_index=True)
         misclassified_student_all = pd.concat([misclassified_student_all, misclassified_student], ignore_index=True)
+        
+        classified_indices = np.where(y_pred == y_test)[0]
+        classified_cases = data.loc[indices_test[classified_indices]].copy()
+        
+        classified_llm = classified_cases[classified_cases["label"] == 0][["ID", "Code", "Prompt"]]
+        classified_student = classified_cases[classified_cases["label"] == 1][["ID", "Code", "Prompt"]]
+        
+        classified_llm_all = pd.concat([classified_llm_all, classified_llm], ignore_index=True)
+        classified_student_all = pd.concat([classified_student_all, classified_student], ignore_index=True)
 
     # Save confusion matrices
     confusion_df = pd.DataFrame(confusion_matrices)
@@ -86,6 +99,10 @@ for LLM in LLMs:
     # Save accumulated misclassifications
     misclassified_llm_all.to_csv(f"ML_models/results/RandomForest_{LLM}/misclassified_LLM_all.csv", index=False)
     misclassified_student_all.to_csv(f"ML_models/results/RandomForest_{LLM}/misclassified_Student_all.csv", index=False)
+    
+    # Save accumulated classified cases
+    classified_llm_all.to_csv(f"ML_models/results/RandomForest_{LLM}/classified_LLM_all.csv", index=False)
+    classified_student_all.to_csv(f"ML_models/results/RandomForest_{LLM}/classified_Student_all.csv", index=False)
 
     # Visualize one of the decision trees
     estimator = model.estimators_[0]

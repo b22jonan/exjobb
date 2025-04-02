@@ -26,6 +26,9 @@ for LLM in LLMs:
     # DataFrames to accumulate misclassified cases
     misclassified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
     misclassified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+    
+    classifified_llm_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
+    classifified_student_all = pd.DataFrame(columns=["ID", "Code", "Prompt"])
 
     # DataFrame to store confusion matrices per iteration
     confusion_matrices = []
@@ -76,6 +79,16 @@ for LLM in LLMs:
 
         misclassified_llm_all = pd.concat([misclassified_llm_all, misclassified_llm], ignore_index=True)
         misclassified_student_all = pd.concat([misclassified_student_all, misclassified_student], ignore_index=True)
+        
+        classified_indices = np.where(y_pred == y_test)[0]
+        classified_cases = data.loc[indices_test[classified_indices]].copy()
+        
+        classifified_llm = classified_cases[classified_cases["label"] == 0][["ID", "Code", "Prompt"]]
+        classifified_student = classified_cases[classified_cases["label"] == 1][["ID", "Code", "Prompt"]]
+        
+        classifified_llm_all = pd.concat([classifified_llm_all, classifified_llm], ignore_index=True)
+        classifified_student_all = pd.concat([classifified_student_all, classifified_student], ignore_index=True)
+        
         print(f"Iteration {i + 1} completed.")
 
     # Save confusion matrices
@@ -85,6 +98,10 @@ for LLM in LLMs:
     # Save accumulated misclassified cases
     misclassified_llm_all.to_csv(f"ML_models/results/AdaBoost_{LLM}/misclassified_LLM_all.csv", index=False)
     misclassified_student_all.to_csv(f"ML_models/results/AdaBoost_{LLM}/misclassified_Student_all.csv", index=False)
+    
+    # Save accumulated classified cases
+    classifified_llm_all.to_csv(f"ML_models/results/AdaBoost_{LLM}/classified_LLM_all.csv", index=False)
+    classifified_student_all.to_csv(f"ML_models/results/AdaBoost_{LLM}/classified_Student_all.csv", index=False)
 
     # Visualize an individual decision tree from the final model
     if hasattr(model, "estimators_") and len(model.estimators_) > 0:
@@ -100,4 +117,4 @@ for LLM in LLMs:
         graph = graphviz.Source(dot_data)
         graph.render(f"ML_models/results/AdaBoost_{LLM}/tree_visualization")
 
-    print("Confusion matrices and accumulated misclassified cases saved.")
+    print("Confusion matrices and accumulated misclassified & correctly classified cases saved.")
