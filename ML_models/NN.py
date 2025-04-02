@@ -14,15 +14,20 @@ LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 for LLM in LLMs:
     # File paths
     x_data_path = f'prompting/{LLM}/processed_responses.csv'
-    failed_x_path = f'ML_models/results/NN_{LLM}/LLM.csv'
-    failed_y_path = f'ML_models/results/NN_{LLM}/Student.csv'
+    failed_x_path = f'ML_models/results/NN_{LLM}/Missclassified_LLM.csv'
+    failed_y_path = f'ML_models/results/NN_{LLM}/Missclassified_Student.csv'
+    passed_x_path = f'ML_models/results/NN_{LLM}/Classified_LLM.csv'
+    passed_y_path = f'ML_models/results/NN_{LLM}/Classified_Student.csv'
     conf_matrix_path = f'ML_models/results/NN_{LLM}/confusion_matrices.csv'
     model_path = f'ML_models/feature_importance/results/models/NN_{LLM}'
     vectorizer_path = f'ML_models/feature_importance/models/NN_{LLM}'
 
     # Variables to store misclassified samples
-    misclassified_df1 = pd.DataFrame()  # For Label 0 (failed_x_path)
-    misclassified_df2 = pd.DataFrame()  # For Label 1 (failed_y_path)
+    misclassified_df1 = pd.DataFrame() 
+    misclassified_df2 = pd.DataFrame()  
+    classified_df1 = pd.DataFrame()  
+    classified_df2 = pd.DataFrame() 
+
 
     # Store confusion matrices
     confusion_matrices = []
@@ -84,6 +89,23 @@ for LLM in LLMs:
 
         misclassified_df1 = pd.concat([misclassified_df1, failed_x], ignore_index=True)
         misclassified_df2 = pd.concat([misclassified_df2, failed_y], ignore_index=True)
+        
+        # Identify classified samples using .iloc to prevent index errors
+        classified = df.iloc[y_test.index][y_test == y_pred]
+
+        # Ensure label column is included in the classified data
+        classified = classified[['ID', 'Code', 'Label']]
+        
+        passed_y = classified[classified['Label'] == 0]
+        passed_x = classified[classified['Label'] == 1]
+
+        passed_x = passed_x.merge(x_extra_field, on="ID", how="left")
+
+        passed_x = passed_x[['ID', 'Code', 'Prompt']]
+        passed_y = passed_y[['ID', 'Code']]
+
+        classified_df1 = pd.concat([classified_df1, passed_x], ignore_index=True)
+        classified_df2 = pd.concat([classified_df2, passed_y], ignore_index=True)
 
         os.makedirs(f'{model_path}', exist_ok=True)
         os.makedirs(f'{vectorizer_path}', exist_ok=True)

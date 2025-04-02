@@ -14,8 +14,10 @@ LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 for LLM in LLMs:
     # File paths
     x_data_path = f'prompting/{LLM}/processed_responses.csv'
-    failed_x_path = f'ML_models/results/SVM_{LLM}/LLM.csv'
-    failed_y_path = f'ML_models/results/SVM_{LLM}/Student.csv'
+    failed_x_path = f'ML_models/results/SVM_{LLM}/Missclassified_LLM.csv'
+    failed_y_path = f'ML_models/results/SVM_{LLM}/Missclassified_Student.csv'
+    passed_x_path = f'ML_models/results/SVM_{LLM}/Classified_LLM.csv'
+    passed_y_path = f'ML_models/results/SVM_{LLM}/Classified_Student.csv'
     conf_matrix_path = f'ML_models/results/SVM_{LLM}/confusion_matrices.csv'
     model_path = f'ML_models/feature_importance/results/models/SVM_{LLM}'
     vectorizer_path = f'ML_models/feature_importance/models/SVM_{LLM}'
@@ -92,6 +94,29 @@ for LLM in LLMs:
             failed_x.to_csv(failed_x_path, mode="a", index=False, header=False)
             failed_y.to_csv(failed_y_path, mode="a", index=False, header=False)
         
+        # Identify classified samples using .iloc to prevent index errors
+        classified = df.iloc[y_test.index][y_test == y_pred]
+
+        # Ensure label column is included in the misclassified data
+        classified = classified[['ID', 'Code', 'Label']]
+        
+        passed_y = classified[classified['Label'] == 0]
+        passed_x = classified[classified['Label'] == 1]
+
+        passed_x = passed_x.merge(x_extra_field, on="ID", how="left")
+
+        passed_x = passed_x[['ID', 'Code', 'Prompt']]
+        passed_y = passed_y[['ID', 'Code']]
+
+        # Save misclassified samples with labels to CSV files
+        if iteration == 0 :
+            passed_x.to_csv(passed_x_path, mode="w", index=False, header=True)
+            passed_y.to_csv(passed_y_path, mode="w", index=False, header=True)
+        else :
+            passed_x.to_csv(passed_x_path, mode="a", index=False, header=False)
+            passed_y.to_csv(passed_y_path, mode="a", index=False, header=False)
+
+
         os.makedirs(f'{model_path}', exist_ok=True)
         os.makedirs(f'{vectorizer_path}', exist_ok=True)
 

@@ -15,8 +15,10 @@ LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 for LLM in LLMs:
     # File paths
     x_data_path = f'prompting/{LLM}/processed_responses.csv'
-    failed_x_path = f'ML_models/results/XGBoost_{LLM}/LLM.csv'
-    failed_y_path = f'ML_models/results/XGBoost_{LLM}/Student.csv'
+    failed_x_path = f'ML_models/results/XGBoost_{LLM}/Missclassified_LLM.csv'
+    failed_y_path = f'ML_models/results/XGBoost_{LLM}/Missclassified_Student.csv'
+    passed_x_path = f'ML_models/results/XGBoost_{LLM}/Classified_LLM.csv'
+    passed_y_path = f'ML_models/results/XGBoost_{LLM}/Classified_Student.csv'
     conf_matrix_path = f'ML_models/results/XGBoost_{LLM}/confusion_matrices.csv'
     model_path = f'ML_models/feature_importance/results/models/XGBoost_{LLM}'
     vectorizer_path = f'ML_models/feature_importance/models/XGBoost_{LLM}'
@@ -24,6 +26,8 @@ for LLM in LLMs:
     # Initialize lists to store failed samples and confusion matrices
     failed_x_all = pd.DataFrame()
     failed_y_all = pd.DataFrame()
+    passed_x_all = pd.DataFrame()
+    passed_y_all = pd.DataFrame()
     conf_matrices = []
 
     # Number of iterations for training
@@ -98,6 +102,23 @@ for LLM in LLMs:
         failed_x_all = pd.concat([failed_x_all, failed_x], ignore_index=True)
         failed_y_all = pd.concat([failed_y_all, failed_y], ignore_index=True)
 
+        # Identify classified samples using .iloc to prevent index errors
+        classified = data.iloc[y_test.index][y_test == y_pred]
+
+        # Ensure label column is included in the classified data
+        classified = classified[['ID', 'Code', 'label']]
+        
+        passed_y = classified[classified['label'] == 0]
+        passed_x = classified[classified['label'] == 1]
+
+        passed_x = passed_x.merge(x_extra_field, on="ID", how="left")
+
+        passed_x = passed_x[['ID', 'Code', 'Prompt']]
+        passed_y = passed_y[['ID', 'Code']]
+
+        passed_x_all = pd.concat([passed_x_all, passed_x], ignore_index=True)
+        passed_y_all = pd.concat([passed_y_all, passed_y], ignore_index=True)
+
         os.makedirs(f'{model_path}', exist_ok=True)
         os.makedirs(f'{vectorizer_path}', exist_ok=True)
 
@@ -107,6 +128,10 @@ for LLM in LLMs:
     # Save misclassified entries to CSV
     failed_x_all.to_csv(failed_x_path, index=False)
     failed_y_all.to_csv(failed_y_path, index=False)
+
+    # Save classified entries to CSV
+    passed_x_all.to_csv(passed_x_path, index=False)
+    passed_y_all.to_csv(passed_y_path, index=False)
 
     # Save confusion matrix results to CSV
     conf_matrix_df = pd.DataFrame(conf_matrices, columns=["Loopnr", "TN", "FP", "FN", "TP"])
