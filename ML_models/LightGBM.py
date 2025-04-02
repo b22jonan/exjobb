@@ -54,7 +54,7 @@ for LLM in LLMs:
         y_pred = model.predict(X_test)
         
         os.makedirs(f"ML_models/feature_importance/models/LightGBM_{LLM}", exist_ok=True)
-        os.makedirs(f"ML_models/results/models/LightGBM_{LLM}", exist_ok=True)
+        os.makedirs(f"ML_models/feature_importance/results/models/LightGBM_{LLM}", exist_ok=True)
         
         # Save the model and vectorizer
         joblib.dump(model, f"ML_models/feature_importance/models/LightGBM_{LLM}/model_{i+1}.joblib")
