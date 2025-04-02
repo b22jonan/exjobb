@@ -6,87 +6,122 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import numpy as np
+import joblib
+import os
 
-# File paths
-data_x_path = "prompting/ChatGPT4o/processed_responses.csv"
-failed_y_path = "ML_models/results/NN_ChatGPT4o/Student.csv"
-failed_x_path = "ML_models/results/NN_ChatGPT4o/LLM.csv"
-conf_matrix_path = "ML_models/results/NN_ChatGPT4o/confusion_matrices.csv"
+LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 
-# Variables to store misclassified samples
-misclassified_df1 = pd.DataFrame()  # For Label 0 (failed_x_path)
-misclassified_df2 = pd.DataFrame()  # For Label 1 (failed_y_path)
+for LLM in LLMs:
+    # File paths
+    x_data_path = f'prompting/{LLM}/processed_responses.csv'
+    failed_x_path = f'ML_models/results/NN_{LLM}/Missclassified_LLM.csv'
+    failed_y_path = f'ML_models/results/NN_{LLM}/Missclassified_Student.csv'
+    passed_x_path = f'ML_models/results/NN_{LLM}/Classified_LLM.csv'
+    passed_y_path = f'ML_models/results/NN_{LLM}/Classified_Student.csv'
+    conf_matrix_path = f'ML_models/results/NN_{LLM}/confusion_matrices.csv'
+    model_path = f'ML_models/feature_importance/results/models/NN_{LLM}'
+    vectorizer_path = f'ML_models/feature_importance/models/NN_{LLM}'
 
-# Store confusion matrices
-confusion_matrices = []
+    # Variables to store misclassified samples
+    misclassified_df1 = pd.DataFrame() 
+    misclassified_df2 = pd.DataFrame()  
+    classified_df1 = pd.DataFrame()  
+    classified_df2 = pd.DataFrame() 
 
-# Set the number of iterations
-num_iterations = 50
-iteration = 0
 
-# Create Neural Network model
-model = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', solver='adam', max_iter=500)
+    # Store confusion matrices
+    confusion_matrices = []
 
-while iteration < num_iterations:
-    subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
+    # Set the number of iterations
+    num_iterations = 50
+    iteration = 0
 
-    df1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
-    df2 = pd.read_csv(data_x_path, header=0, names=['ID', 'Prompt', 'Code'])
+    # Create Neural Network model
+    model = MLPClassifier(hidden_layer_sizes=(100,), activation='relu', solver='adam', max_iter=500)
 
-    df2['Label'] = 1
-    df1['Label'] = 0 
+    while iteration < num_iterations:
+        subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-    x_extra_field = df2[['ID', 'Prompt']]
-    df2 = df2.drop(columns=['Prompt'])
+        df1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
+        df2 = pd.read_csv(x_data_path, header=0, names=['ID', 'Prompt', 'Code'])
 
-    df = pd.concat([df1, df2] , ignore_index=True)
+        df2['Label'] = 1
+        df1['Label'] = 0 
 
-    # Feature extraction
-    vectorizer = TfidfVectorizer(stop_words='english')
-    X = vectorizer.fit_transform(df['Code'])
-    y = df['Label']
+        x_extra_field = df2[['ID', 'Prompt']]
+        df2 = df2.drop(columns=['Prompt'])
 
-    random_state = np.random.randint(0, 10000)
+        df = pd.concat([df1, df2] , ignore_index=True)
 
-    # Train-test split
-    X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=random_state)
+        # Feature extraction
+        vectorizer = TfidfVectorizer(stop_words='english')
+        X = vectorizer.fit_transform(df['Code'])
+        y = df['Label']
 
-    # Train the model
-    model.fit(X_train, y_train)
+        random_state = np.random.randint(0, 10000)
 
-    # Make predictions
-    y_pred = model.predict(X_test)
+        # Train-test split
+        X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=random_state)
 
-    # Compute confusion matrix
-    tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
-    confusion_matrices.append([iteration + 1, tn, fp, fn, tp])
+        # Train the model
+        model.fit(X_train, y_train)
 
-    # Identify misclassified samples
-    misclassified = df.iloc[y_test.index][y_test != y_pred]
+        # Make predictions
+        y_pred = model.predict(X_test)
 
-    # Ensure label column is included in the misclassified data
-    misclassified = misclassified[['ID', 'Code', 'Label']]
+        # Compute confusion matrix
+        tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+        confusion_matrices.append([iteration + 1, tn, fp, fn, tp])
 
-    failed_x = misclassified[misclassified['Label'] == 1]  
-    failed_y = misclassified[misclassified['Label'] == 0] 
+        # Identify misclassified samples
+        misclassified = df.iloc[y_test.index][y_test != y_pred]
 
-    failed_x = failed_x.merge(x_extra_field, on="ID", how="left")
+        # Ensure label column is included in the misclassified data
+        misclassified = misclassified[['ID', 'Code', 'Label']]
 
-    failed_x = failed_x[['ID', 'Code', 'Prompt']]
-    failed_y = failed_y[['ID', 'Code']]
+        failed_x = misclassified[misclassified['Label'] == 1]  
+        failed_y = misclassified[misclassified['Label'] == 0] 
 
-    misclassified_df1 = pd.concat([misclassified_df1, failed_x], ignore_index=True)
-    misclassified_df2 = pd.concat([misclassified_df2, failed_y], ignore_index=True)
+        failed_x = failed_x.merge(x_extra_field, on="ID", how="left")
 
-    iteration += 1
-    print(f"{iteration} ML model")
+        failed_x = failed_x[['ID', 'Code', 'Prompt']]
+        failed_y = failed_y[['ID', 'Code']]
 
-# Save confusion matrices
-confusion_df = pd.DataFrame(confusion_matrices, columns=["Loopnr","TN", "FP", "FN", "TP"])
-confusion_df.to_csv(conf_matrix_path, index=False)
+        misclassified_df1 = pd.concat([misclassified_df1, failed_x], ignore_index=True)
+        misclassified_df2 = pd.concat([misclassified_df2, failed_y], ignore_index=True)
+        
+        # Identify classified samples using .iloc to prevent index errors
+        classified = df.iloc[y_test.index][y_test == y_pred]
 
-# Save misclassified samples with labels
-misclassified_df1.to_csv(failed_x_path, index=False)
-misclassified_df2.to_csv(failed_y_path, index=False)
+        # Ensure label column is included in the classified data
+        classified = classified[['ID', 'Code', 'Label']]
+        
+        passed_y = classified[classified['Label'] == 0]
+        passed_x = classified[classified['Label'] == 1]
 
-print(f"Results saved: {conf_matrix_path}, {failed_x_path}, {failed_y_path}")
+        passed_x = passed_x.merge(x_extra_field, on="ID", how="left")
+
+        passed_x = passed_x[['ID', 'Code', 'Prompt']]
+        passed_y = passed_y[['ID', 'Code']]
+
+        classified_df1 = pd.concat([classified_df1, passed_x], ignore_index=True)
+        classified_df2 = pd.concat([classified_df2, passed_y], ignore_index=True)
+
+        os.makedirs(f'{model_path}', exist_ok=True)
+        os.makedirs(f'{vectorizer_path}', exist_ok=True)
+
+        joblib.dump(model, f"{model_path}/model_{iteration+1}.joblib")
+        joblib.dump(vectorizer, f"{vectorizer_path}/vectorizer_{iteration+1}.joblib")
+
+        iteration += 1
+        print(f"{iteration} ML model")
+
+    # Save confusion matrices
+    confusion_df = pd.DataFrame(confusion_matrices, columns=["Loopnr","TN", "FP", "FN", "TP"])
+    confusion_df.to_csv(conf_matrix_path, index=False)
+
+    # Save misclassified samples with labels
+    misclassified_df1.to_csv(failed_x_path, index=False)
+    misclassified_df2.to_csv(failed_y_path, index=False)
+
+    print(f"Results saved: {conf_matrix_path}, {failed_x_path}, {failed_y_path}")

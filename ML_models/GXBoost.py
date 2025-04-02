@@ -8,96 +8,133 @@ import time
 import numpy as np
 import subprocess
 import sys
+import joblib
 
-# File paths
-x_data_path = 'prompting/ChatGPT4o/processed_responses.csv'
-failed_x_path = 'ML_models/results/XGBoost_ChatGPT4o/LLM.csv'
-failed_y_path = 'ML_models/results/XGBoost_ChatGPT4o/Student.csv'
-conf_matrix_path = 'ML_models/results/XGBoost_ChatGPT4o/confusion_matrices.csv'
+LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 
-# Initialize lists to store failed samples and confusion matrices
-failed_x_all = pd.DataFrame()
-failed_y_all = pd.DataFrame()
-conf_matrices = []
+for LLM in LLMs:
+    # File paths
+    x_data_path = f'prompting/{LLM}/processed_responses.csv'
+    failed_x_path = f'ML_models/results/XGBoost_{LLM}/Missclassified_LLM.csv'
+    failed_y_path = f'ML_models/results/XGBoost_{LLM}/Missclassified_Student.csv'
+    passed_x_path = f'ML_models/results/XGBoost_{LLM}/Classified_LLM.csv'
+    passed_y_path = f'ML_models/results/XGBoost_{LLM}/Classified_Student.csv'
+    conf_matrix_path = f'ML_models/results/XGBoost_{LLM}/confusion_matrices.csv'
+    model_path = f'ML_models/feature_importance/results/models/XGBoost_{LLM}'
+    vectorizer_path = f'ML_models/feature_importance/models/XGBoost_{LLM}'
 
-# Number of iterations for training
-iterations = 50
+    # Initialize lists to store failed samples and confusion matrices
+    failed_x_all = pd.DataFrame()
+    failed_y_all = pd.DataFrame()
+    passed_x_all = pd.DataFrame()
+    passed_y_all = pd.DataFrame()
+    conf_matrices = []
 
-# Start training loop
-for i in range(iterations):
-    print(f"Training iteration {i + 1}...")
-    
-    # Generate new dataset for each iteration
-    subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
+    # Number of iterations for training
+    iterations = 50
 
-    # Load first dataset 
-    x_data = pd.read_csv(x_data_path, header=0, names=["ID", "Prompt", "Code"])
-    
-    # Load second dataset
-    y_data = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
-    
-    # Add labels (1 for X, 0 for Y)
-    x_data['label'] = 1
-    y_data['label'] = 0
+    # Start training loop
+    for i in range(iterations):
+        print(f"Training iteration {i + 1}...")
+        
+        # Generate new dataset for each iteration
+        subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
-    # Store ExtraField separately and drop from x_data for training
-    x_extra_field = x_data[['ID', 'Prompt']]
-    x_data = x_data.drop(columns=['Prompt'])
+        # Load first dataset 
+        x_data = pd.read_csv(x_data_path, header=0, names=["ID", "Prompt", "Code"])
+        
+        # Load second dataset
+        y_data = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
+        
+        # Add labels (1 for X, 0 for Y)
+        x_data['label'] = 1
+        y_data['label'] = 0
 
-    # Combine datasets
-    data = pd.concat([x_data, y_data], ignore_index=True)
+        # Store ExtraField separately and drop from x_data for training
+        x_extra_field = x_data[['ID', 'Prompt']]
+        x_data = x_data.drop(columns=['Prompt'])
 
-    # Feature extraction using TF-IDF
-    vectorizer = TfidfVectorizer(max_features=1000)
-    X = vectorizer.fit_transform(data['Code']).toarray()
-    y = data['label']
+        # Combine datasets
+        data = pd.concat([x_data, y_data], ignore_index=True)
 
-    random_state = np.random.randint(0, 10000)  # Randomly generate random_state for each iteration
-    
-    # Split the data with a new random_state each time
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
+        # Feature extraction using TF-IDF
+        vectorizer = TfidfVectorizer(max_features=1000)
+        X = vectorizer.fit_transform(data['Code']).toarray()
+        y = data['label']
 
-    model = xgb.XGBClassifier(eval_metric='logloss', random_state=random_state, max_depth=5)
-    
-    # Train XGBoost model
-    start_time = time.time()
-    model.fit(X_train, y_train)
-    end_time = time.time()
-    print(f"Training time for iteration {i + 1}: {end_time - start_time:.6f} seconds")
+        random_state = np.random.randint(0, 10000)  # Randomly generate random_state for each iteration
+        
+        # Split the data with a new random_state each time
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
 
-    # Make predictions
-    y_pred = model.predict(X_test)
+        model = xgb.XGBClassifier(eval_metric='logloss', random_state=random_state, max_depth=5)
+        
+        # Train XGBoost model
+        start_time = time.time()
+        model.fit(X_train, y_train)
+        end_time = time.time()
+        print(f"Training time for iteration {i + 1}: {end_time - start_time:.6f} seconds")
 
-    # Compute confusion matrix
-    tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
-    conf_matrices.append([i + 1, tn, fp, fn, tp])
+        # Make predictions
+        y_pred = model.predict(X_test)
 
-    # Identify misclassified entries
-    misclassified = data.iloc[y_test.index][y_test != y_pred]
-    
-    # Ensure label column is included in the misclassified data
-    misclassified = misclassified[['ID', 'Code', 'label']]
+        # Compute confusion matrix
+        tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+        conf_matrices.append([i + 1, tn, fp, fn, tp])
 
-    # Separate misclassified entries for X and Y datasets
-    failed_x = misclassified[misclassified['label'] == 1]
-    failed_y = misclassified[misclassified['label'] == 0]
-    
-    # Merge back the extra field for dataset X
-    failed_x = failed_x.merge(x_extra_field, on="ID", how="left")
+        # Identify misclassified entries
+        misclassified = data.iloc[y_test.index][y_test != y_pred]
+        
+        # Ensure label column is included in the misclassified data
+        misclassified = misclassified[['ID', 'Code', 'label']]
 
-    failed_x = failed_x[['ID', 'Code', 'Prompt']]
-    failed_y = failed_y[['ID', 'Code']]
+        # Separate misclassified entries for X and Y datasets
+        failed_x = misclassified[misclassified['label'] == 1]
+        failed_y = misclassified[misclassified['label'] == 0]
+        
+        # Merge back the extra field for dataset X
+        failed_x = failed_x.merge(x_extra_field, on="ID", how="left")
 
-    # Append the misclassified data to the cumulative list
-    failed_x_all = pd.concat([failed_x_all, failed_x], ignore_index=True)
-    failed_y_all = pd.concat([failed_y_all, failed_y], ignore_index=True)
+        failed_x = failed_x[['ID', 'Code', 'Prompt']]
+        failed_y = failed_y[['ID', 'Code']]
 
-# Save misclassified entries to CSV
-failed_x_all.to_csv(failed_x_path, index=False)
-failed_y_all.to_csv(failed_y_path, index=False)
+        # Append the misclassified data to the cumulative list
+        failed_x_all = pd.concat([failed_x_all, failed_x], ignore_index=True)
+        failed_y_all = pd.concat([failed_y_all, failed_y], ignore_index=True)
 
-# Save confusion matrix results to CSV
-conf_matrix_df = pd.DataFrame(conf_matrices, columns=["Loopnr", "TN", "FP", "FN", "TP"])
-conf_matrix_df.to_csv(conf_matrix_path, index=False)
+        # Identify classified samples using .iloc to prevent index errors
+        classified = data.iloc[y_test.index][y_test == y_pred]
 
-print(f'Results saved: {failed_x_path}, {failed_y_path}, {conf_matrix_path}')
+        # Ensure label column is included in the classified data
+        classified = classified[['ID', 'Code', 'label']]
+        
+        passed_y = classified[classified['label'] == 0]
+        passed_x = classified[classified['label'] == 1]
+
+        passed_x = passed_x.merge(x_extra_field, on="ID", how="left")
+
+        passed_x = passed_x[['ID', 'Code', 'Prompt']]
+        passed_y = passed_y[['ID', 'Code']]
+
+        passed_x_all = pd.concat([passed_x_all, passed_x], ignore_index=True)
+        passed_y_all = pd.concat([passed_y_all, passed_y], ignore_index=True)
+
+        os.makedirs(f'{model_path}', exist_ok=True)
+        os.makedirs(f'{vectorizer_path}', exist_ok=True)
+
+        joblib.dump(model, f"{model_path}/model_{i+1}.joblib")
+        joblib.dump(vectorizer, f"{vectorizer_path}/vectorizer_{i+1}.joblib")
+
+    # Save misclassified entries to CSV
+    failed_x_all.to_csv(failed_x_path, index=False)
+    failed_y_all.to_csv(failed_y_path, index=False)
+
+    # Save classified entries to CSV
+    passed_x_all.to_csv(passed_x_path, index=False)
+    passed_y_all.to_csv(passed_y_path, index=False)
+
+    # Save confusion matrix results to CSV
+    conf_matrix_df = pd.DataFrame(conf_matrices, columns=["Loopnr", "TN", "FP", "FN", "TP"])
+    conf_matrix_df.to_csv(conf_matrix_path, index=False)
+
+    print(f'Results saved: {failed_x_path}, {failed_y_path}, {conf_matrix_path}')
