@@ -30,7 +30,7 @@ for LLM in LLMs:
     conf_matrix_list = []
 
     # Set the number of iterations
-    num_iterations = 50
+    num_iterations = 2
     iteration = 0
     model = SVC(kernel='linear', C=1.0)
 
