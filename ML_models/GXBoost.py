@@ -20,7 +20,7 @@ for LLM in LLMs:
     passed_x_path = f'ML_models/results/XGBoost_{LLM}/Classified_LLM.csv'
     passed_y_path = f'ML_models/results/XGBoost_{LLM}/Classified_Student.csv'
     conf_matrix_path = f'ML_models/results/XGBoost_{LLM}/confusion_matrices.csv'
-    model_path = f'ML_models/feature_importance/results/models/XGBoost_{LLM}'
+    model_path = f'ML_models/feature_importance/models/XGBoost_{LLM}'
     vectorizer_path = f'ML_models/feature_importance/models/XGBoost_{LLM}'
 
     # Initialize lists to store failed samples and confusion matrices

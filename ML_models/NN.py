@@ -19,7 +19,7 @@ for LLM in LLMs:
     passed_x_path = f'ML_models/results/NN_{LLM}/Classified_LLM.csv'
     passed_y_path = f'ML_models/results/NN_{LLM}/Classified_Student.csv'
     conf_matrix_path = f'ML_models/results/NN_{LLM}/confusion_matrices.csv'
-    model_path = f'ML_models/feature_importance/results/models/NN_{LLM}'
+    model_path = f'ML_models/feature_importance/models/NN_{LLM}'
     vectorizer_path = f'ML_models/feature_importance/models/NN_{LLM}'
 
     # Variables to store misclassified samples
@@ -27,7 +27,6 @@ for LLM in LLMs:
     misclassified_df2 = pd.DataFrame()  
     classified_df1 = pd.DataFrame()  
     classified_df2 = pd.DataFrame() 
-
 
     # Store confusion matrices
     confusion_matrices = []
@@ -123,5 +122,8 @@ for LLM in LLMs:
     # Save misclassified samples with labels
     misclassified_df1.to_csv(failed_x_path, index=False)
     misclassified_df2.to_csv(failed_y_path, index=False)
+
+    classified_df1.to_csv(passed_x_path, index=False)
+    classified_df2.to_csv(passed_y_path, index=False)
 
     print(f"Results saved: {conf_matrix_path}, {failed_x_path}, {failed_y_path}")

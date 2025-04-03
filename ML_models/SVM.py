@@ -19,7 +19,7 @@ for LLM in LLMs:
     passed_x_path = f'ML_models/results/SVM_{LLM}/Classified_LLM.csv'
     passed_y_path = f'ML_models/results/SVM_{LLM}/Classified_Student.csv'
     conf_matrix_path = f'ML_models/results/SVM_{LLM}/confusion_matrices.csv'
-    model_path = f'ML_models/feature_importance/results/models/SVM_{LLM}'
+    model_path = f'ML_models/feature_importance/models/SVM_{LLM}'
     vectorizer_path = f'ML_models/feature_importance/models/SVM_{LLM}'
 
     # Variables to store misclassified samples
