@@ -90,6 +90,9 @@ for LLM in LLMs:
     misclassified_llm_all.to_csv(f"ML_models/results/LightGBM_{LLM}/misclassified_LLM_all.csv", index=False)
     misclassified_student_all.to_csv(f"ML_models/results/LightGBM_{LLM}/misclassified_Student_all.csv", index=False)
     
+    classified_llm_all.to_csv(f"ML_models/results/LightGBM_{LLM}/classified_LLM_all.csv", index=False)
+    classified_student_all.to_csv(f"ML_models/results/LightGBM_{LLM}/classified_Student_all.csv", index=False)
+    
     # Visualize tree
     lgb.plot_tree(model, tree_index=0, figsize=(20, 8), show_info=['split_gain'])
     plt.savefig(f"ML_models/results/LightGBM_{LLM}/tree_visualization.png")
