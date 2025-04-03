@@ -58,7 +58,7 @@ for LLM in LLMs:
         data = pd.concat([x_data, y_data], ignore_index=True)
 
         # Feature extraction using TF-IDF
-        vectorizer = TfidfVectorizer(max_features=1000)
+        vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
         X = vectorizer.fit_transform(data['Code']).toarray()
         y = data['label']
 

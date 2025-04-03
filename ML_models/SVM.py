@@ -49,7 +49,7 @@ for LLM in LLMs:
     df_full = pd.concat([df1, df2], ignore_index=True)
 
     # Fit vectorizer ONCE HERE:
-    vectorizer = TfidfVectorizer(stop_words='english', max_features=1000)
+    vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
     vectorizer.fit(df_full['Code'])
 
     # Save this fitted vectorizer ONCE (optional, but recommended):

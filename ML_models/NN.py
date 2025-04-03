@@ -53,7 +53,7 @@ for LLM in LLMs:
         df = pd.concat([df1, df2] , ignore_index=True)
 
         # Feature extraction
-        vectorizer = TfidfVectorizer(stop_words='english')
+        vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
         X = vectorizer.fit_transform(df['Code'])
         y = df['Label']
 

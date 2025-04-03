@@ -41,7 +41,7 @@ for LLM in LLMs:
 
         data = pd.concat([data_llm, data_student], ignore_index=True)
 
-        vectorizer = TfidfVectorizer(max_features=1000)
+        vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
         X = vectorizer.fit_transform(data["Code"]).toarray()
         y = data["label"].values
 

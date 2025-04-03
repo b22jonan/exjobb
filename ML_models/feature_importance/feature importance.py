@@ -7,12 +7,12 @@ from sklearn.inspection import permutation_importance
 matplotlib.use('Agg')  # Use a non-interactive backend for matplotlib
 import matplotlib.pyplot as plt
 
-num_models = 10  # Number of models to average over
+num_models = 50  # Number of models to average over
 feature_importances_list = []
 
-# "SVM",
+# "SVM","NN",
 LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
-MLs = ["RandomForest",  "LightGBM", "NN", "XGBoost", "AdaBoost"]
+MLs = ["RandomForest",  "LightGBM",  "XGBoost", "AdaBoost"]
 
 
 # Load each saved model and vectorizer
