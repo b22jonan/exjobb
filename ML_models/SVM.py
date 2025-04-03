@@ -58,6 +58,8 @@ for LLM in LLMs:
 
     # --- NOW, loop through iterations reusing the SAME vectorizer ---
     while iteration < num_iterations:
+        model = SVC(kernel='linear', C=1.0)
+        
         subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
 
         df1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
@@ -122,6 +124,10 @@ for LLM in LLMs:
 
         os.makedirs(f'{model_path}', exist_ok=True)
         joblib.dump(model, f"{model_path}/model_{iteration+1}.joblib")
+        
+        joblib.dump(X_test, f"{model_path}/X_test_{iteration+1}.joblib")
+        joblib.dump(y_test, f"{model_path}/y_test_{iteration+1}.joblib")
+
 
         iteration += 1
         print(f"{iteration} ML model")
