@@ -34,14 +34,6 @@ for LLM in LLMs:
     # Set the number of iterations
     num_iterations = 50
     iteration = 0
-    
-    # Feature extraction
-    vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
-    X = vectorizer.fit_transform(df['Code'])
-    
-    os.makedirs(f'{vectorizer_path}', exist_ok=True)
-
-    joblib.dump(vectorizer, f"{vectorizer_path}/vectorizer_{iteration+1}.joblib")
 
     while iteration < num_iterations:
         # Create Neural Network model
@@ -60,7 +52,8 @@ for LLM in LLMs:
 
         df = pd.concat([df1, df2] , ignore_index=True)
 
-        X = vectorizer.transform(df['Code'])
+        vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
+        X = vectorizer.fit_transform(df['Code'])
         y = df['Label']
 
         random_state = np.random.randint(0, 10000)
@@ -113,8 +106,10 @@ for LLM in LLMs:
         classified_df2 = pd.concat([classified_df2, passed_y], ignore_index=True)
 
         os.makedirs(f'{model_path}', exist_ok=True)
+        os.makedirs(f'{vectorizer_path}', exist_ok=True)
 
         joblib.dump(model, f"{model_path}/model_{iteration+1}.joblib")
+        joblib.dump(vectorizer, f"{vectorizer_path}/vectorizer_{iteration+1}.joblib")
         
         joblib.dump(X_test, f"{model_path}/X_test_{iteration+1}.joblib")
         joblib.dump(y_test, f"{model_path}/y_test_{iteration+1}.joblib")

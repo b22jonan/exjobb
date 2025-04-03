@@ -48,14 +48,6 @@ for LLM in LLMs:
 
     df_full = pd.concat([df1, df2], ignore_index=True)
 
-    # Fit vectorizer ONCE HERE:
-    vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
-    vectorizer.fit(df_full['Code'])
-
-    # Save this fitted vectorizer ONCE (optional, but recommended):
-    os.makedirs(f'{vectorizer_path}', exist_ok=True)
-    joblib.dump(vectorizer, f"{vectorizer_path}/fixed_vectorizer.joblib")
-
     # --- NOW, loop through iterations reusing the SAME vectorizer ---
     while iteration < num_iterations:
         model = SVC(kernel='linear', C=1.0)
@@ -73,8 +65,8 @@ for LLM in LLMs:
 
         df = pd.concat([df1, df2], ignore_index=True)
 
-        # Use the previously fitted vectorizer here:
-        X = vectorizer.transform(df['Code'])  # Note: transform(), NOT fit_transform()
+        vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
+        vectorizer.fit(df_full['Code'])        
         y = df['Label']
 
         random_state = np.random.randint(0, 10000)
@@ -123,7 +115,10 @@ for LLM in LLMs:
             passed_y.to_csv(passed_y_path, mode="a", index=False, header=False)
 
         os.makedirs(f'{model_path}', exist_ok=True)
+        os.makedirs(f'{vectorizer_path}', exist_ok=True)
+        
         joblib.dump(model, f"{model_path}/model_{iteration+1}.joblib")
+        joblib.dump(vectorizer, f"{vectorizer_path}/vectorizer_{iteration+1}.joblib")
         
         joblib.dump(X_test, f"{model_path}/X_test_{iteration+1}.joblib")
         joblib.dump(y_test, f"{model_path}/y_test_{iteration+1}.joblib")
