@@ -14,7 +14,6 @@ feature_importances_list = []
 LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 MLs = ["AdaBoost"]
 
-
 # Load each saved model and vectorizer
 for LLM in LLMs:
     for ML in MLs:
@@ -22,11 +21,7 @@ for LLM in LLMs:
             model = joblib.load(f"ML_models/feature_importance/models/{ML}_{LLM}/model_{i}.joblib")
             vectorizer = joblib.load(f"ML_models/feature_importance/models/{ML}_{LLM}/vectorizer_{i}.joblib")
 
-            # Extract and store feature importances
-            if ML == "SVM":
-                feature_importances_list.append(np.abs(model.coef_[0]))
-            else:
-                feature_importances_list.append(model.feature_importances_)
+            feature_importances_list.append(model.feature_importances_)
 
         # Compute average feature importance
         avg_importances = np.mean(feature_importances_list, axis=0)
