@@ -9,11 +9,10 @@ import matplotlib.pyplot as plt
 num_models = 10  # Number of models to average over
 feature_importances_list = []
 
-# LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
+LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 # MLs = ["RandomForest", "SVM", "LightGBM", "NN", "XGBoost", "AdaBoost"]
 
-LLMs = ["ChatGPT4o"]
-MLs = ["LightGBM"]
+MLs = ["RandomForest", "LightGBM", "AdaBoost"]
 
 # Load each saved model and vectorizer
 for LLM in LLMs:
@@ -44,7 +43,7 @@ for LLM in LLMs:
         plt.figure(figsize=(10, 8))
         plt.barh(feature_importances_df['feature'][:20][::-1], feature_importances_df['avg_importance'][:20][::-1])
         plt.xlabel('Average Importance')
-        plt.title('Top 20 Average Feature Importances ({} - {})'.format(ML, LLM))
+        plt.title(f"Top 20 Average Feature Importances ({ML} - {LLM})")
         plt.tight_layout()
-        plt.savefig("ML_models/feature_importance/results/{}_{}.png".format(ML, LLM))
-        plt.show()
+        plt.savefig(f"ML_models/feature_importance/results/models/{ML}_{LLM}/{ML}_{LLM}_average_feature_importance.png")
+
