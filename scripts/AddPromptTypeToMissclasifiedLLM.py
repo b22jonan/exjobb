@@ -37,7 +37,7 @@ if __name__ == "__main__":
     for LLM in LLMs:
         for ML in MLs:
             # Specify the CSV file path based on the model
-            csv_file = f"ML_models/results/{ML}_{LLM}/LLM.csv"
+            csv_file = f"ML_models/results/{ML}_{LLM}/misclassified_LLM_all.csv"
             output_csv = f"ML_models/code_similarity/csv_files_llm_not_in_use/updated_misclassified_LLM_{ML}_{LLM}.csv"
             
             categorize_prompts(txt_file, csv_file, output_csv)
