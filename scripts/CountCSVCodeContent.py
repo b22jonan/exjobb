@@ -4,7 +4,7 @@ import re
 import os
 import glob
 import matplotlib.pyplot as plt
-import seaborn as sns
+import matplotlib.patches as mpatches
 
 def analyze_java_code(csv_file):
     try:
@@ -18,24 +18,29 @@ def analyze_java_code(csv_file):
         print(f"Error: No appropriate code column found in {csv_file}.")
         return None
 
-    metrics = []
+    line_counts, word_counts, comment_counts = [], [], []
+    comment_lengths, empty_line_counts, check_counts = [], [], []
+    
     for code in df[column_name].dropna():
         lines = code.split("\n")
-        words = code.split()
+        line_counts.append(len(lines))
+        word_counts.append(len(code.split()))
         comments = re.findall(r'//.*', code)
-        empty_lines = sum(1 for line in lines if not line.strip())
-        check_count = len(re.findall(r'\bcheck\b', code, re.IGNORECASE))
+        comment_counts.append(len(comments))
+        comment_lengths.append(sum(len(comment) for comment in comments))
+        empty_line_counts.append(sum(1 for line in lines if not line.strip()))
+        check_counts.append(len(re.findall(r'\bcheck\b', code, re.IGNORECASE)))
 
-        metrics.append({
-            "line_count": len(lines),
-            "word_count": len(words),
-            "comment_count": len(comments),
-            "comment_length": sum(len(comment) for comment in comments),
-            "empty_line_count": empty_lines,
-            "check_count": check_count
-        })
-    
-    return pd.DataFrame(metrics)
+    return {
+        "avg_line_count": np.mean(line_counts), "std_line_count": np.std(line_counts),
+        "avg_word_count": np.mean(word_counts), "std_word_count": np.std(word_counts),
+        "avg_comment_count": np.mean(comment_counts), "std_comment_count": np.std(comment_counts),
+        "avg_comment_length": np.mean(comment_lengths), "std_comment_length": np.std(comment_lengths),
+        "avg_empty_line_count": np.mean(empty_line_counts), "std_empty_line_count": np.std(empty_line_counts),
+        "avg_check_count": np.mean(check_counts), "std_check_count": np.std(check_counts)
+    }
+
+results = []
 
 def extract_label(filepath, group):
     return os.path.basename(filepath) if group == "CSEDM" else os.path.basename(os.path.dirname(filepath))
@@ -43,59 +48,88 @@ def extract_label(filepath, group):
 all_files = [("CSEDM", os.path.join("CSV_files", "CodeStates.csv"))]
 all_files.extend([( "LLM Datasets", file) for file in glob.glob(os.path.join("prompting", "*", "*.csv"))])
 
-results_dir = "ML_models//results"
+results_dir = "ML_models/results"
 subfolders = [os.path.join(results_dir, d) for d in os.listdir(results_dir) if os.path.isdir(os.path.join(results_dir, d))]
+
+# Add both standard and alternative filenames
+file_variants = [
+    (["Missclassified_LLM.csv", "Misclassified_LLM_all.csv"], "Missclassified LLM"),
+    (["Missclassified_Student.csv", "Misclassified_Student_all.csv"], "Missclassified Student"),
+    (["Classified_LLM.csv", "Classified_LLM_all.csv"], "Classified LLM"),
+    (["Classified_Student.csv", "Classified_Student_all.csv"], "Classified Student")
+]
+
 for folder in subfolders:
-    for group, filenames in [
-        ("Missclassified LLM", ["Missclassified_LLM.csv", "misclassified_LLM_all.csv"]),
-        ("Missclassified Student", ["Missclassified_Student.csv", "misclassified_Student_all.csv"]),
-        ("Classified LLM", ["Classified_LLM.csv", "Classified_LLM_all.csv"]),
-        ("Classified Student", ["Classified_Student.csv", "Classified_Student_all.csv"])
-    ]:
+    for filenames, label in file_variants:
         for fname in filenames:
             file_path = os.path.join(folder, fname)
             if os.path.exists(file_path):
-                all_files.append((group, file_path))
+                all_files.append((label, file_path))
+                break  # Stop after the first match is found
 
-results = []
+print(f"Total files collected: {len(all_files)}")
+
 for group, file_path in all_files:
-    df_metrics = analyze_java_code(file_path)
-    if df_metrics is not None:
-        df_metrics["file"] = extract_label(file_path, group)
-        df_metrics["group"] = group
-        results.append(df_metrics)
+    metrics = analyze_java_code(file_path)
+    if metrics:
+        metrics["file"] = extract_label(file_path, group)
+        metrics["group"] = group
+        results.append(metrics)
 
-results_df = pd.concat(results, ignore_index=True)
+print(f"Total results collected: {len(results)}")
+
+results_df = pd.DataFrame(results)
+print(f"Total entries in DataFrame: {len(results_df)}")
+
 output_csv = os.path.join("scripts", "results_combined.csv")
 results_df.to_csv(output_csv, index=False)
 print(f"Combined results saved to {output_csv}")
 
-# Define metrics to plot
-metrics = ["line_count", "word_count", "comment_count", "comment_length", "empty_line_count", "check_count"]
-
 group_colors = {
-    "CSEDM": "blue",
-    "LLM Datasets": "green",
-    "Missclassified LLM": "red",
-    "Missclassified Student": "orange",
-    "Classified LLM": "purple",
-    "Classified Student": "brown"
+    "CSEDM": "blue", "LLM Datasets": "green", 
+    "Missclassified LLM": "red", "Missclassified Student": "orange",
+    "Classified LLM": "purple", "Classified Student": "brown"
 }
 
 charts_dir = "charts"
 os.makedirs(charts_dir, exist_ok=True)
 
-# Generate violin plots
-for metric in metrics:
-    plt.figure(figsize=(12, 6))
-    ax = sns.violinplot(x="file", y=metric, hue="group", data=results_df, palette=group_colors, split=True, inner="quartile")
-    plt.xticks(rotation=45, ha="right")
-    plt.ylabel(metric)
-    plt.title(f"{metric} distribution across files")
-    plt.legend(title="Groups")
+metrics_pairs = [("avg_line_count", "std_line_count"),
+    ("avg_word_count", "std_word_count"),
+    ("avg_comment_count", "std_comment_count"),
+    ("avg_comment_length", "std_comment_length"),
+    ("avg_empty_line_count", "std_empty_line_count"),
+    ("avg_check_count", "std_check_count")]
+
+custom_order = ["CSEDM", "LLM Datasets", "Missclassified LLM", "Missclassified Student", "Classified LLM", "Classified Student"]
+results_df["group"] = pd.Categorical(results_df["group"], categories=custom_order, ordered=True)
+results_df = results_df.sort_values(by=["group", "file"]).reset_index(drop=True)
+for avg_metric, std_metric in metrics_pairs:
+    plt.figure(figsize=(20, 8))
+    x = np.arange(len(results_df))
+    bar_colors = results_df["group"].map(group_colors)
+
+    # Prepare asymmetric error bars
+    means = results_df[avg_metric].values
+    stds = results_df[std_metric].values
+    lower_errors = np.minimum(means, stds)
+    upper_errors = stds
+    asymmetric_errors = [lower_errors, upper_errors]  # This is a 2D array: [neg, pos]
+
+    # Plot with asymmetric error bars
+    plt.bar(x, means, yerr=asymmetric_errors, color=bar_colors, capsize=5)
+    plt.ylabel(avg_metric)
+    plt.title(f"{avg_metric} with asymmetric error bars (clipped at zero)")
+    plt.xticks(x, results_df["file"], rotation=45, ha="right")
+    plt.xlim(-0.5, len(x) - 0.5)
     plt.tight_layout()
     
-    chart_filename = os.path.join(charts_dir, f"{metric}_violin.png")
+    # Add legend
+    legend_patches = [mpatches.Patch(color=color, label=group) for group, color in group_colors.items()]
+    plt.legend(handles=legend_patches, title="Groups")
+
+    # Save chart
+    chart_filename = os.path.join(charts_dir, f"{avg_metric}_chart.png")
     plt.savefig(chart_filename)
     plt.close()
     print(f"Chart saved: {chart_filename}")

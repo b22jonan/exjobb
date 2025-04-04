@@ -57,7 +57,7 @@ def plot_boxplot(data, labels, metric_name):
     plt.xticks([2.5 + i * 4 for i in range(num_segments)], segment_names)
     plt.ylabel(metric_name)
     plt.title(f"{metric_name} for all ML Models/LLMs")
-    plt.ylim(0.7, 1.0)
+    plt.ylim(0.75, 1.0)
     plt.grid(True, linestyle='--', alpha=0.6)
     
     legend_labels = ["ChatGPT3.5", "ChatGPT4o", "DeepSeek", "Qwen"]
