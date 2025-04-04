@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 num_models = 50  # Number of models to average over
 feature_importances_list = []
 
-# "RandomForest",  "LightGBM", "SVM","NN", "XGBoost", 
+# 
 LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
-MLs = ["AdaBoost"]
+MLs = ["AdaBoost", "RandomForest", "LightGBM", "XGBoost"]
 
 # Load each saved model and vectorizer
 for LLM in LLMs:
