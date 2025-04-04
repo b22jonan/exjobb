@@ -30,23 +30,8 @@ for LLM in LLMs:
     conf_matrix_list = []
 
     # Set the number of iterations
-    num_iterations = 2
+    num_iterations = 50
     iteration = 0
-    model = SVC(kernel='linear', C=1.0)
-
-    # --- FIRST, fit the vectorizer once using the FULL initial dataset ---
-    subprocess.run([sys.executable, "scripts/dataset_sampler.py"], check=True)
-
-    df1 = pd.read_csv("CSV_files/Sampled_CodeStates.csv", header=0, names=["ID", "Code"])
-    df2 = pd.read_csv(x_data_path, header=0, names=['ID', 'Prompt', 'Code'])
-
-    df2['Label'] = 1
-    df1['Label'] = 0 
-
-    x_extra_field = df2[['ID', 'Prompt']]
-    df2 = df2.drop(columns=['Prompt'])
-
-    df_full = pd.concat([df1, df2], ignore_index=True)
 
     # --- NOW, loop through iterations reusing the SAME vectorizer ---
     while iteration < num_iterations:
@@ -66,7 +51,7 @@ for LLM in LLMs:
         df = pd.concat([df1, df2], ignore_index=True)
 
         vectorizer = TfidfVectorizer(analyzer='char_wb', ngram_range=(2,6), max_features=1000)
-        vectorizer.fit(df_full['Code'])        
+        X = vectorizer.fit_transform(df['Code'])     
         y = df['Label']
 
         random_state = np.random.randint(0, 10000)
