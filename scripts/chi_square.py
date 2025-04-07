@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 
 # === CONFIG ===
 data_folder = "ML_models/code_similarity/csv_files_llm_not_in_use"
+output_folder = "charts"
+
+# Make output folder if it doesn't exist
+os.makedirs(output_folder, exist_ok=True)
 
 # === 1. LOAD + LABEL DATA ===
 all_data = []
@@ -30,15 +34,12 @@ for filename in os.listdir(data_folder):
             df["ML_model"] = match.group(1)
             df["LLM"] = match.group(2)
         
-        # Keep relevant columns
         all_data.append(df[["PromptType", "classification", "ML_model", "LLM"]])
 
-# Combine all
 full_df = pd.concat(all_data, ignore_index=True)
 
 # === 2. CONTINGENCY TABLE + CHI-SQUARE + CRAMÉR'S V ===
 contingency_table = pd.crosstab(full_df["PromptType"], full_df["classification"])
-
 chi2, p, dof, expected = chi2_contingency(contingency_table)
 n = contingency_table.to_numpy().sum()
 k = min(contingency_table.shape)
@@ -68,41 +69,53 @@ overall_results.append(
     else "Result: Fail to reject null"
 )
 
-with open(os.path.join("charts/", "overall_chi_test.txt"), "w") as f:
+with open(os.path.join(output_folder, "overall_chi_test.txt"), "w") as f:
     f.write("\n".join(overall_results))
 
+
 # === 3. STACKED BAR PLOT ===
-contingency_table.plot(kind="bar", stacked=True, figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 6))
+contingency_table.plot(kind="bar", stacked=True, ax=ax)
 plt.title("Classification Outcome by Prompt Type")
 plt.xlabel("Prompt Type")
 plt.ylabel("Number of Samples")
 plt.legend(title="Classification")
 plt.tight_layout()
-plt.show()
+plt.savefig(os.path.join(output_folder, "classification_by_prompt.png"))
+plt.close()
 
 # === 4. MISCLASSIFICATION RATE PER PROMPT ===
 contingency_table["Total"] = contingency_table.sum(axis=1)
 contingency_table["MisclassRate"] = contingency_table["Incorrect"] / contingency_table["Total"]
+misclass_df = contingency_table[["Incorrect", "Total", "MisclassRate"]].sort_values("MisclassRate", ascending=False)
+misclass_df.to_csv(os.path.join(output_folder, "misclassification_rates.csv"))
 
 print("\n=== MISCLASSIFICATION RATE BY PROMPT ===")
-print(contingency_table[["Incorrect", "Total", "MisclassRate"]].sort_values("MisclassRate", ascending=False))
+print(misclass_df)
 
-# === 5. BREAKDOWN BY LLM ===
-print("\n=== CHI-SQUARE BY LLM ===")
+# === 5. CHI-SQUARE BY LLM + ML MODEL (Save results to text file) ===
+results = []
+
+results.append("\n=== CHI-SQUARE BY LLM ===")
 for llm, group in full_df.groupby("LLM"):
     table = pd.crosstab(group["PromptType"], group["classification"])
     if table.shape[0] < 2 or table.shape[1] < 2:
-        print(f"{llm}: Not enough data for test.")
+        results.append(f"{llm}: Not enough data for test.")
         continue
     chi2, p, dof, _ = chi2_contingency(table)
-    print(f"{llm}: Chi2={chi2:.2f}, p={p:.2e}")
+    results.append(f"{llm}: Chi2={chi2:.2f}, p={p:.2e}")
 
-# === 6. BREAKDOWN BY ML MODEL ===
-print("\n=== CHI-SQUARE BY ML MODEL ===")
+results.append("\n=== CHI-SQUARE BY ML MODEL ===")
 for model, group in full_df.groupby("ML_model"):
     table = pd.crosstab(group["PromptType"], group["classification"])
     if table.shape[0] < 2 or table.shape[1] < 2:
-        print(f"{model}: Not enough data for test.")
+        results.append(f"{model}: Not enough data for test.")
         continue
     chi2, p, dof, _ = chi2_contingency(table)
-    print(f"{model}: Chi2={chi2:.2f}, p={p:.2e}")
+    results.append(f"{model}: Chi2={chi2:.2f}, p={p:.2e}")
+
+# Save to text file
+with open(os.path.join(output_folder, "per_model_chi_results.txt"), "w") as f:
+    f.write("\n".join(results))
+
+print(f"\n All results saved to the '{output_folder}/' directory.")
