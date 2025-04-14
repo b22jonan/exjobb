@@ -34,13 +34,28 @@ llm_colors = {
     "Qwen": "#DFB700"        # Yellow
 }
 
+class_colors = {
+    "classified_LLM": "#666666",  # Grey
+    "classified_Student":  "#FF4500",  # Orange Red
+    "misclassified_Student": "#ff00ff",  # Magenta
+    "misclassified_LLM": "#DFB700",  # Yellow
+}
+
 # Directory containing CSV files
-csv_folder = 'ML_models/code_similarity/csv_files_llm/'
+csv_folder = 'ML_models/code_similarity/files_in_use/'
 csv_files = [os.path.join(csv_folder, f) for f in os.listdir(csv_folder) if f.endswith('.csv')]
 
 # Extract LLM Name from Filename
 def extract_llm_from_filename(filename):
     return filename.split('_')[-1].replace('.csv', '')
+
+# Extract class from filename
+# updated_classified_LLM_AdaBoost_ChatGPT4o.csv -> classified_LLM
+def extract_class_from_filename(filename):    
+    parts = filename.split('_')
+    if len(parts) > 2:
+        return '_'.join(parts[1:-2])  # Join parts excluding the first and last two
+    return filename
 
 # Load and merge all CSV files
 def load_and_merge_csvs(csv_files):
@@ -55,6 +70,9 @@ def load_and_merge_csvs(csv_files):
         
         df['LLM'] = extract_llm_from_filename(os.path.basename(file))  # Extract LLM name
         df['LLMColor'] = df['LLM'].map(llm_colors)  # Assign LLM color
+        
+        df['Class'] = extract_class_from_filename(os.path.basename(file))  # Extract class name
+        df['ClassColor'] = df['Class'].map(class_colors)  # Assign class color
         
         dfs.append(df)
     
@@ -236,7 +254,8 @@ app.layout = html.Div([
                 options=[
                     {'label': 'Color by LLM', 'value': 'llm'},
                     {'label': 'Color by Prompt Type', 'value': 'prompt'},
-                    {'label': 'Color by Topic', 'value': 'topic'}
+                    {'label': 'Color by Topic', 'value': 'topic'},
+                    {'label': 'Color by Class', 'value': 'class'}
                 ],
                 value='topic',  # Default: Topic-based coloring
                 inline=True
@@ -279,8 +298,12 @@ def update_graph(filter_value, color_mode):
         color_column = 'LLMColor'
     elif color_mode == 'prompt':
         color_column = 'PromptColor'
-    else:
+    elif color_mode == 'topic':
         color_column = 'TopicColor'
+    elif color_mode == 'class':
+        color_column = 'ClassColor'
+    else:
+        color_column = 'whatever'  # Fallback
 
     # **Fix for Node Filtering**
     if 'only_connected' in filter_value:
@@ -345,6 +368,19 @@ def update_graph(filter_value, color_mode):
                 html.Span("Restraints - Goldenrod", style={'color': '#DAA520'}),
                 html.Span(" | ", style={'color': '#000000'}),
                 html.Span("Translation - Teal", style={'color': '#009688'})
+            ])
+        ])
+    elif color_mode == 'class':
+        legend = html.Div([
+            html.P("Legend (Classes):", style={'fontWeight': 'bold'}),
+            html.Div([
+                html.Span("Classified LLM - grey", style={'color': '#666666'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Classified Student - Orange Red", style={'color': '#FF4500'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Misclassified Student - Magenta", style={'color': '#ff00ff'}),
+                html.Span(" | ", style={'color': '#000000'}),
+                html.Span("Misclassified LLM - Yellow", style={'color': '#DFB700'})
             ])
         ])
     else:
