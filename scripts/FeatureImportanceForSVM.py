@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 
 for LLM in LLMs:
-    model_path = f"ML_models/feature_importance/models/NN_{LLM}"
+    model_path = f"ML_models/feature_importance/models/SVM_{LLM}"
     feature_importances = []
     feature_names = None
 
@@ -28,7 +28,7 @@ for LLM in LLMs:
                 if not np.array_equal(feature_names, current_names):
                     raise ValueError(f"Feature names mismatch in iteration {iteration} for {LLM}.")
 
-            weights = np.abs(model.coefs_[0]).mean(axis=1)
+            weights = np.abs(model.coef_.toarray()).flatten()
             feature_importances.append(weights)
 
     if not feature_importances:
@@ -46,13 +46,13 @@ for LLM in LLMs:
     plt.figure(figsize=(10, 8))
     plt.barh(feature_importance_df['feature'][:20][::-1], feature_importance_df['avg_importance'][:20][::-1])
     plt.xlabel('Average Importance')
-    plt.title(f"Top 20 Average Feature Importances (NN - {LLM})")
+    plt.title(f"Top 20 Average Feature Importances (SVM - {LLM})")
     plt.tight_layout()
 
-    result_dir = f"ML_models/feature_importance/results/models/NN_{LLM}"
+    result_dir = f"ML_models/feature_importance/results/models/SVM_{LLM}"
     os.makedirs(result_dir, exist_ok=True)
-    plt.savefig(f"{result_dir}/NN_{LLM}_average_feature_importance.png")
+    plt.savefig(f"{result_dir}/SVM_{LLM}_average_feature_importance.png")
     plt.close()
 
     # Save full CSV
-    feature_importance_df.to_csv(f"{result_dir}/NN_{LLM}_average_feature_importance.csv", index=False)
+    feature_importance_df.to_csv(f"{result_dir}/SVM_{LLM}_average_feature_importance.csv", index=False)

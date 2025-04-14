@@ -35,19 +35,25 @@ def process_all_files(txt_file, folder_path):
     for subfolder in os.listdir(folder_path):
         subfolder_path = os.path.join(folder_path, subfolder)
         if os.path.isdir(subfolder_path):
-            csv_file = os.path.join(subfolder_path, "LLM.csv")
+            csv_file = os.path.join(subfolder_path, "Missclassified_LLM.csv")
             if os.path.exists(csv_file):
                 subfolder_names.append(subfolder)
                 prompt_counts = count_prompt_occurrences(txt_file, csv_file)
                 all_counts.append([prompt_counts[f'Nr{i+1}'] for i in range(6)])
-            else :
+            else:
                 csv_file = os.path.join(subfolder_path, "misclassified_LLM_all.csv")
                 if os.path.exists(csv_file):
                     subfolder_names.append(subfolder)
                     prompt_counts = count_prompt_occurrences(txt_file, csv_file)
                     all_counts.append([prompt_counts[f'Nr{i+1}'] for i in range(6)])
 
-    return subfolder_names, all_counts
+    # Now sort the subfolder names based on the latter half of the folder name
+    subfolder_names_sorted = sorted(subfolder_names, key=lambda x: x.split('_')[1] if len(x.split('_')) > 1 else x)
+
+    # Reorder all_counts to match the sorted subfolder names
+    sorted_counts = [all_counts[subfolder_names.index(name)] for name in subfolder_names_sorted]
+
+    return subfolder_names_sorted, sorted_counts
 
 def plot_results(subfolder_names, all_counts, bar_names, colors):
     df = pd.DataFrame(all_counts, columns=[f'Nr{i+1}' for i in range(6)], index=subfolder_names)
