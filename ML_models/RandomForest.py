@@ -50,7 +50,7 @@ for LLM in LLMs:
         y = data["label"].values
 
         X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(
-            X, y, data.index, test_size=0.3, random_state=state)
+            X, y, data.index, test_size=0.2, random_state=state)
 
         model = RandomForestClassifier(
             n_estimators=100, 
