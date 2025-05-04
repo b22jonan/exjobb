@@ -330,7 +330,7 @@ def update_graph(filter_value, color_mode):
     figure = go.Figure(
         data=figure_data,
         layout=go.Layout(
-            title="Neural Network Missclassified Code Similarity Visualisation",
+            title="AdaBoost - DeepSeek Missclassified Code Similarity Visualisation",
             xaxis=dict(visible=False),
             yaxis=dict(visible=False),
             margin=dict(l=10, r=10, t=40, b=10),
