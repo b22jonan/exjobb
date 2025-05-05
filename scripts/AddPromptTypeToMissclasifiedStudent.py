@@ -22,4 +22,14 @@ def add_prompt_type_column(input_file, output_file):
 
     print(f"File '{output_file}' created successfully with 'PromptType' column.")
 
-add_prompt_type_column('ML_models/results/XGBoost_Qwen/Student.csv', 'ML_models/results/XGBoost_Qwen/Updated_Student_1.csv')
+LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
+MLs = ["RandomForest", "SVM", "LightGBM", "NN", "XGBoost", "AdaBoost"]
+
+if __name__ == "__main__":
+    for LLM in LLMs:
+        for ML in MLs:
+            # Specify the CSV file path based on the model
+            csv_file = f"ML_models/results/{ML}_{LLM}/misclassified_Student_all.csv"
+            output_csv = f"ML_models/code_similarity/csv_files_student_not_in_use/updated_misclassified_Student_{ML}_{LLM}.csv"
+            
+            add_prompt_type_column(csv_file, output_csv)
