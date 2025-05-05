@@ -4,8 +4,8 @@ import re
 import os
 import glob
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 
+# --- Analysis Function ---
 def sanitize_filename(filename, directory):
     sanitized = re.sub(r'[:]', "standingDots", filename)
     sanitized = re.sub(r'[<]', "leftArrow", sanitized)
@@ -61,17 +61,12 @@ def analyze_java_code(csv_file):
     return metrics
 
 def extract_label(filepath, group):
-    if group == "CSEDM":
-        return os.path.basename(filepath)
-    dirname = os.path.basename(os.path.dirname(filepath))
-    parts = dirname.split("_", 1)
-    return parts[1].lower() if len(parts) == 2 else dirname.lower()
+    return os.path.basename(filepath) if group == "CSEDM" else os.path.basename(os.path.dirname(filepath))
 
-
-# Collect all files
+# --- File Collection ---
 results = []
 all_files = [("CSEDM", os.path.join("CSV_files", "CodeStates.csv"))]
-all_files.extend([( "LLM Datasets", file) for file in glob.glob(os.path.join("prompting", "*", "*.csv"))])
+all_files.extend([("LLM Datasets", file) for file in glob.glob(os.path.join("prompting", "*", "*.csv"))])
 
 results_dir = "ML_models/results"
 subfolders = [os.path.join(results_dir, d) for d in os.listdir(results_dir) if os.path.isdir(os.path.join(results_dir, d))]
@@ -93,89 +88,90 @@ for folder in subfolders:
 
 print(f"Total files collected: {len(all_files)}")
 
-# Analyze and label
+# --- Process Files ---
 for group, file_path in all_files:
     metrics = analyze_java_code(file_path)
     if metrics:
-        metrics["file"] = extract_label(file_path, group)
-        metrics["group"] = group
+        filename = extract_label(file_path, group)
+        if group in ["CSEDM", "LLM Datasets"]:
+            column_key = group
+            row_key = "Deepseek"  # Default row for these groups
+        else:
+            if "_" in filename:
+                column_key, row_key = filename.split("_", 1)
+            else:
+                column_key, row_key = "Unknown", "Unknown"
+        metrics.update({
+            "file": filename,
+            "group": group,
+            "column_key": column_key.strip(),
+            "row_key": row_key.strip()
+        })
         results.append(metrics)
 
 print(f"Total results collected: {len(results)}")
 
-results_df = pd.DataFrame(results)
+# --- Create DataFrame ---
+df = pd.DataFrame(results)
 
-# Group by 'group' and 'file' (second part of folder name) and aggregate
-grouped_df = results_df.groupby(["group", "file"], as_index=False).mean(numeric_only=True)
-
-# Save combined results
 output_csv = os.path.join("scripts", "results_combined.csv")
-grouped_df.to_csv(output_csv, index=False)
+df.to_csv(output_csv, index=False)
 print(f"Combined results saved to {output_csv}")
 
-# Plotting
-group_colors = {
-    "CSEDM": "blue", "LLM Datasets": "green", 
-    "Missclassified LLM": "red", "Missclassified Student": "orange",
-    "Classified LLM": "purple", "Classified Student": "brown"
-}
-
+# --- Plot Heatmaps ---
 charts_dir = "charts"
 os.makedirs(charts_dir, exist_ok=True)
 
-metrics_pairs = [("avg_line_count", "std_line_count"),
-    ("avg_word_count", "std_word_count"),
-    ("avg_comment_count", "std_comment_count"),
-    ("avg_comment_length", "std_comment_length"),
-    ("avg_empty_line_count", "std_empty_line_count"),
-    ("avg_check_count", "std_check_count"),
-    ("avg_))_count", "std_))_count"),
-    ("avg_<_count", "std_<_count"),
-    ("avg_if(_count", "std_if(_count"),
-    ("avg_1]_count", "std_1]_count"),
-    ("avg_=_count", "std_=_count"),
-    ("avg_'_count", "std_'_count"),
-    ("avg_(in_count", "std_(in_count"),
-    ("avg_h()_count", "std_h()_count"),
-    ("avg_:_count", "std_:_count"),
-    ("avg_1_count", "std_1_count"),
-    ("avg_2_count", "std_2_count"),
-    ("avg_3_count", "std_3_count"),
-    ("avg_0_count", "std_0_count"),
-    ("avg_&&_count", "std_&&_count"),
-    ("avg_(_count", "std_(_count"),
-    ("avg_-_count", "std_-_count"),
-    ("avg_||_count", "std_||_count")
-]
+row_labels = ["Deepseek", "Qwen", "ChatGPT4o", "ChatGPT35"]
+row_mapping = {r.lower(): i for i, r in enumerate(row_labels)}
 
-custom_order = ["CSEDM", "LLM Datasets", "Missclassified LLM", "Missclassified Student", "Classified LLM", "Classified Student"]
-grouped_df["group"] = pd.Categorical(grouped_df["group"], categories=custom_order, ordered=True)
-grouped_df = grouped_df.sort_values(by=["group", "file"]).reset_index(drop=True)
+col_labels = ["CSEDM", "LLM Datasets"]
+grouped_models = {
+    "Missclassified LLM": ["RandomForest", "NN", "SVM", "XGBoost", "LightGBM", "AdaBoost"],
+    "Missclassified Student": ["RandomForest", "NN", "SVM", "XGBoost", "LightGBM", "AdaBoost"],
+    "Classified LLM": ["RandomForest", "NN", "SVM", "XGBoost", "LightGBM", "AdaBoost"],
+    "Classified Student": ["RandomForest", "NN", "SVM", "XGBoost", "LightGBM", "AdaBoost"]
+}
+for group, models in grouped_models.items():
+    for model in models:
+        col_labels.append(f"{group} - {model}")
 
-for avg_metric, std_metric in metrics_pairs:
-    plt.figure(figsize=(8, 10))
-    x = np.arange(len(grouped_df))
-    bar_colors = grouped_df["group"].map(group_colors)
+col_mapping = {c.lower(): i for i, c in enumerate(col_labels)}
 
-    means = grouped_df[avg_metric].values
-    stds = grouped_df[std_metric].values
-    lower_errors = np.minimum(means, stds)
-    upper_errors = stds
-    asymmetric_errors = [lower_errors, upper_errors]
+metric_keys = [col for col in df.columns if col.startswith("avg_")]
 
-    plt.barh(x, means, xerr=asymmetric_errors, color=bar_colors, capsize=5)
-    plt.xlabel(avg_metric)
-    plt.title(f"{avg_metric} with asymmetric standard deviation")
-    plt.yticks(x, grouped_df["file"])
-    plt.ylim(-0.5, len(x) - 0.5)
-    plt.gca().invert_yaxis()
-
-    plt.subplots_adjust(left=0.15, right=0.95, top=0.95, bottom=0.05)
+for metric in metric_keys:
+    heatmap = np.full((4, 26), np.nan)
     
-    legend_patches = [mpatches.Patch(color=color, label=group) for group, color in group_colors.items()]
-    plt.legend(handles=legend_patches, title="Groups")
+    for _, row in df.iterrows():
+        row_key = str(row["row_key"]).lower()
+        r_idx = row_mapping.get(row_key)
+        if pd.isna(row["column_key"]) or pd.isna(row["row_key"]):
+            continue
 
-    chart_filename = os.path.join(charts_dir, f"{sanitize_filename(avg_metric, charts_dir)}_chart.png")
-    plt.savefig(chart_filename)
+        group = row["group"]
+        model = row["column_key"]
+
+        if group == "CSEDM":
+            col_name = "CSEDM"
+        elif group == "LLM Datasets":
+            col_name = "LLM Datasets"
+        else:
+            col_name = f"{group} - {model}"
+
+        c_idx = col_mapping.get(col_name.lower())
+        if r_idx is not None and c_idx is not None:
+            heatmap[r_idx, c_idx] = row[metric]
+
+    plt.figure(figsize=(24, 6))
+    plt.imshow(heatmap, cmap="YlGnBu", aspect="auto")
+    plt.colorbar(label=metric)
+    plt.xticks(np.arange(26), col_labels, rotation=90)
+    plt.yticks(np.arange(4), row_labels)
+    plt.title(f"Heatmap of {metric}")
+    plt.tight_layout()
+
+    chart_path = os.path.join(charts_dir, f"{sanitize_filename(metric, charts_dir)}_heatmap.png")
+    plt.savefig(chart_path)
     plt.close()
-    print(f"Chart saved: {chart_filename}")
+    print(f"Chart saved: {chart_path}")

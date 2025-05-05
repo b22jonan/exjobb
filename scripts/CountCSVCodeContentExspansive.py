@@ -6,7 +6,9 @@ import glob
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
+# Function to sanitize file names and ensure uniqueness
 def sanitize_filename(filename, directory):
+    # Replace invalid characters with underscores
     sanitized = re.sub(r'[:]', "standingDots", filename)
     sanitized = re.sub(r'[<]', "leftArrow", sanitized)
     sanitized = re.sub(r'[||]', "standingLines", sanitized)
@@ -24,9 +26,11 @@ def analyze_java_code(csv_file):
         print(f"Error: No appropriate code column found in {csv_file}.")
         return None
 
+    # Existing counters
     line_counts, word_counts, comment_counts = [], [], []
     comment_lengths, empty_line_counts, check_counts = [], [], []
 
+    # New counters for the additional metrics
     syntax_counts = {
         "))": [], "<": [], "if(": [], "1]": [], "=": [], "'": [], "(in": [], "h()": [], ":": [],
         "1": [], "2": [], "3": [], "0": [], "&&": [], "(": [], "-": [], "||": []
@@ -42,9 +46,11 @@ def analyze_java_code(csv_file):
         empty_line_counts.append(sum(1 for line in lines if not line.strip()))
         check_counts.append(len(re.findall(r'\bcheck\b', code, re.IGNORECASE)))
         
+        # Count occurrences of new syntax patterns in each line
         for key in syntax_counts:
             syntax_counts[key].append(len(re.findall(re.escape(key), code)))
 
+    # Calculate averages and standard deviations for all counts
     metrics = {
         "avg_line_count": np.mean(line_counts), "std_line_count": np.std(line_counts),
         "avg_word_count": np.mean(word_counts), "std_word_count": np.std(word_counts),
@@ -54,22 +60,18 @@ def analyze_java_code(csv_file):
         "avg_check_count": np.mean(check_counts), "std_check_count": np.std(check_counts)
     }
 
+    # Add new metrics with their averages and standard deviations
     for key, counts in syntax_counts.items():
         metrics[f"avg_{key}_count"] = np.mean(counts)
         metrics[f"std_{key}_count"] = np.std(counts)
 
     return metrics
 
-def extract_label(filepath, group):
-    if group == "CSEDM":
-        return os.path.basename(filepath)
-    dirname = os.path.basename(os.path.dirname(filepath))
-    parts = dirname.split("_", 1)
-    return parts[1].lower() if len(parts) == 2 else dirname.lower()
-
-
-# Collect all files
 results = []
+
+def extract_label(filepath, group):
+    return os.path.basename(filepath) if group == "CSEDM" else os.path.basename(os.path.dirname(filepath))
+
 all_files = [("CSEDM", os.path.join("CSV_files", "CodeStates.csv"))]
 all_files.extend([( "LLM Datasets", file) for file in glob.glob(os.path.join("prompting", "*", "*.csv"))])
 
@@ -89,11 +91,10 @@ for folder in subfolders:
             file_path = os.path.join(folder, fname)
             if os.path.exists(file_path):
                 all_files.append((label, file_path))
-                break
+                break  # Stop after the first match is found
 
 print(f"Total files collected: {len(all_files)}")
 
-# Analyze and label
 for group, file_path in all_files:
     metrics = analyze_java_code(file_path)
     if metrics:
@@ -104,16 +105,12 @@ for group, file_path in all_files:
 print(f"Total results collected: {len(results)}")
 
 results_df = pd.DataFrame(results)
+print(f"Total entries in DataFrame: {len(results_df)}")
 
-# Group by 'group' and 'file' (second part of folder name) and aggregate
-grouped_df = results_df.groupby(["group", "file"], as_index=False).mean(numeric_only=True)
-
-# Save combined results
 output_csv = os.path.join("scripts", "results_combined.csv")
-grouped_df.to_csv(output_csv, index=False)
+results_df.to_csv(output_csv, index=False)
 print(f"Combined results saved to {output_csv}")
 
-# Plotting
 group_colors = {
     "CSEDM": "blue", "LLM Datasets": "green", 
     "Missclassified LLM": "red", "Missclassified Student": "orange",
@@ -123,12 +120,16 @@ group_colors = {
 charts_dir = "charts"
 os.makedirs(charts_dir, exist_ok=True)
 
+# Existing metrics pairs
 metrics_pairs = [("avg_line_count", "std_line_count"),
     ("avg_word_count", "std_word_count"),
     ("avg_comment_count", "std_comment_count"),
     ("avg_comment_length", "std_comment_length"),
     ("avg_empty_line_count", "std_empty_line_count"),
-    ("avg_check_count", "std_check_count"),
+    ("avg_check_count", "std_check_count")]
+
+# New syntax-specific metrics pairs
+new_syntax_metrics = [
     ("avg_))_count", "std_))_count"),
     ("avg_<_count", "std_<_count"),
     ("avg_if(_count", "std_if(_count"),
@@ -148,33 +149,42 @@ metrics_pairs = [("avg_line_count", "std_line_count"),
     ("avg_||_count", "std_||_count")
 ]
 
+# Combine old and new metrics
+metrics_pairs.extend(new_syntax_metrics)
+
+# Sort results by group
 custom_order = ["CSEDM", "LLM Datasets", "Missclassified LLM", "Missclassified Student", "Classified LLM", "Classified Student"]
-grouped_df["group"] = pd.Categorical(grouped_df["group"], categories=custom_order, ordered=True)
-grouped_df = grouped_df.sort_values(by=["group", "file"]).reset_index(drop=True)
+results_df["group"] = pd.Categorical(results_df["group"], categories=custom_order, ordered=True)
+results_df = results_df.sort_values(by=["group", "file"]).reset_index(drop=True)
 
+# Plot charts for all metrics
 for avg_metric, std_metric in metrics_pairs:
-    plt.figure(figsize=(8, 10))
-    x = np.arange(len(grouped_df))
-    bar_colors = grouped_df["group"].map(group_colors)
+    plt.figure(figsize=(16, 20))
+    x = np.arange(len(results_df))
+    bar_colors = results_df["group"].map(group_colors)
 
-    means = grouped_df[avg_metric].values
-    stds = grouped_df[std_metric].values
+    # Prepare asymmetric error bars
+    means = results_df[avg_metric].values
+    stds = results_df[std_metric].values
     lower_errors = np.minimum(means, stds)
     upper_errors = stds
-    asymmetric_errors = [lower_errors, upper_errors]
+    asymmetric_errors = [lower_errors, upper_errors]  # This is a 2D array: [neg, pos]
 
+    # Plot with asymmetric error bars
     plt.barh(x, means, xerr=asymmetric_errors, color=bar_colors, capsize=5)
     plt.xlabel(avg_metric)
     plt.title(f"{avg_metric} with asymmetric standard deviation")
-    plt.yticks(x, grouped_df["file"])
+    plt.yticks(x, results_df["file"])
     plt.ylim(-0.5, len(x) - 0.5)
     plt.gca().invert_yaxis()
 
     plt.subplots_adjust(left=0.15, right=0.95, top=0.95, bottom=0.05)
     
+    # Add legend
     legend_patches = [mpatches.Patch(color=color, label=group) for group, color in group_colors.items()]
     plt.legend(handles=legend_patches, title="Groups")
 
+    # Save chart with sanitized and unique filename
     chart_filename = os.path.join(charts_dir, f"{sanitize_filename(avg_metric, charts_dir)}_chart.png")
     plt.savefig(chart_filename)
     plt.close()

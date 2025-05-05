@@ -58,19 +58,20 @@ def process_all_files(txt_file, folder_path):
 def plot_results(subfolder_names, all_counts, bar_names, colors):
     df = pd.DataFrame(all_counts, columns=[f'Nr{i+1}' for i in range(6)], index=subfolder_names)
 
-    # Plotting the 100% stacked bar chart
-    ax = df.div(df.sum(axis=1), axis=0).plot(kind='bar', stacked=True, figsize=(10, 6), color=colors, width=0.8)
+    # Plotting the non-normalized horizontal stacked bar chart
+    ax = df.plot(kind='barh', stacked=True, figsize=(10, 6), color=colors, width=0.8)
     
-    # Adding the bar names below the columns
-    ax.set_xticklabels(subfolder_names, rotation=45, ha='right')
-    ax.set_ylabel('Percentage')
-    ax.set_title('Prompt missclasification diagram')
+    # Adding the bar names to the left side
+    ax.set_yticklabels(subfolder_names)
+    ax.set_xlabel('Count')
+    ax.set_title('Prompt Missclassification Diagram (Non-normalized)')
     
     # Adjust layout to provide space for labels
-    plt.subplots_adjust(bottom=0.35, left=0.1, right=0.9, top=0.9)
+    plt.subplots_adjust(left=0.2, right=0.99, top=0.9)
 
     legend_patches = [plt.Line2D([0], [0], color=color, lw=6) for color in colors[:6]]
-    plt.legend(legend_patches, bar_names, loc='center', ncol=4, bbox_to_anchor=(0.5, -0.55))
+    plt.legend(legend_patches, bar_names, loc='center left', bbox_to_anchor=(1.0, 0.5))
+    plt.tight_layout()
     
     plt.show()
 

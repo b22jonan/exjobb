@@ -50,7 +50,7 @@ def process_all_files(txt_file, folder_path):
     return subfolder_names, all_counts
 
 def plot_heatmap(subfolder_names, all_counts):
-    df = pd.DataFrame(all_counts, columns=[f'Nr{i+1}' for i in range(50)], index=subfolder_names)
+    df = pd.DataFrame(all_counts, columns=[f'No {i+1}' for i in range(50)], index=subfolder_names)
     
     # Normalize the data such that the bottom 5% of values are mapped to 0 (black)
     vmin = np.percentile(df.values, 0)  # Bottom 5% value
@@ -71,7 +71,7 @@ def plot_heatmap(subfolder_names, all_counts):
     cbar = plt.colorbar(heatmap, label='Count', shrink=0.8)
     
     # Customize ticks and labels
-    plt.xticks(ticks=np.arange(50), labels=[f'Nr{i+1}' for i in range(50)], rotation=90)
+    plt.xticks(ticks=np.arange(50), labels=[f'No {i+1}' for i in range(50)], rotation=90)
     plt.yticks(ticks=np.arange(len(subfolder_names)), labels=subfolder_names, ha='right')
     
     plt.xlabel("Question Nr")

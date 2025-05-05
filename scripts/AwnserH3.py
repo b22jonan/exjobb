@@ -28,6 +28,7 @@ csedm_metrics = {
     "quote_count": count_occurrences(csedm_code, r"'"),
     "if_count": count_occurrences(csedm_code, r"if\("),
     "in_count": count_occurrences(csedm_code, r"\(in"),
+    "or_operator_count": count_occurrences(csedm_code, r"\|\|"),  # NEW
 }
 
 llm_metrics = {
@@ -35,6 +36,7 @@ llm_metrics = {
     "quote_count": count_occurrences(llm_code, r"'"),
     "if_count": count_occurrences(llm_code, r"if\("),
     "in_count": count_occurrences(llm_code, r"\(in"),
+    "or_operator_count": count_occurrences(llm_code, r"\|\|"),  # NEW
 }
 
 # Run t-tests for each metric
