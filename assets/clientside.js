@@ -22,8 +22,8 @@ window.dash_clientside.clientside.download_plot = function(n_clicks) {
 
     Plotly.toImage(plot, {
         format: 'png',
-        width: 1600,
-        height: 1100
+        width: 1240,
+        height: 1754
     }).then(function(dataUrl) {
         const a = document.createElement('a');
         a.href = dataUrl;
