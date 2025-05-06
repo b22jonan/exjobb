@@ -379,7 +379,7 @@ def update_graph(filter_value, color_mode):
         data=figure_data,
         layout=go.Layout(
             title={
-                "text" : "Random Forest - ChatGPT4o Missclassified Code Similarity Visualisation",
+                "text" : "Random Forest Missclassified LLM Code Similarity Visualisation",
                 "font": {"size": 20},
                 },
             xaxis=dict(visible=False),
