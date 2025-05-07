@@ -4,12 +4,10 @@ from collections import defaultdict
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
-# Configuration
 LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 MLs = ["AdaBoost", "RandomForest", "LightGBM", "XGBoost", "SVM", "NN"]
 base_path = "ML_models/feature_importance/results/models"
 
-# Loop through each LLM and generate a word cloud
 for LLM in LLMs:
     print(f"Processing LLM: {LLM}")
     feature_importance_total = defaultdict(float)
@@ -34,14 +32,13 @@ for LLM in LLMs:
     top_features = agg_df.sort_values(by='total_importance', ascending=False).head(50)
     feature_dict = dict(zip(top_features['feature'], top_features['total_importance']))
 
-    # Generate and save/display word cloud with overlap fix
     wordcloud = WordCloud(
         width=1200,
         height=800,
         background_color='white',
-        collocations=False,          # Avoid combining features like "if (" and "("
-        prefer_horizontal=1.0,       # Maximize horizontal placement for readability
-        min_font_size=10             # Avoid too-small tokens
+        collocations=False,
+        prefer_horizontal=1.0,
+        min_font_size=10
     ).generate_from_frequencies(feature_dict)
     
     plt.figure(figsize=(14, 10))

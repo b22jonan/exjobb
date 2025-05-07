@@ -6,12 +6,11 @@ import matplotlib.pyplot as plt
 LLMs = ["Qwen", "ChatGPT4o", "ChatGPT35", "DeepSeek"]
 MLs = ["AdaBoost", "RandomForest", "LightGBM", "XGBoost", "SVM", "NN"]
 
-top_n = 200  # Number of top features to compare
+top_n = 200
 
 for LLM in LLMs:
     print(f"\nAnalyzing feature overlap for LLM: {LLM}")
 
-    # Load and normalize importances
     importance_dfs = {}
     for ML in MLs:
         path = f"ML_models/feature_importance/results/models/{ML}_{LLM}/{ML}_{LLM}_average_feature_importance.csv"
@@ -21,14 +20,11 @@ for LLM in LLMs:
         
         df = pd.read_csv(path)
 
-        # Normalize importances to sum to 1
         df['normalized_importance'] = df['avg_importance'] / df['avg_importance'].sum()
 
-        # Take top N by normalized importance
         top_features = df.sort_values(by='normalized_importance', ascending=False).head(top_n)['feature'].tolist()
         importance_dfs[ML] = set(top_features)
 
-    # Compute pairwise overlaps
     used_MLs = list(importance_dfs.keys())
     overlap_matrix = pd.DataFrame(index=used_MLs, columns=used_MLs)
 
@@ -37,12 +33,10 @@ for LLM in LLMs:
         overlap_ratio = len(common_features) / top_n
         overlap_matrix.loc[ml1, ml2] = overlap_ratio
 
-    # Save results
     output_dir = f"ML_models/feature_importance/results/overlap/{LLM}"
     os.makedirs(output_dir, exist_ok=True)
     overlap_matrix.to_csv(f"{output_dir}/overlap_matrix_top{top_n}.csv")
 
-    # Plot heatmap
     plt.figure(figsize=(8, 6))
     plt.imshow(overlap_matrix.astype(float), cmap="Blues", vmin=0, vmax=1)
     plt.xticks(range(len(used_MLs)), used_MLs, rotation=45)
