@@ -4,6 +4,8 @@ import re
 import os
 import glob
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+
 
 # --- Analysis Function ---
 def sanitize_filename(filename, directory):
@@ -118,6 +120,25 @@ output_csv = os.path.join("scripts", "results_combined.csv")
 df.to_csv(output_csv, index=False)
 print(f"Combined results saved to {output_csv}")
 
+custom_cmap = LinearSegmentedColormap.from_list(
+    "custom_cmap",
+    ["cyan", "magenta", "yellow", "black"]
+)
+
+# --- Special Column 2 Data ---
+special_column_2_files = {
+    "deepseek": "prompting/DeepSeek/processed_responses.csv",
+    "qwen": "prompting/Qwen/processed_responses.csv",
+    "chatgpt4o": "prompting/ChatGPT4o/processed_responses.csv",
+    "chatgpt35": "prompting/ChatGPT35/processed_responses.csv"
+}
+
+column2_overrides = {}  # row_key (lowercase) → metrics
+for row_key, path in special_column_2_files.items():
+    metrics = analyze_java_code(path)
+    if metrics:
+        column2_overrides[row_key] = metrics
+
 # --- Plot Heatmaps ---
 charts_dir = "charts"
 os.makedirs(charts_dir, exist_ok=True)
@@ -142,7 +163,7 @@ metric_keys = [col for col in df.columns if col.startswith("avg_")]
 
 for metric in metric_keys:
     heatmap = np.full((4, 26), np.nan)
-    
+
     for _, row in df.iterrows():
         row_key = str(row["row_key"]).lower()
         r_idx = row_mapping.get(row_key)
@@ -163,10 +184,16 @@ for metric in metric_keys:
         if r_idx is not None and c_idx is not None:
             heatmap[r_idx, c_idx] = row[metric]
 
-    plt.figure(figsize=(24, 6))
-    plt.imshow(heatmap, cmap="YlGnBu", aspect="auto")
+    # Override Column 2 (index 1) values with special CSV data
+    for row_label, r_idx in row_mapping.items():
+        if row_label in column2_overrides and metric in column2_overrides[row_label]:
+            heatmap[r_idx, 1] = column2_overrides[row_label][metric]
+
+    # Plot
+    plt.figure(figsize=(12, 4))
+    plt.imshow(heatmap, cmap=custom_cmap, aspect="auto")
     plt.colorbar(label=metric)
-    plt.xticks(np.arange(26), col_labels, rotation=90)
+    plt.xticks(np.arange(26), col_labels, rotation=45)
     plt.yticks(np.arange(4), row_labels)
     plt.title(f"Heatmap of {metric}")
     plt.tight_layout()
